@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="https://logging.apache.org/xml/ns"
+			   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			   xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.xsd">
+	<Appenders>
+		<TerminalConsole name="CONSOLE">
+			<PatternLayout pattern="[%d{HH:mm:ss}] %c{1} [%t/%p] %message%n%ex" />
+		</TerminalConsole>
+	</Appenders>
+	<Loggers>
+		<Root level="INFO">
+			<AppenderRef ref="CONSOLE" />
+		</Root>
+	</Loggers>
+</Configuration>

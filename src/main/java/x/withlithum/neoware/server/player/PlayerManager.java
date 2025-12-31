@@ -1,0 +1,22 @@
+package x.withlithum.neoware.server.player;
+
+import net.minestom.server.entity.Player;
+import net.minestom.server.event.Event;
+import net.minestom.server.event.EventNode;
+import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
+import net.minestom.server.network.player.GameProfile;
+import net.minestom.server.network.player.PlayerConnection;
+
+import java.util.concurrent.CompletableFuture;
+
+public interface PlayerManager {
+    void filterLogin(PlayerConnection connection,
+                     GameProfile profile);
+
+    void configure(AsyncPlayerConfigurationEvent config);
+
+    void saveAll();
+    CompletableFuture<Void> saveAsync(Player player);
+
+    EventNode<Event> createEventNode();
+}

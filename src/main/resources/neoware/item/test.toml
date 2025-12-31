@@ -1,0 +1,19 @@
+material = "minecraft:stone"
+name = "<!italic><blue>test item</blue>"
+lore = [
+    "This is a lore!"
+]
+hide_tooltips = [
+    "enchantments",
+    "attribute_modifiers"
+]
+
+[enchantments]
+sharpness = 5
+
+[[attribute_modifiers]]
+id = "neon:test"
+type = "attack_damage"
+slot = "mainhand"
+amount = 5.25
+operation = "add_value"
