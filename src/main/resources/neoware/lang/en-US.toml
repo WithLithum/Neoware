@@ -1,0 +1,3 @@
+[neoware.commands]
+unknown = "Unknown command: {0}"
+no_permission = "You do not have permission to execute this command"

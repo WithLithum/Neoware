@@ -6,13 +6,15 @@ import x.withlithum.neoware.util.KeyRoot
 import java.text.MessageFormat
 import java.util.Locale
 
-class MapTranslator(val map: Map<Locale, Map<String, MessageFormat>>) : Translator {
+class MapTranslator(val map: Map<String, Map<String, MessageFormat>>) : Translator {
     override fun name(): Key {
         return KeyRoot.id("map")
     }
 
     override fun translate(key: String, locale: Locale): MessageFormat? {
-        return map[locale]?.get(key)
-            ?: map[Locale.US]?.get(key)
+        val langTag = locale.toLanguageTag()
+
+        return map[langTag]?.get(key)
+            ?: map[Locale.US.toLanguageTag()]?.get(key)
     }
 }

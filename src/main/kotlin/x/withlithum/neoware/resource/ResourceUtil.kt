@@ -17,7 +17,7 @@ object ResourceUtil {
 
         BufferedReader(InputStreamReader(stream)).useLines {
             for (name in it) {
-                val url = classLoader.getResource(name) ?: continue
+                val url = classLoader.getResource("$path/$name") ?: continue
 
                 refs.add(ResourceRef(NPath.removeExtension(name), url))
             }

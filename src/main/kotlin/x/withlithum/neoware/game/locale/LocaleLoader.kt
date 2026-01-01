@@ -17,12 +17,12 @@ object LocaleLoader {
     @JvmStatic
     fun loadEmbedded(classLoader: ClassLoader): MapTranslator {
         val resources = ResourceUtil.getResourceList("neoware/lang", classLoader)
-        val map = HashMap<Locale, Map<String, MessageFormat>>()
+        val map = HashMap<String, Map<String, MessageFormat>>()
         for (resource in resources) {
-            val locale = Locale.of(resource.name)
-            map[locale] = loadMap(resource.url, resource.name)
+            map[resource.name] = loadMap(resource.url, resource.name)
         }
 
+        logger.info { "${map.size} locales" }
         return MapTranslator(map)
     }
 
