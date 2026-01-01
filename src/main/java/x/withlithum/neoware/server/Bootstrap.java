@@ -2,10 +2,13 @@ package x.withlithum.neoware.server;
 
 import io.github.togar2.pvp.MinestomPvP;
 import io.github.togar2.pvp.feature.CombatFeatures;
+import net.kyori.adventure.translation.GlobalTranslator;
 import net.minestom.server.MinecraftServer;
+import net.minestom.server.adventure.MinestomAdventure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.game.item.ItemPrototypes;
+import x.withlithum.neoware.game.locale.LocaleLoader;
 import x.withlithum.neoware.level.block.BlockActionAgent;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
 import x.withlithum.neoware.level.dimension.NeonDimensionTypes;
@@ -27,6 +30,10 @@ public final class Bootstrap {
         NeonDimensionTypes.initialize();
         NeonBlockHandlers.register();
         ItemPrototypes.initialize();
+
+        LOGGER.info("Initializing locale");
+        GlobalTranslator.translator().addSource(LocaleLoader.loadEmbedded(Bootstrap.class.getClassLoader()));
+        MinestomAdventure.AUTOMATIC_COMPONENT_TRANSLATION = true;
 
         LOGGER.info("Initializing commands");
         Commands.register();
