@@ -3,9 +3,14 @@
  */
 
 plugins {
+    kotlin("jvm").version(libs.versions.kotlin)
+    kotlin("plugin.lombok").version(libs.versions.kotlin)
     application
-    `maven-publish`
     alias(libs.plugins.lombok)
+}
+
+kotlin {
+    jvmToolchain(25)
 }
 
 repositories {
@@ -56,6 +61,9 @@ dependencies {
     // SLF4J
     implementation(libs.slf4j.api)
 
+    // Kotlin logging
+    implementation(libs.kotlinlogging)
+
     // Core
     // Minestom
     implementation(libs.minestom)
@@ -66,6 +74,7 @@ dependencies {
     // Test libraries
     testRuntimeOnly(libs.junit.platform.launcher)
     testImplementation(libs.junit.jupiter)
+    testImplementation(kotlin("test"))
 }
 
 tasks.test {
