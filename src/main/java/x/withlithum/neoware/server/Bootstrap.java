@@ -14,6 +14,7 @@ import x.withlithum.neoware.level.block.NeonBlockHandlers;
 import x.withlithum.neoware.level.dimension.NeonDimensionTypes;
 import x.withlithum.neoware.level.security.LevelSecurityAgent;
 import x.withlithum.neoware.level.worldgen.biome.NeonBiomes;
+import x.withlithum.neoware.server.commands.CommandFramework;
 import x.withlithum.neoware.server.commands.Commands;
 
 public final class Bootstrap {
@@ -36,6 +37,7 @@ public final class Bootstrap {
         MinestomAdventure.AUTOMATIC_COMPONENT_TRANSLATION = true;
 
         LOGGER.info("Initializing commands");
+        CommandFramework.INSTANCE.initialize();
         Commands.register();
 
         LOGGER.info("Initializing combat service");

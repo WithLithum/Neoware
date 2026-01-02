@@ -38,10 +38,6 @@ public abstract class NeoCommand extends Command {
         super(name, aliases);
 
         construct();
-
-        if (getDefaultExecutor() == null) {
-            setDefaultExecutor(NeoCommand::defaultExecutor);
-        }
     }
 
     public abstract void construct();
