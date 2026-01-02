@@ -6,6 +6,7 @@ import net.minestom.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.level.LevelOrchestrator;
+import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerManagerImpl;
 
@@ -33,9 +34,13 @@ public final class NeoWareServer {
 	 * Starts the server.
 	 */
 	public void start() {
+        final var config = Configs.get();
+        final var address = config.getString(Configs.KEY_SERVER_ADDRESS);
+        final var port = config.getInt(Configs.KEY_SERVER_PORT);
+
         LOGGER.info("Starting server");
         Bootstrap.bootstrap();
-		mcServer.start("0.0.0.0", 25565);
+		mcServer.start(address, port);
 	}
 	
 	/**

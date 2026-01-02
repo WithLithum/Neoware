@@ -12,9 +12,8 @@ public final class Configs {
 
     public static final String KEY_LOBBY_LEVEL = "neoware.lobby.level";
 
-    public static final String KEY_DATABASE_LOCATION = "neoware.database.location";
-    public static final String KEY_DATABASE_USER = "neoware.database.user";
-    public static final String KEY_DATABASE_PASSWORD = "neoware.database.password";
+    public static final String KEY_SERVER_ADDRESS = "neoware.server.address";
+    public static final String KEY_SERVER_PORT = "neoware.server.port";
 
     public static Config get() {
         if (CONFIG == null) {
