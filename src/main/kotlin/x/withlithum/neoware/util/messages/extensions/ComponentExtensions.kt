@@ -6,7 +6,8 @@
 package x.withlithum.neoware.util.messages.extensions
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 
-fun lcGlobal(key: String): Component {
-    return Component.translatable(key)
+fun Component.asPlainText(): String {
+    return PlainTextComponentSerializer.plainText().serialize(this)
 }

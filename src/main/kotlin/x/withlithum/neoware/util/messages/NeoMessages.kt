@@ -11,11 +11,16 @@ import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextColor
 
 object NeoMessages {
-    val ERROR_PREFIX = createPrefix(NamedTextColor.RED)
+    val ERROR_PREFIX = createPrefix(NamedTextColor.RED, NamedTextColor.DARK_RED)
     val MESSAGE_PREFIX = createPrefix(NamedTextColor.GOLD)
+    val SUCCESS_PREFIX = createPrefix(NamedTextColor.GREEN)
 
-    private fun createPrefix(color: TextColor): Component {
+    val ARGUMENT_PLAYER_NOT_FOUND = Component.translatable("neoware.arguments.no_player")
+
+    private fun createPrefix(color: TextColor,
+                             overrideMessageColor: TextColor? = null): Component {
         return Component.text()
+            .color(overrideMessageColor ?: NamedTextColor.GRAY)
             .append(Component.text()
                 .content("[")
                 .color(NamedTextColor.DARK_GRAY))
@@ -34,5 +39,9 @@ object NeoMessages {
 
     fun message(message: ComponentLike): Component {
         return MESSAGE_PREFIX.append(message)
+    }
+
+    fun success(message: ComponentLike): Component {
+        return SUCCESS_PREFIX.append(message)
     }
 }

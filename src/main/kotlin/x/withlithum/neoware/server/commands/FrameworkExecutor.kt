@@ -12,6 +12,10 @@ fun interface FrameworkExecutor {
     fun apply(sender: CommandSender, context: CommandContext): Boolean
 }
 
+fun interface FrameworkExecutor0 {
+    fun apply(sender: CommandSender): Boolean
+}
+
 fun interface FrameworkExecutor1<in T1> {
     fun apply(sender: CommandSender, p1: T1): Boolean
 }
