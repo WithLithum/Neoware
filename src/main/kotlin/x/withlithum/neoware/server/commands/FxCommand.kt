@@ -19,6 +19,10 @@ abstract class FxCommand(val name: String) {
     abstract fun construct()
 
     protected fun syntax(
+    protected fun lc(key: String): Component {
+        return lcGlobal("$lcParentKey.$key")
+    }
+
         executor: FrameworkExecutor,
         vararg arguments: Argument<Any>
     ) {
