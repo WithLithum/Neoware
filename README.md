@@ -15,7 +15,7 @@ NeoWare 需要 Java 25 JDK 构建。如果还没有安装 Java 25，推荐使用
 ```
 
 ## 许可证
-[AGPL-3.0-or-later](COPYING)
+[AGPL-3.0-or-later](LICENSE)
 
 根据许可证第7条，另要求您:
 

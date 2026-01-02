@@ -17,7 +17,7 @@ Run the following command to build NeoWare:
 ```
 
 ## License
-[AGPL-3.0-or-later](../COPYING)
+[AGPL-3.0-or-later](../LICENSE)
 
 Also, in accordance with section 7 of the licence, you must:
 
