@@ -9,7 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.game.item.ItemPrototypes;
 import x.withlithum.neoware.game.locale.LocaleLoader;
-import x.withlithum.neoware.level.block.BlockActionAgent;
+import x.withlithum.neoware.instance.behaviour.BehaviourManager;
+import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
 import x.withlithum.neoware.level.dimension.NeonDimensionTypes;
 import x.withlithum.neoware.level.security.LevelSecurityAgent;
@@ -25,31 +26,32 @@ public final class Bootstrap {
     }
 
     public static void bootstrap() {
-        LOGGER.info("Bootstrapping NeoWare");
-        LOGGER.info("Initializing registries");
+        LOGGER.info("Initializing server environment");
+        // Registries
         NeonBiomes.initialize();
         NeonDimensionTypes.initialize();
         NeonBlockHandlers.register();
         ItemPrototypes.initialize();
 
-        LOGGER.info("Initializing locale");
+        // Locale
         GlobalTranslator.translator().addSource(LocaleLoader.loadEmbedded(Bootstrap.class.getClassLoader()));
         MinestomAdventure.AUTOMATIC_COMPONENT_TRANSLATION = true;
 
-        LOGGER.info("Initializing commands");
+        // commands
         CommandFramework.INSTANCE.initialize();
         Commands.register();
 
-        LOGGER.info("Initializing combat service");
+        // gameplay
         MinestomPvP.init();
-
         var modernVanilla = CombatFeatures.modernVanilla();
 
-        LOGGER.info("Initializing events");
+        BlockBehaviours.INSTANCE.addDefault();
+
+        // events
         var eventSource = MinecraftServer.getGlobalEventHandler();
         eventSource.addChild(modernVanilla.createNode());
         eventSource.addChild(NeoWareServer.INSTANCE.playerManager.createEventNode());
         eventSource.addChild(LevelSecurityAgent.createEventNode());
-        eventSource.addChild(BlockActionAgent.createEventNode());
+        eventSource.addChild(BehaviourManager.INSTANCE.createEventNode());
     }
 }
