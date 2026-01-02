@@ -31,8 +31,8 @@ class FxKickCommand : FxCommand("kick") {
                 ?: return@cmd fail(sender, NeoMessages.ARGUMENT_PLAYER_NOT_FOUND)
 
             logger.info { "${nameOf(sender)} kicked player ${target.username} for reason $reason" }
-            target.kick(lc("disconnect", Component.text(reason)))
-            succeed(sender, lc("success", target.name))
+            target.kick(lcMe("disconnect", Component.text(reason)))
+            succeed(sender, lcMe("success", target.name))
         }
     }
 }

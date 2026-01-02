@@ -11,7 +11,7 @@ import x.withlithum.neoware.server.commands.FxConditions
 import x.withlithum.neoware.util.messages.extensions.sendNeoSuccess
 
 class FxStopCommand : FxCommand("stop") {
-    private val successMessage = lc("stopping")
+    private val successMessage = lcMe("stopping")
 
     override fun construct() {
         conditionalSyntax(FxConditions.IS_WHEEL) { sender ->

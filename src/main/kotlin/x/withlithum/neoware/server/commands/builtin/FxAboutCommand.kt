@@ -14,14 +14,14 @@ import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.util.messages.extensions.sendNeoMessage
 
 class FxAboutCommand : FxCommand("about") {
-    private val copyrightMessage = lc("copyright")
-    private val minestomMessage = lc(
+    private val copyrightMessage = lcMe("copyright")
+    private val minestomMessage = lcMe(
         "minestom", Component.text()
             .content(MinecraftServer.VERSION_NAME)
             .color(NamedTextColor.YELLOW)
             .build()
     ).color(NamedTextColor.GRAY)
-    private val sourceMessage = lc("source_link")
+    private val sourceMessage = lcMe("source_link")
         .color(NamedTextColor.BLUE)
         .decorate(TextDecoration.UNDERLINED)
         .clickEvent(ClickEvent.openUrl("https://gitea.com/WithLithum/neoware"))

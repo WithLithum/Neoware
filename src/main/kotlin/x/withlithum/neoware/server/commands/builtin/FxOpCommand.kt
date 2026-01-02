@@ -24,7 +24,7 @@ class FxOpCommand : FxCommand("op") {
 
             target.permissionLevel = PermissionRank.SYS_OP.ordinal
 
-            return@cmd succeed(sender, lc("success", target.name))
+            return@cmd succeed(sender, lcMe("success", target.name))
         }
     }
 }

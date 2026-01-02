@@ -1,10 +1,21 @@
+#region Arguments
 [neoware.arguments]
-no_player = "Player not found"
+error = "Argument '{0}': {1}"
+
+[neoware.arguments.entity]
+too_many = "Only single entity is accepted but selector allows multiple"
+
+[neoware.arguments.player]
+name = "Invalid name or UUID"
+entities = "Only players are accepted here"
+not_found = "Player not found"
 
 [neoware.commands]
 unknown = "Unknown command: {0}"
 no_permission = "You do not have permission to execute this command"
+#endregion
 
+#region Commands
 [neoware.commands.about]
 copyright = "Running Neoware - (C) WithLithum & contributors 2025-2026"
 minestom = "Powered by Minestom for Minecraft: Java Edition version {0}"
@@ -19,3 +30,4 @@ success = "Made {0} an operator"
 
 [neoware.commands.stop]
 stopping = "Stopping server"
+#endregion

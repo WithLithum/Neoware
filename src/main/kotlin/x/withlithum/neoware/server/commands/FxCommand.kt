@@ -7,13 +7,12 @@ package x.withlithum.neoware.server.commands
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.ComponentLike
-import net.minestom.server.command.CommandSender
+import net.kyori.adventure.text.TranslatableComponent
 import net.minestom.server.command.builder.Command
 import net.minestom.server.command.builder.CommandData
 import net.minestom.server.command.builder.arguments.Argument
 import net.minestom.server.command.builder.condition.CommandCondition
 import x.withlithum.neoware.util.messages.NeoMessages
-import x.withlithum.neoware.util.messages.extensions.sendNeoError
 
 @Suppress("SameParameterValue")
 abstract class FxCommand(val name: String) {
@@ -22,14 +21,29 @@ abstract class FxCommand(val name: String) {
 
     abstract fun construct()
 
-    protected fun lc(key: String): Component {
-        return Component.translatable(key)
+    /**
+     * Creates a new [TranslatableComponent] with the key being generated with the following
+     * format: `neoware.commands.$name.$key`.
+     *
+     * @param key The translation key.
+     * @see [x.withlithum.neoware.util.messages.extensions.lc.lc]
+     */
+    protected fun lcMe(key: String): TranslatableComponent {
+        return Component.translatable("$lcParentKey.$key")
     }
 
-    protected fun lc(key: String, p1: ComponentLike): Component {
+    /**
+     * Creates a new [TranslatableComponent] with the key being generated with the following
+     * format: `neoware.commands.$name.$key`, with the specified arguments.
+     *
+     * @param key The translation key.
+     * @param args Arguments.
+     * @see [x.withlithum.neoware.util.messages.extensions.lc.lc]
+     */
+    protected fun lcMe(key: String, vararg args: ComponentLike): Component {
         return Component.translatable()
-            .key(key)
-            .arguments(p1)
+            .key("$lcParentKey.$key")
+            .arguments(*args)
             .build()
     }
 

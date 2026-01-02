@@ -37,6 +37,13 @@ object NeoMessages {
         return ERROR_PREFIX.append(message)
     }
 
+    fun errorArgument(name: String, message: ComponentLike): Component {
+        return error(Component.translatable()
+            .key("neoware.arguments.error")
+            .arguments(Component.text(name),
+                message))
+    }
+
     fun message(message: ComponentLike): Component {
         return MESSAGE_PREFIX.append(message)
     }
