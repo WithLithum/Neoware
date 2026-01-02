@@ -12,6 +12,7 @@ public final class NeonBlockHandlers {
     public static void register() {
         var blockManager = MinecraftServer.getBlockManager();
 
+        blockManager.registerHandler(BlockEntityType.HANGING_SIGN.key(), SignHandler::new);
         blockManager.registerHandler(BlockEntityType.SIGN.key(), SignHandler::new);
     }
 }
