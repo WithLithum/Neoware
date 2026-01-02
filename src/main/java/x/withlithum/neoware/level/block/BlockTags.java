@@ -20,6 +20,11 @@ public final class BlockTags {
      */
     public static final RegistryTag<Block> DOORS = get("doors");
 
+    /**
+     * The {@code minecraft:trapdoors} tag, which contains all trapdoor blocks.
+     */
+    public static final RegistryTag<Block> TRAPDOORS = get("trapdoors");
+
     @SuppressWarnings("SameParameterValue")
     private static RegistryTag<Block> get(@KeyPattern.Value String name) {
         return Block.staticRegistry().getTag(Key.key(Key.MINECRAFT_NAMESPACE, name));
