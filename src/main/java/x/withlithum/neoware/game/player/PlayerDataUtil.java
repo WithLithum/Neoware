@@ -22,7 +22,9 @@ public final class PlayerDataUtil {
         player.teleport(info.position().asPos());
         player.setRespawnPoint(info.respawnPoint().asPos());
 
-        if (setInstance) {
+        final var levelOrc = NeoWareServer.INSTANCE.levelOrchestrator;
+
+        if (setInstance && levelOrc.toKnownInstance(player.getInstance()) != info.lastInstance()) {
             player.setInstance(NeoWareServer.INSTANCE.levelOrchestrator.getKnownInstance(info.lastInstance()));
         }
         player.getInventory().clear();
