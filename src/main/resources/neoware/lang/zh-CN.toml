@@ -1,0 +1,33 @@
+#region 参数
+[neoware.arguments]
+error = "参数 '{0}'： {1}"
+
+[neoware.arguments.entity]
+too_many = "该选择器仅能选择一个实体，但选择了多个"
+
+[neoware.arguments.player]
+name = "无效的名称或UUID"
+entities = "必须填写玩家"
+not_found = "找不到该玩家"
+
+[neoware.commands]
+unknown = "未知命令：{0}"
+no_permission = "你没有权限执行该指令"
+#endregion
+
+#region 命令
+[neoware.commands.about]
+copyright = "Neoware系统，版权所有(C) WithLithum与贡献者，2025-2026"
+minestom = "由Minestom（支持Minecraft {0}）强力驱动"
+source_link = "源码"
+
+[neoware.commands.kick]
+success = "已踢出{0}"
+disconnect = "被管理员踢出游戏，原因：{0}"
+
+[neoware.commands.op]
+success = "已将{0}设为管理员"
+
+[neoware.commands.stop]
+stopping = "正在停止服务器"
+#endregion
