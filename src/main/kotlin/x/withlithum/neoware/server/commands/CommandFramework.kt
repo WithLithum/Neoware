@@ -32,7 +32,8 @@ object CommandFramework {
         }
     }
 
-    fun register(command: FxCommand) {
-        MinecraftServer.getCommandManager().register(command.build())
+    fun register(vararg commands: FxCommand) {
+        val manager = MinecraftServer.getCommandManager()
+        commands.forEach { manager.register(it.build()) }
     }
 }
