@@ -14,6 +14,6 @@ object FxConditions {
     val IS_WHEEL = createRank(PermissionRank.WHEEL)
 
     private fun createRank(rank: PermissionRank): CommandCondition {
-        return { sender -> Commands.senderHasPermission(sender, rank) }
+        return { sender, _ -> Commands.senderHasPermission(sender, rank) }
     }
 }
