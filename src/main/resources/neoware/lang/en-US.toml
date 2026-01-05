@@ -21,6 +21,10 @@ copyright = "Running Neoware - (C) WithLithum & contributors 2025-2026"
 minestom = "Powered by Minestom for Minecraft Java {0}"
 source_link = "Sources"
 
+[neoware.commands.ban]
+already_banned = "{0} is already banned"
+success = "Banned {0}"
+
 [neoware.commands.kick]
 success = "Kicked {0}"
 disconnect = "Kicked by an operator, reason: {0}"
@@ -28,6 +32,19 @@ disconnect = "Kicked by an operator, reason: {0}"
 [neoware.commands.op]
 success = "Made {0} an operator"
 
+[neoware.commands.pardon]
+not_banned = "That UUID wasn't banned"
+success = "Pardoned player with that UUID"
+
 [neoware.commands.stop]
 stopping = "Stopping server"
 #endregion
+
+[neoware.login.banned]
+line_1 = "You have been banned from this server!"
+line_2 = "Reason: \"{0}\""
+line_2_no_reason = "No explanation was given for this ban."
+line_3 = "This ban was given to you at {0} UTC."
+line_3_no_expiry = "This ban was given to you at {0} UTC. It will not expire."
+line_4 = "It will expire at {0} UTC."
+line_5 = "Please contact administrator if you have any doubts or questions as to this decision."

@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 WithLithum & contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 package x.withlithum.neoware.server;
 
 import lombok.Getter;
@@ -9,6 +14,8 @@ import x.withlithum.neoware.level.LevelOrchestrator;
 import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerManagerImpl;
+import x.withlithum.neoware.server.security.BanManager;
+import x.withlithum.neoware.server.security.BanManagerImpl;
 
 import java.nio.file.Path;
 
@@ -22,12 +29,14 @@ public final class NeoWareServer {
 
     public final LevelOrchestrator levelOrchestrator;
     public final PlayerManager playerManager;
+    public final BanManager banManager;
 
 	private NeoWareServer(Path basePath) {
         LOGGER.debug("Server instantiated");
 		mcServer = MinecraftServer.init(new Auth.Online());
 		levelOrchestrator = new LevelOrchestrator();
         playerManager = new PlayerManagerImpl(basePath.resolve("players"));
+        banManager = new BanManagerImpl(basePath.resolve("ban.json"));
 	}
 	
 	/**
@@ -53,7 +62,7 @@ public final class NeoWareServer {
 	 * @see MinecraftServer#stopCleanly()
 	 */
 	public void stop() {
-        playerManager.saveAll();
+        SaveAll.save();
 		if (!MinecraftServer.isStopping())
 		{
 			MinecraftServer.stopCleanly();

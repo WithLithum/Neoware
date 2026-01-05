@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 WithLithum & contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 package x.withlithum.neoware.server;
 
 import io.github.togar2.pvp.MinestomPvP;
@@ -40,6 +45,9 @@ public final class Bootstrap {
         // commands
         CommandFramework.INSTANCE.initialize();
         Commands.register();
+
+        // security
+        NeoWareServer.INSTANCE.banManager.loadList();
 
         // gameplay
         MinestomPvP.init();

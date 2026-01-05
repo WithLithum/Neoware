@@ -12,7 +12,7 @@ fun lc(message: String): TranslatableComponent {
     return Component.translatable("neoware.$message")
 }
 
-fun lc(message: String, vararg arguments: Component): Component {
+fun lc(message: String, vararg arguments: Component): TranslatableComponent {
     return Component.translatable()
         .key("neoware.$message")
         .arguments(*arguments)

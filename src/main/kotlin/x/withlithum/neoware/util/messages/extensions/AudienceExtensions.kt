@@ -30,7 +30,7 @@ fun nameOf(sender: CommandSender): String {
         ServerSender::class -> return "<Server>"
     }
 
-    return "<???>"
+    return "<${sender::class.simpleName ?: "unknown"}>"
 }
 
 fun Audience.sendNeoSuccess(component: ComponentLike) {

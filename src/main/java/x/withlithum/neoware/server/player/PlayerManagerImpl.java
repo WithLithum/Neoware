@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2025-2026 WithLithum & contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
 package x.withlithum.neoware.server.player;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +30,7 @@ import org.jspecify.annotations.Nullable;
 import x.withlithum.neoware.data.player.PlayerInfo;
 import x.withlithum.neoware.game.player.PlayerDataUtil;
 import x.withlithum.neoware.server.NeoWareServer;
+import x.withlithum.neoware.util.messages.BanMessage;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -117,7 +123,19 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
-        // TODO implement ban
+        final var ban = NeoWareServer.INSTANCE.banManager;
+
+        if (ban.isBanned(profile.uuid())) {
+            final var info = ban.getInfo(profile.uuid());
+            assert info != null;
+            try {
+                connection.kick(BanMessage.INSTANCE.create(info));
+            } catch (RuntimeException e) {
+                log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
+                log.warn("Caused by error: ", e);
+                connection.kick(Component.text("Banned"));
+            }
+        }
     }
 
     @Override
