@@ -10,16 +10,22 @@ name = "无效的名称或UUID"
 entities = "必须填写玩家"
 not_found = "找不到该玩家"
 
-[neoware.commands]
-unknown = "未知命令：{0}"
-no_permission = "你没有权限执行该指令"
 #endregion
 
 #region 命令
+[neoware.commands]
+unknown = "未知命令：{0}"
+missing_arguments = "缺失命令参数"
+no_permission = "你没有权限执行该指令"
+
 [neoware.commands.about]
 copyright = "Neoware系统，版权所有(C) WithLithum与贡献者，2025-2026"
 minestom = "由Minestom（支持Minecraft {0}）强力驱动"
 source_link = "源码"
+
+[neoware.commands.ban]
+already_banned = "{0}已经是被封禁状态"
+success = "已封禁{0}"
 
 [neoware.commands.kick]
 success = "已踢出{0}"
@@ -28,6 +34,19 @@ disconnect = "被管理员踢出游戏，原因：{0}"
 [neoware.commands.op]
 success = "已将{0}设为管理员"
 
+[neoware.commands.pardon]
+not_banned = "该UUID未被封禁"
+success = "已解除对该UUID所关联玩家的封禁"
+
 [neoware.commands.stop]
 stopping = "正在停止服务器"
 #endregion
+
+[neoware.login.banned]
+line_1 = "你已被从此服务器封禁！"
+line_2 = "原因：\"{0}\""
+line_2_no_reason = "未填写封禁原因。"
+line_3 = "该封禁是在UTC时间{0}作出的。"
+line_3_no_expiry = "该封禁是在UTC时间{0}作出，且为永久封禁。"
+line_4 = "封禁将在UTC时间{0}解除。"
+line_5 = "如有任何疑惑或问题，请联系管理员。"
