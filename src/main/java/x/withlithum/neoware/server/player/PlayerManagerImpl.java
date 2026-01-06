@@ -198,7 +198,7 @@ public final class PlayerManagerImpl implements PlayerManager {
 
     private void onDisconnect(PlayerDisconnectEvent event) {
         var player = event.getPlayer();
-        var playerName = player.getName();
+        var playerName = Component.text(player.getUsername());
         var playerUuid = player.getUuid();
 
         Audiences.players().sendMessage(Component.translatable()
