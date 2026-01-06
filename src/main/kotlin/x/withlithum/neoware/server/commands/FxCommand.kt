@@ -12,7 +12,9 @@ import net.minestom.server.command.builder.Command
 import net.minestom.server.command.builder.CommandData
 import net.minestom.server.command.builder.arguments.Argument
 import net.minestom.server.command.builder.condition.CommandCondition
+import x.withlithum.neoware.server.commands.helpers.fail
 import x.withlithum.neoware.util.messages.NeoMessages
+import x.withlithum.neoware.util.messages.extensions.lc.lc
 
 @Suppress("SameParameterValue")
 abstract class FxCommand(val name: String) {
@@ -261,6 +263,9 @@ abstract class FxCommand(val name: String) {
 
     fun build(): Command {
         construct()
+        command.defaultExecutor = { sender, ctx ->
+            fail(sender, lc("commands.missing_arguments"))
+        }
 
         return command
     }

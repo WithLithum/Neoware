@@ -9,13 +9,14 @@ too_many = "Only single entity is accepted but selector allows multiple"
 name = "Invalid name or UUID"
 entities = "Only players are accepted here"
 not_found = "Player not found"
-
-[neoware.commands]
-unknown = "Unknown command: {0}"
-no_permission = "You do not have permission to execute this command"
 #endregion
 
 #region Commands
+[neoware.commands]
+unknown = "Unknown command: {0}"
+missing_arguments = "Missing command arguments"
+no_permission = "You do not have permission to execute this command"
+
 [neoware.commands.about]
 copyright = "Running Neoware - (C) WithLithum & contributors 2025-2026"
 minestom = "Powered by Minestom for Minecraft Java {0}"
