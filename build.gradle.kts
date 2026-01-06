@@ -20,7 +20,9 @@ repositories {
 
 application {
     applicationDefaultJvmArgs = listOf(
-        "--enable-native-access=ALL-UNNAMED"
+        "--enable-native-access=ALL-UNNAMED",
+        "-Dstdout.encoding=UTF-8",
+        "-Dstderr.encoding=UTF-8"
     )
     mainClass = "x.withlithum.neoware.main.Main"
 }
