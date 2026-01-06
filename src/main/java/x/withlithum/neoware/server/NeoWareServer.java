@@ -10,7 +10,7 @@ import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import x.withlithum.neoware.level.LevelOrchestrator;
+import x.withlithum.neoware.instance.LobbyInstance;
 import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerManagerImpl;
@@ -27,14 +27,15 @@ public final class NeoWareServer {
 
     public static final NeoWareServer INSTANCE = new NeoWareServer(Path.of(System.getProperty("user.dir")));
 
-    public final LevelOrchestrator levelOrchestrator;
     public final PlayerManager playerManager;
     public final BanManager banManager;
+
+    public final LobbyInstance lobby;
 
 	private NeoWareServer(Path basePath) {
         LOGGER.debug("Server instantiated");
 		mcServer = MinecraftServer.init(new Auth.Online());
-		levelOrchestrator = new LevelOrchestrator();
+        lobby = new LobbyInstance();
         playerManager = new PlayerManagerImpl(basePath.resolve("players"));
         banManager = new BanManagerImpl(basePath.resolve("ban.json"));
 	}

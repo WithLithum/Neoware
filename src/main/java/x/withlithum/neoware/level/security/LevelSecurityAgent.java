@@ -9,11 +9,11 @@ import net.minestom.server.event.player.PlayerBlockPlaceEvent;
 import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.event.trait.CancellableEvent;
 import net.minestom.server.event.trait.PlayerInstanceEvent;
-import x.withlithum.neoware.level.dimension.KnownInstance;
-import x.withlithum.neoware.server.NeoWareServer;
 import x.withlithum.neoware.server.commands.PermissionRank;
 
 public final class LevelSecurityAgent {
+    private static final int SYS_OP_RANK = PermissionRank.SYS_OP.ordinal();
+
     private LevelSecurityAgent() {}
 
     public static EventNode<Event> createEventNode() {
@@ -31,21 +31,13 @@ public final class LevelSecurityAgent {
     }
 
     private static void onPlayerSpawn(PlayerSpawnEvent event) {
-        var levelOrc = NeoWareServer.INSTANCE.levelOrchestrator;
-        var targetMode = switch (levelOrc.toKnownInstance(event.getInstance())) {
-            case KnownInstance.LOBBY -> GameMode.ADVENTURE;
-            case KnownInstance.VENTURED_PHASES -> GameMode.SURVIVAL;
-        };
-        event.getPlayer().setGameMode(targetMode);
+        event.getPlayer().setGameMode(GameMode.ADVENTURE);
     }
 
     private static void onPlayerPerformLobbyAction(PlayerInstanceEvent event) {
-        // Prevent block placement on lobby unless by sys op
-        if (event.getInstance() != NeoWareServer.INSTANCE.levelOrchestrator.lobbyLevel) {
-            return;
-        }
+        // Prevent block placement unless by sys op
 
-        if (event.getPlayer().getPermissionLevel() >= PermissionRank.SYS_OP.ordinal()) {
+        if (event.getPlayer().getPermissionLevel() >= SYS_OP_RANK) {
             return;
         }
 

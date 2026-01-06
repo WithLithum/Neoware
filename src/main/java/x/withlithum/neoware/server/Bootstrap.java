@@ -17,9 +17,7 @@ import x.withlithum.neoware.game.locale.LocaleLoader;
 import x.withlithum.neoware.instance.behaviour.BehaviourManager;
 import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
-import x.withlithum.neoware.level.dimension.NeonDimensionTypes;
 import x.withlithum.neoware.level.security.LevelSecurityAgent;
-import x.withlithum.neoware.level.worldgen.biome.NeonBiomes;
 import x.withlithum.neoware.server.commands.CommandFramework;
 import x.withlithum.neoware.server.commands.Commands;
 
@@ -33,8 +31,6 @@ public final class Bootstrap {
     public static void bootstrap() {
         LOGGER.info("Initializing server environment");
         // Registries
-        NeonBiomes.initialize();
-        NeonDimensionTypes.initialize();
         NeonBlockHandlers.register();
         ItemPrototypes.initialize();
 

@@ -7,7 +7,6 @@ import x.withlithum.neoware.data.SavedPosition;
 import x.withlithum.neoware.data.player.PlayerInfo;
 import x.withlithum.neoware.data.player.PlayerStatus;
 import x.withlithum.neoware.game.inventory.InventoryResolver;
-import x.withlithum.neoware.server.NeoWareServer;
 import x.withlithum.neoware.server.commands.PermissionRank;
 
 @Slf4j
@@ -15,18 +14,11 @@ import x.withlithum.neoware.server.commands.PermissionRank;
 public final class PlayerDataUtil {
     public static final int VERSION = 2;
 
-    public static void recoverPlayer(Player player, PlayerInfo info,
-                                     boolean setInstance) {
+    public static void recoverPlayer(Player player, PlayerInfo info) {
         player.setPermissionLevel(info.rank().ordinal());
         info.status().apply(player);
         player.teleport(info.position().asPos());
         player.setRespawnPoint(info.respawnPoint().asPos());
-
-        final var levelOrc = NeoWareServer.INSTANCE.levelOrchestrator;
-
-        if (setInstance && levelOrc.toKnownInstance(player.getInstance()) != info.lastInstance()) {
-            player.setInstance(NeoWareServer.INSTANCE.levelOrchestrator.getKnownInstance(info.lastInstance()));
-        }
         player.getInventory().clear();
 
         if (info.items() != null) {
@@ -51,7 +43,6 @@ public final class PlayerDataUtil {
             PlayerStatus.create(player),
             SavedPosition.create(player.getPosition()),
             SavedPosition.create(player.getRespawnPoint()),
-            NeoWareServer.INSTANCE.levelOrchestrator.toKnownInstance(player.getInstance()),
             items
         );
     }

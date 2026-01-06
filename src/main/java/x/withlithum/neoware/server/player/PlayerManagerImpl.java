@@ -142,15 +142,13 @@ public final class PlayerManagerImpl implements PlayerManager {
     public void configure(AsyncPlayerConfigurationEvent config) {
         var player = config.getPlayer();
         var data = getPlayerInfo(player.getUuid());
+        config.setSpawningInstance(NeoWareServer.INSTANCE.lobby.getInstance());
 
         if (data == null) {
             log.info("New player: {} ({})", player.getUsername(), player.getUuid());
-            config.setSpawningInstance(NeoWareServer.INSTANCE.levelOrchestrator.lobbyLevel);
             player.setRespawnPoint(new Pos(-251, -15, 142));
             return;
         }
-
-        config.setSpawningInstance(NeoWareServer.INSTANCE.levelOrchestrator.getKnownInstance(data.lastInstance()));
 
         Audiences.players().sendMessage(Component.translatable()
             .key("multiplayer.player.joined")
@@ -194,7 +192,7 @@ public final class PlayerManagerImpl implements PlayerManager {
 
         var data = getPlayerInfo(player.getUuid());
         if (data != null) {
-            PlayerDataUtil.recoverPlayer(player, data, true);
+            PlayerDataUtil.recoverPlayer(player, data);
         }
     }
 
