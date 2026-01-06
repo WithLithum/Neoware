@@ -3,7 +3,6 @@ package x.withlithum.neoware.game.player;
 import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.entity.Player;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.data.SavedPosition;
 import x.withlithum.neoware.data.player.PlayerInfo;
 import x.withlithum.neoware.data.player.PlayerStatus;
 import x.withlithum.neoware.game.inventory.InventoryResolver;
@@ -17,8 +16,6 @@ public final class PlayerDataUtil {
     public static void recoverPlayer(Player player, PlayerInfo info) {
         player.setPermissionLevel(info.rank().ordinal());
         info.status().apply(player);
-        player.teleport(info.position().asPos());
-        player.setRespawnPoint(info.respawnPoint().asPos());
         player.getInventory().clear();
 
         if (info.items() != null) {
@@ -41,8 +38,6 @@ public final class PlayerDataUtil {
         return new PlayerInfo(VERSION,
             PermissionRank.values()[player.getPermissionLevel()],
             PlayerStatus.create(player),
-            SavedPosition.create(player.getPosition()),
-            SavedPosition.create(player.getRespawnPoint()),
             items
         );
     }

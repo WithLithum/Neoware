@@ -146,7 +146,7 @@ public final class PlayerManagerImpl implements PlayerManager {
 
         if (data == null) {
             log.info("New player: {} ({})", player.getUsername(), player.getUuid());
-            player.setRespawnPoint(new Pos(-251, -15, 142));
+            player.setRespawnPoint(new Pos(-251, -17, 142));
             return;
         }
 
