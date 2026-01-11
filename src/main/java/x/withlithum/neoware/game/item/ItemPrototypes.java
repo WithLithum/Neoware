@@ -27,7 +27,7 @@ public final class ItemPrototypes {
             return null;
         }
 
-        return prototype.createItem();
+        return prototype.createItem(key);
     }
 
     public static void initialize() {
