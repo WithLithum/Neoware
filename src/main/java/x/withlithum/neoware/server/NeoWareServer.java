@@ -10,6 +10,8 @@ import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import x.withlithum.neoware.data.content.FileSystemContentSource;
+import x.withlithum.neoware.data.content.hierarchy.ContentHierarchy;
 import x.withlithum.neoware.instance.LobbyInstance;
 import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
@@ -31,10 +33,12 @@ public final class NeoWareServer {
     public final BanManager banManager;
 
     public final LobbyInstance lobby;
+    public final ContentHierarchy contents;
 
 	private NeoWareServer(Path basePath) {
         LOGGER.debug("Server instantiated");
 		mcServer = MinecraftServer.init(new Auth.Online());
+        contents = new ContentHierarchy(new FileSystemContentSource(basePath.resolve("content")));
         lobby = new LobbyInstance();
         playerManager = new PlayerManagerImpl(basePath.resolve("players"));
         banManager = new BanManagerImpl(basePath.resolve("ban.json"));
@@ -49,7 +53,10 @@ public final class NeoWareServer {
         final var port = config.getInt(Configs.KEY_SERVER_PORT);
 
         LOGGER.info("Starting server");
+
         Bootstrap.bootstrap();
+        contents.load();
+
 		mcServer.start(address, port);
 	}
 	

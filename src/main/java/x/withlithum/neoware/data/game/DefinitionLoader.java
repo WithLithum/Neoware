@@ -120,7 +120,7 @@ public final class DefinitionLoader {
 
         switch (decodeResult) {
             case Result.Ok(ItemDefinition v) -> map.put(KeyRoot.id(ref.name()),
-                new DefinitionPrototype(key, v));
+                new DefinitionPrototype(v));
             case Result.Error(String message) -> log.warn("Failed to decode resource '{}': {}",
                 key.asString(),
                 message);
