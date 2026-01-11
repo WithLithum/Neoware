@@ -18,8 +18,6 @@ import java.io.InputStream
  * Loads JSON content from a stream with the specified codec.
  */
 class JsonCodecContentLoader<V>(val codec: Codec<V>): ContentLoader<V> {
-    private val gson = Gson()
-
     override fun load(stream: InputStream): Result<V> {
         val json: JsonElement
         try {
