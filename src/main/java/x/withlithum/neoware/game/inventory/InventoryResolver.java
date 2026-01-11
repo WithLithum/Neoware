@@ -5,13 +5,12 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.nbt.StringBinaryTag;
 import net.minestom.server.component.DataComponents;
 import net.minestom.server.inventory.AbstractInventory;
-import net.minestom.server.inventory.Inventory;
-import net.minestom.server.inventory.TransactionOption;
 import net.minestom.server.item.ItemStack;
 import org.jetbrains.annotations.Unmodifiable;
 import org.jspecify.annotations.Nullable;
 import x.withlithum.neoware.data.game.ItemRef;
 import x.withlithum.neoware.game.item.ItemPrototypes;
+import x.withlithum.neoware.server.NeoWareServer;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,8 +58,10 @@ public final class InventoryResolver {
             log.warn("Unparsable base ID: {}", str.value());
         }
 
+        final var prototypeMap = NeoWareServer.INSTANCE.contents.getItemPrototypes();
+
         @SuppressWarnings("PatternValidation") var baseKey = Key.key(str.value());
-        if (!ItemPrototypes.ITEMS.containsKey(baseKey)) {
+        if (!prototypeMap.containsKey(baseKey)) {
             log.warn("Nonexistent base ID '{}' for an existing reference",
                 baseKey);
         }
