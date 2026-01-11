@@ -16,6 +16,15 @@ import java.nio.file.Path
 class FileSystemContentSource(val baseDirectory: Path): ContentSource {
     companion object {
         private val LOGGER = KotlinLogging.logger {}
+
+        fun createKeyPath(relativePath: Path,
+                             rootPath: Path): String {
+            var itemPath = rootPath.relativize(relativePath).toString()
+                .replace(File.separatorChar, '/')
+            itemPath = itemPath.substring(0, itemPath.lastIndexOf('.'))
+
+            return itemPath
+        }
     }
 
     override fun <V> loadContents(rootName: String, loader: ContentLoader<V>): Map<Key, V> {
@@ -61,8 +70,7 @@ class FileSystemContentSource(val baseDirectory: Path): ContentSource {
                     return@f
                 }
 
-                val itemPath = file.relativize(rootPath).toString()
-                    .replace(File.separatorChar, '/')
+                val itemPath = createKeyPath(file, rootPath)
                 if (!Key.parseableValue(itemPath)) {
                     LOGGER.warn { "Malformed path: $itemPath" }
                     return@f
