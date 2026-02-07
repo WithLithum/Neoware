@@ -9,7 +9,6 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.github.wasabithumb.jtoml.JToml
 import okio.FileSystem
 import okio.Path
-import x.withlithum.neoware.data.content.OkFileSystemContentSource
 import x.withlithum.neoware.data.content.hierarchy.ContentTree
 import x.withlithum.neoware.data.encode.TomlTranscoder
 import x.withlithum.neoware.server.NeoWareServer
@@ -24,6 +23,32 @@ object ContentPackLoader {
 
     private val logger = KotlinLogging.logger {}
     private val toml = JToml.jToml()
+
+    fun loadAll(path: Path, fs: FileSystem): ContentTree {
+        if (!fs.isDirectory(path)) {
+            return ContentTree.EMPTY
+        }
+
+        var loadCount = 0
+        var tree: ContentTree? = null
+        fs.list(path).forEach f@{
+            if (!fs.isDirectory(it)) {
+                return@f
+            }
+
+            val pack = loadPack(it, fs) ?: return@f
+            if (tree == null) {
+                tree = pack.tree
+            } else {
+                tree.merge(pack.tree)
+            }
+
+            loadCount++
+        }
+
+        logger.info { "Loaded $loadCount content packs" }
+        return tree ?: ContentTree.EMPTY
+    }
 
     fun loadPack(path: Path, fs: FileSystem): ContentPack? {
         if (!fs.isDirectory(path)) {
@@ -42,7 +67,7 @@ object ContentPackLoader {
             logger.warn { "Empty pack '${path.name}': data path is not a directory" }
             tree = ContentTree.EMPTY
         } else {
-            tree = ContentTree.load(OkFileSystemContentSource(dataPath, fs))
+            tree = ContentTree.loadDir(dataPath, fs)
         }
 
         return ContentPack(packMeta, tree)

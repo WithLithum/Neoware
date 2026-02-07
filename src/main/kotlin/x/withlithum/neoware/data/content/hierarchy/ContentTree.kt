@@ -34,7 +34,7 @@ data class ContentTree(val items: Map<Key, ItemPrototype>) {
 
         fun loadDir(dir: Path, fs: FileSystem): ContentTree {
             return ContentTree(
-                items = ContentIo.traverse(dir.resolve("item"), fs, ITEM_LOADER)
+                items = ContentIo.traverse(dir, "item", fs, ITEM_LOADER)
             )
         }
     }

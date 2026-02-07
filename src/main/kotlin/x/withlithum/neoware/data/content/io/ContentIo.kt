@@ -14,16 +14,27 @@ import x.withlithum.neoware.util.io.isDirectory
 
 object ContentIo {
     fun <V> traverse(basePath: Path,
+                     contentType: String,
                      fs: FileSystem,
                      loader: ContentLoader<V>): Map<Key, V> {
+        if (!fs.isDirectory(basePath)) {
+            return emptyMap()
+        }
+
         val map = HashMap<Key, V>()
         fs.list(basePath).forEach f@{
             if (!fs.isDirectory(it) || !Key.parseableNamespace(it.name)) {
                 return@f
             }
 
-            OkFileSystemContentSource(it, fs).traverse(it.name, loader, map)
+            val typeFolder = it.resolve(contentType)
+            if (!fs.isDirectory(typeFolder)) {
+                return@f
+            }
+
+            OkFileSystemContentSource(typeFolder, fs).traverse(it.name, loader, map)
         }
+
         return map
     }
 }

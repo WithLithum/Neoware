@@ -8,11 +8,13 @@ package x.withlithum.neoware.server;
 import lombok.Getter;
 import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
+import okio.FileSystem;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.data.content.FileSystemContentSource;
 import x.withlithum.neoware.data.content.hierarchy.ContentTree;
+import x.withlithum.neoware.data.content.packs.ContentPackLoader;
 import x.withlithum.neoware.instance.LobbyInstance;
 import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
@@ -61,7 +63,8 @@ public final class NeoWareServer {
 
         LOGGER.info("Loading contents");
 
-        contents = ContentTree.Companion.load(new FileSystemContentSource(basePath.resolve("content")));
+        contents = ContentPackLoader.INSTANCE.loadAll(okio.Path.get(basePath.resolve("content")),
+            FileSystem.SYSTEM);
 
         LOGGER.info("Starting server");
 
