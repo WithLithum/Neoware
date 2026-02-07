@@ -8,10 +8,11 @@ package x.withlithum.neoware.server;
 import lombok.Getter;
 import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.data.content.FileSystemContentSource;
-import x.withlithum.neoware.data.content.hierarchy.ContentHierarchy;
+import x.withlithum.neoware.data.content.hierarchy.ContentTree;
 import x.withlithum.neoware.instance.LobbyInstance;
 import x.withlithum.neoware.server.config.Configs;
 import x.withlithum.neoware.server.player.PlayerManager;
@@ -24,6 +25,7 @@ import java.nio.file.Path;
 public final class NeoWareServer {
     @Getter
     private boolean isRunning = true;
+    private final Path basePath;
 	private final MinecraftServer mcServer;
     private static final Logger LOGGER = LoggerFactory.getLogger(NeoWareServer.class);
 
@@ -33,12 +35,15 @@ public final class NeoWareServer {
     public final BanManager banManager;
 
     public final LobbyInstance lobby;
-    public final ContentHierarchy contents;
+
+    @Nullable
+    private ContentTree contents;
 
 	private NeoWareServer(Path basePath) {
         LOGGER.debug("Server instantiated");
+        this.basePath = basePath;
+
 		mcServer = MinecraftServer.init(new Auth.Online());
-        contents = new ContentHierarchy(new FileSystemContentSource(basePath.resolve("content")));
         lobby = new LobbyInstance();
         playerManager = new PlayerManagerImpl(basePath.resolve("players"));
         banManager = new BanManagerImpl(basePath.resolve("ban.json"));
@@ -52,10 +57,13 @@ public final class NeoWareServer {
         final var address = config.getString(Configs.KEY_SERVER_ADDRESS);
         final var port = config.getInt(Configs.KEY_SERVER_PORT);
 
+        LOGGER.info("Loading contents");
+
+        contents = ContentTree.Companion.load(new FileSystemContentSource(basePath.resolve("content")));
+
         LOGGER.info("Starting server");
 
         Bootstrap.bootstrap();
-        contents.load();
 
 		mcServer.start(address, port);
 	}
@@ -77,4 +85,12 @@ public final class NeoWareServer {
 		}
         isRunning = false;
 	}
+
+    public ContentTree getContents() {
+        if (contents == null) {
+            throw new IllegalStateException("The content tree was not yet loaded.");
+        }
+
+        return contents;
+    }
 }

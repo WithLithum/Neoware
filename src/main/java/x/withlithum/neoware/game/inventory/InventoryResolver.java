@@ -58,7 +58,7 @@ public final class InventoryResolver {
             log.warn("Unparsable base ID: {}", str.value());
         }
 
-        final var prototypeMap = NeoWareServer.INSTANCE.contents.getItemPrototypes();
+        final var prototypeMap = NeoWareServer.INSTANCE.getContents().getItems();
 
         @SuppressWarnings("PatternValidation") var baseKey = Key.key(str.value());
         if (!prototypeMap.containsKey(baseKey)) {

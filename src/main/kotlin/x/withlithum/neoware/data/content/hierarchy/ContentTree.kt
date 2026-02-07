@@ -5,31 +5,33 @@
 
 package x.withlithum.neoware.data.content.hierarchy
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import net.kyori.adventure.key.Key
 import x.withlithum.neoware.data.content.ContentLoader
 import x.withlithum.neoware.data.content.ContentSource
 import x.withlithum.neoware.data.game.DefinitionPrototypeLoader
 import x.withlithum.neoware.data.game.ItemDefinition
 import x.withlithum.neoware.game.item.ItemPrototype
+import x.withlithum.neoware.util.MapHelper
 
-class ContentHierarchy(val source: ContentSource) {
+/**
+ * An immutable tree of contents.
+ */
+data class ContentTree(val items: Map<Key, ItemPrototype>) {
     companion object {
-        private val LOGGER = KotlinLogging.logger { }
         private val ITEM_LOADER =
             DefinitionPrototypeLoader(ContentLoader.toml(ItemDefinition.CODEC))
+
+        fun load(source: ContentSource): ContentTree {
+            return ContentTree(
+                items = source.loadContents("item", ITEM_LOADER)
+            )
+        }
     }
 
-    var itemPrototypes: Map<Key, ItemPrototype> = emptyMap()
-        private set
-
-    private fun totalSize(): Int {
-        return itemPrototypes.size
-    }
-
-    fun load() {
-        itemPrototypes = source.loadContents("item", ITEM_LOADER)
-
-        LOGGER.info { "Loaded ${totalSize()} items" }
+    /**
+     * Merges this tree with the other content tree. The other tree overrides this tree.
+     */
+    fun merge(other: ContentTree): ContentTree {
+        return ContentTree(MapHelper.mergeMaps(this.items, other.items))
     }
 }

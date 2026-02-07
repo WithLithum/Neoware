@@ -19,7 +19,7 @@ public final class ItemPrototypes {
     }
 
     private static @Nullable ItemStack computeItem(Key key) {
-        var prototype = NeoWareServer.INSTANCE.contents.getItemPrototypes().get(key);
+        var prototype = NeoWareServer.INSTANCE.getContents().getItems().get(key);
         if (prototype == null) {
             return null;
         }
