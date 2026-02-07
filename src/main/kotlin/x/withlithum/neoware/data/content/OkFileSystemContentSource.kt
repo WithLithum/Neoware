@@ -11,11 +11,12 @@ import okio.FileSystem
 import okio.IOException
 import okio.Path
 import okio.buffer
+import x.withlithum.neoware.data.content.io.ContentTraverser
 import x.withlithum.neoware.util.io.isDirectory
 import x.withlithum.neoware.util.io.isRegularFile
 
 class OkFileSystemContentSource(val base: Path,
-    val fs: FileSystem): ContentSource {
+    val fs: FileSystem): ContentSource, ContentTraverser {
     companion object {
         private val logger = KotlinLogging.logger {}
 
@@ -92,5 +93,13 @@ class OkFileSystemContentSource(val base: Path,
                 logger.warn(e) { "Failed to load content '${key.asString()}'" }
             }
         }
+    }
+
+    override fun <V> traverse(
+        namespace: String,
+        loader: ContentLoader<V>,
+        storeInto: MutableMap<Key, V>
+    ) {
+        resolveNamespace(namespace, base, storeInto, loader)
     }
 }
