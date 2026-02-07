@@ -23,6 +23,8 @@ import x.withlithum.neoware.server.security.BanManagerImpl;
 import java.nio.file.Path;
 
 public final class NeoWareServer {
+    public static final int PACK_DATA_VERSION = 1;
+
     @Getter
     private boolean isRunning = true;
     private final Path basePath;

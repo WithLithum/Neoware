@@ -42,6 +42,7 @@ dependencies {
     implementation(libs.guava)
     implementation(libs.jtoml)
     implementation(libs.adventure.minimessage)
+    implementation(libs.okio)
     runtimeOnly(libs.lmax.disruptor)
 
     // JLine
@@ -75,6 +76,7 @@ dependencies {
 
     // Test libraries
     testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.okio.fakefilesystem)
     testImplementation(libs.junit.jupiter)
     testImplementation(kotlin("test"))
 }

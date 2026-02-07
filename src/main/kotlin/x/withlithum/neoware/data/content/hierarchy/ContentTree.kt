@@ -21,6 +21,8 @@ data class ContentTree(val items: Map<Key, ItemPrototype>) {
         private val ITEM_LOADER =
             DefinitionPrototypeLoader(ContentLoader.toml(ItemDefinition.CODEC))
 
+        val EMPTY = ContentTree(emptyMap())
+
         fun load(source: ContentSource): ContentTree {
             return ContentTree(
                 items = source.loadContents("item", ITEM_LOADER)

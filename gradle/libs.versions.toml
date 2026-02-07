@@ -17,6 +17,7 @@ guava = "33.5.0-jre"
 jline = "3.30.0"
 pcg = "1.0.1"
 jtoml = "1.4.1"
+okio = "3.16.2"
 
 ## Logging
 log4j = "2.25.3"
@@ -45,6 +46,7 @@ pcg = { module = "dev.brachtendorf:pcg-java-10", version.ref = "pcg" }
 lmax-disruptor = { module = "com.lmax:disruptor", version.ref = "lmax-disruptor" }
 fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
 terminalconsoleappender = { module = "net.minecrell:terminalconsoleappender", version.ref = "terminalconsoleappender" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 # JLine
 jline = { module = "org.jline:jline", version.ref = "jline" }
@@ -73,6 +75,9 @@ minestom-pvp = { module = "io.github.togar2:MinestomPvP", version.ref="minestom-
 # JUnit
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+
+# Mocking libraries
+okio-fakefilesystem = {module = "com.squareup.okio:okio-fakefilesystem", version.ref = "okio"}
 
 [plugins]
 lombok = { id = "io.freefair.lombok", version.ref = "lombok-plugin" }
