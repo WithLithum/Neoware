@@ -9,7 +9,6 @@ import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.Path
 import x.withlithum.neoware.data.content.ContentLoader
-import x.withlithum.neoware.data.content.OkFileSystemContentSource
 import x.withlithum.neoware.util.io.isDirectory
 
 object ContentIo {
@@ -32,9 +31,19 @@ object ContentIo {
                 return@f
             }
 
-            OkFileSystemContentSource(typeFolder, fs).traverse(it.name, loader, map)
+            FileSystemTraverser.traverse(FileSystem.SYSTEM,
+                it,
+                it.name,
+                loader,
+                map)
         }
 
         return map
+    }
+
+    fun createKeyPath(relative: Path, root: Path): String {
+        val itemPath = relative.relativeTo(root).toString()
+            .replace(Path.DIRECTORY_SEPARATOR, "/")
+        return itemPath.substring(0, itemPath.lastIndexOf('.'))
     }
 }

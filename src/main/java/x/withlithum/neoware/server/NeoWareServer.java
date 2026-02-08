@@ -12,7 +12,6 @@ import okio.FileSystem;
 import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import x.withlithum.neoware.data.content.FileSystemContentSource;
 import x.withlithum.neoware.data.content.hierarchy.ContentTree;
 import x.withlithum.neoware.data.content.packs.ContentPackLoader;
 import x.withlithum.neoware.instance.LobbyInstance;

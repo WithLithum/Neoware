@@ -7,6 +7,7 @@ package x.withlithum.neoware.data.content
 
 import okio.Path.Companion.toPath
 import org.junit.jupiter.api.DisplayName
+import x.withlithum.neoware.data.content.io.ContentIo
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,7 +20,7 @@ internal class OkContentTests {
         val relative = root.resolve("sub").resolve("test.txt")
 
         // Act
-        val result = OkFileSystemContentSource.createKeyPath(relative, root)
+        val result = ContentIo.createKeyPath(relative, root)
 
         // Assert
         assertEquals("sub/test", result)

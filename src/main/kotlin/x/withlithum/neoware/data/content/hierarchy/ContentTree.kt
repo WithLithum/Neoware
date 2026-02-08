@@ -9,7 +9,6 @@ import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.Path
 import x.withlithum.neoware.data.content.ContentLoader
-import x.withlithum.neoware.data.content.ContentSource
 import x.withlithum.neoware.data.content.io.ContentIo
 import x.withlithum.neoware.data.game.DefinitionPrototypeLoader
 import x.withlithum.neoware.data.game.ItemDefinition
@@ -25,12 +24,6 @@ data class ContentTree(val items: Map<Key, ItemPrototype>) {
             DefinitionPrototypeLoader(ContentLoader.toml(ItemDefinition.CODEC))
 
         val EMPTY = ContentTree(emptyMap())
-
-        fun load(source: ContentSource): ContentTree {
-            return ContentTree(
-                items = source.loadContents("item", ITEM_LOADER)
-            )
-        }
 
         fun loadDir(dir: Path, fs: FileSystem): ContentTree {
             return ContentTree(
