@@ -1,24 +1,32 @@
 # NeoWare
 
-[English](docs/README-en.md)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/WithLithum/Neoware/trunk?style=flat-square&logo=github&label=trunk)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/WithLithum/Neoware?style=flat-square&logo=git&logoColor=white&label=%20)
 
-NeoWare 是一个基于 Minestom 的 Minecraft 自定义服务器，用于驱动 EnderShop: Neon。
+NeoWare is a Minestom-based custom Minecraft server that supports the gameplay
+of EnderShop: Neon.
 
-## 构建
+It is written in Java and Kotlin, and (obviously) runs on the JVM.
 
-NeoWare 需要 Java 25 JDK 构建。如果还没有安装 Java 25，推荐使用[Eclipse Temurin](https://adoptium.net)。
+## Building
 
-运行以下命令：（注：如果网络条件不好可以自行修改国内镜像）
+NeoWare requires Java 25, as with Minestom. If you do not have one installed
+yet, [Eclipse Temurin](https://adoptium.net) is recommended.
+
+Run the following command to build NeoWare:
 
 ```shell
 ./gradlew build
 ```
 
-## 许可证
+## License
 [AGPL-3.0-or-later](LICENSE)
 
-根据许可证第7条，另要求您:
+Also, in accordance with section 7 of the licence, you must:
 
-- 不得**以“NeoWare”、“EnderShop”或类似字词、名义**用于**推广任何修改版**
-- 不得以 **WithLithum** 或任何其他作者或贡献者的名义用于推广任何修改版
-- 您发布的任何修改版均需**以显著方式标明为修改版**
+- not advertise your derivative version(s) with terms "NeoWare", "EnderShop" or
+  terms similar with the ones listed above
+- not advertise your derivative version(s) with the name of WithLithum or any
+  other author or contributor
+- mark your derivative versions be visibly marked as different to this
+  version here
