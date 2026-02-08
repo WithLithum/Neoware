@@ -5,6 +5,7 @@
 
 package x.withlithum.neoware.server;
 
+import com.google.common.base.Stopwatch;
 import lombok.Getter;
 import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
@@ -22,6 +23,7 @@ import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.server.security.BanManagerImpl;
 
 import java.nio.file.Path;
+import java.util.concurrent.TimeUnit;
 
 public final class NeoWareServer {
     public static final int PACK_DATA_VERSION = 1;
@@ -56,19 +58,19 @@ public final class NeoWareServer {
 	 * Starts the server.
 	 */
 	public void start() {
+        Stopwatch sw  = Stopwatch.createStarted();
         final var config = Configs.get();
         final var address = config.getString(Configs.KEY_SERVER_ADDRESS);
         final var port = config.getInt(Configs.KEY_SERVER_PORT);
 
-        LOGGER.info("Loading contents");
-
         contents = ContentPackLoader.INSTANCE.loadAll(okio.Path.get(basePath.resolve("content")),
             FileSystem.SYSTEM);
 
-        LOGGER.info("Starting server");
-
         Bootstrap.bootstrap();
 
+        sw.stop();
+        LOGGER.info("Initialization took {} milliseconds", sw.elapsed(TimeUnit.MILLISECONDS));
+        LOGGER.info("Starting server on {}:{}", address, port);
 		mcServer.start(address, port);
 	}
 	

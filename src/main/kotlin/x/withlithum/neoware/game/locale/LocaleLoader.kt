@@ -22,7 +22,7 @@ object LocaleLoader {
             map[resource.name] = loadMap(resource.url, resource.name)
         }
 
-        logger.info { "${map.size} locales" }
+        logger.debug { "${map.size} locales" }
         return MapTranslator(map)
     }
 

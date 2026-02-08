@@ -145,10 +145,11 @@ public final class PlayerManagerImpl implements PlayerManager {
         config.setSpawningInstance(NeoWareServer.INSTANCE.lobby.getInstance());
 
         if (data == null) {
-            log.info("New player: {} ({})", player.getUsername(), player.getUuid());
             player.setRespawnPoint(new Pos(-251, -17, 142));
             return;
         }
+
+        log.info("Player {} joined with UUID {}", player.getUsername(), player.getUuid());
 
         Audiences.players().sendMessage(Component.translatable()
             .key("multiplayer.player.joined")

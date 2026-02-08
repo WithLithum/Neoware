@@ -32,7 +32,6 @@ public final class Bootstrap {
         LOGGER.info("Initializing server environment");
         // Registries
         NeonBlockHandlers.register();
-        ItemPrototypes.initialize();
 
         // Locale
         GlobalTranslator.translator().addSource(LocaleLoader.loadEmbedded(Bootstrap.class.getClassLoader()));
