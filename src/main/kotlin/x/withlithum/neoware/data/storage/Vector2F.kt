@@ -5,4 +5,4 @@
 
 package x.withlithum.neoware.data.storage
 
-data class Vector2(val x: Double, val y: Double)
+data class Vector2F(val x: Float, val y: Float)

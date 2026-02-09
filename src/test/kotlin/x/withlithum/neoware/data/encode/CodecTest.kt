@@ -9,8 +9,8 @@ import net.kyori.adventure.nbt.DoubleBinaryTag
 import net.kyori.adventure.nbt.ListBinaryTag
 import net.minestom.server.codec.Transcoder
 import org.junit.jupiter.api.assertAll
-import x.withlithum.neoware.data.storage.Vector2
-import x.withlithum.neoware.test.assertDouble
+import x.withlithum.neoware.data.storage.Vector2F
+import x.withlithum.neoware.test.assertFloat
 import x.withlithum.neoware.test.assertIsOk
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -20,15 +20,15 @@ internal class CodecTest {
     @Test
     fun testEncodeVector2() {
         // Arrange
-        val value = Vector2(12.34, 56.78)
+        val value = Vector2F(12.34F, 56.78F)
 
         // Act
-        val result = Vector2Codec.encode(Transcoder.NBT, value)
+        val result = Vector2FCodec.encode(Transcoder.NBT, value)
 
         // Assert
         val nbt = assertIs<ListBinaryTag>(assertIsOk(result))
-        assertAll({ assertDouble(12.34, nbt[0]) },
-            { assertDouble(56.78, nbt[1]) },)
+        assertAll({ assertFloat(12.34F, nbt[0]) },
+            { assertFloat(56.78F, nbt[1]) },)
     }
 
     @Test
@@ -38,11 +38,11 @@ internal class CodecTest {
             DoubleBinaryTag.doubleBinaryTag(3.4)))
 
         // Act
-        val result = Vector2Codec.decode(Transcoder.NBT, value)
+        val result = Vector2FCodec.decode(Transcoder.NBT, value)
 
         // Assert
         val vec = assertIsOk(result)
-        assertAll({ assertEquals(1.2, vec.x) },
-            { assertEquals(3.4, vec.y) },)
+        assertAll({ assertEquals(1.2F, vec.x) },
+            { assertEquals(3.4F, vec.y) },)
     }
 }

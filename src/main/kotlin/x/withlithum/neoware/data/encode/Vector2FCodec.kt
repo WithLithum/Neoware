@@ -8,20 +8,20 @@ package x.withlithum.neoware.data.encode
 import net.minestom.server.codec.Codec
 import net.minestom.server.codec.Result
 import net.minestom.server.codec.Transcoder
-import x.withlithum.neoware.data.storage.Vector2
+import x.withlithum.neoware.data.storage.Vector2F
 
-object Vector2Codec : Codec<Vector2> {
+object Vector2FCodec : Codec<Vector2F> {
     override fun <D> encode(
         coder: Transcoder<D>,
-        value: Vector2?
+        value: Vector2F?
     ): Result<D> {
         if (value == null) {
             return Result.Ok(value)
         }
 
         val list = coder.createList(2)
-        list.add(coder.createDouble(value.x))
-        list.add(coder.createDouble(value.y))
+        list.add(coder.createFloat(value.x))
+        list.add(coder.createFloat(value.y))
 
         return Result.Ok(list.build())
     }
@@ -29,7 +29,7 @@ object Vector2Codec : Codec<Vector2> {
     override fun <D> decode(
         coder: Transcoder<D>,
         value: D
-    ): Result<Vector2> {
+    ): Result<Vector2F> {
         val listResult = coder.getList(value)
         if (listResult !is Result.Ok) {
             return listResult.cast()
@@ -40,17 +40,17 @@ object Vector2Codec : Codec<Vector2> {
             return Result.Error("Invalid length for Vector2, expected 2 but got ${list.size}");
         }
 
-        val xResult = coder.getDouble(list[0])
+        val xResult = coder.getFloat(list[0])
         if (xResult !is Result.Ok) {
             return xResult.cast()
         }
 
-        val yResult = coder.getDouble(list[1])
+        val yResult = coder.getFloat(list[1])
         if (yResult !is Result.Ok) {
             return yResult.cast()
         }
 
-        return Result.Ok(Vector2(xResult.value, yResult.value))
+        return Result.Ok(Vector2F(xResult.value, yResult.value))
     }
 
 }
