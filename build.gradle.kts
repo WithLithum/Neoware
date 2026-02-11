@@ -43,6 +43,8 @@ dependencies {
     implementation(libs.jtoml)
     implementation(libs.adventure.minimessage)
     implementation(libs.okio)
+    implementation(libs.hoplite)
+    implementation(libs.hoplite.toml)
     runtimeOnly(libs.lmax.disruptor)
 
     // JLine

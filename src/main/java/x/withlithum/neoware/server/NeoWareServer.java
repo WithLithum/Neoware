@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.data.content.hierarchy.ContentTree;
 import x.withlithum.neoware.data.content.packs.ContentPackLoader;
 import x.withlithum.neoware.instance.LobbyInstance;
-import x.withlithum.neoware.server.config.Configs;
+import x.withlithum.neoware.server.config.ServerSettings;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerManagerImpl;
 import x.withlithum.neoware.server.security.BanManager;
@@ -59,9 +59,7 @@ public final class NeoWareServer {
 	 */
 	public void start() {
         Stopwatch sw  = Stopwatch.createStarted();
-        final var config = Configs.get();
-        final var address = config.getString(Configs.KEY_SERVER_ADDRESS);
-        final var port = config.getInt(Configs.KEY_SERVER_PORT);
+        final var serverConfig = ServerSettings.getData().getServer();
 
         contents = ContentPackLoader.INSTANCE.loadAll(okio.Path.get(basePath.resolve("content")),
             FileSystem.SYSTEM);
@@ -70,8 +68,8 @@ public final class NeoWareServer {
 
         sw.stop();
         LOGGER.info("Initialization took {} milliseconds", sw.elapsed(TimeUnit.MILLISECONDS));
-        LOGGER.info("Starting server on {}:{}", address, port);
-		mcServer.start(address, port);
+        LOGGER.info("Starting server on {}:{}", serverConfig.getAddress(), serverConfig.getPort());
+		mcServer.start(serverConfig.getAddress(), serverConfig.getPort());
 	}
 	
 	/**
