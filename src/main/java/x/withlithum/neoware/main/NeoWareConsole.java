@@ -2,17 +2,19 @@ package x.withlithum.neoware.main;
 
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
 import net.minestom.server.MinecraftServer;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.terminal.TerminalBuilder;
+import x.withlithum.neoware.framework.server.NeoFrameworkServer;
 import x.withlithum.neoware.server.NeoWareServer;
 
-import java.io.IOException;
-
 public class NeoWareConsole extends SimpleTerminalConsole {
+    private final NeoFrameworkServer server;
+
+    public NeoWareConsole(NeoFrameworkServer server) {
+        this.server = server;
+    }
+
     @Override
     protected boolean isRunning() {
-        return NeoWareServer.INSTANCE.isRunning();
+        return server.isRunning();
     }
 
     @Override
@@ -23,6 +25,6 @@ public class NeoWareConsole extends SimpleTerminalConsole {
 
     @Override
     protected void shutdown() {
-        NeoWareServer.INSTANCE.stop();
+        server.stop();
     }
 }

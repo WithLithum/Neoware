@@ -29,7 +29,8 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import x.withlithum.neoware.data.player.PlayerInfo;
 import x.withlithum.neoware.game.player.PlayerDataUtil;
-import x.withlithum.neoware.server.NeoWareServer;
+import x.withlithum.neoware.instance.ManagedInstance;
+import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.util.messages.BanMessage;
 
 import java.io.IOException;
@@ -42,10 +43,15 @@ import java.util.concurrent.ConcurrentMap;
 @Slf4j
 @NullMarked
 public final class PlayerManagerImpl implements PlayerManager {
+    private final BanManager banManager;
+    private final ManagedInstance instance;
+
     private final Path playersDir;
     private final ConcurrentMap<UUID, PlayerInfo> infoCache = new ConcurrentHashMap<>();
 
-    public PlayerManagerImpl(Path playersDir) {
+    public PlayerManagerImpl(BanManager banManager, ManagedInstance instance, Path playersDir) {
+        this.banManager = banManager;
+        this.instance = instance;
         log.info("Store player data into: {}", playersDir);
         this.playersDir = playersDir;
 
@@ -123,10 +129,8 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
-        final var ban = NeoWareServer.INSTANCE.banManager;
-
-        if (ban.isBanned(profile.uuid())) {
-            final var info = ban.getInfo(profile.uuid());
+        if (banManager.isBanned(profile.uuid())) {
+            final var info = banManager.getInfo(profile.uuid());
             assert info != null;
             try {
                 connection.kick(BanMessage.INSTANCE.create(info));
@@ -142,7 +146,7 @@ public final class PlayerManagerImpl implements PlayerManager {
     public void configure(AsyncPlayerConfigurationEvent config) {
         var player = config.getPlayer();
         var data = getPlayerInfo(player.getUuid());
-        config.setSpawningInstance(NeoWareServer.INSTANCE.lobby.getInstance());
+        config.setSpawningInstance(instance.getInstance());
 
         if (data == null) {
             player.setRespawnPoint(new Pos(-251, -17, 142));

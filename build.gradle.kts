@@ -41,8 +41,8 @@ dependencies {
     implementation(libs.pcg)
     implementation(libs.guava)
     implementation(libs.jtoml)
-    implementation(libs.adventure.minimessage)
-    implementation(libs.okio)
+    api(libs.adventure.minimessage)
+    api(libs.okio)
     runtimeOnly(libs.lmax.disruptor)
 
     // JLine
@@ -62,17 +62,14 @@ dependencies {
     runtimeOnly(libs.bundles.log4j.runtime)
 
     // SLF4J
-    implementation(libs.slf4j.api)
+    api(libs.slf4j.api)
 
     // Kotlin logging
     implementation(libs.kotlinlogging)
 
     // Core
     // Minestom
-    implementation(libs.minestom)
-
-    // Minestom PvP
-    implementation(libs.minestom.pvp)
+    api(libs.minestom)
 
     // Test libraries
     testRuntimeOnly(libs.junit.platform.launcher)

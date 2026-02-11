@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neoware.iml" filepath="$PROJECT_DIR$/.idea/modules/Neoware.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adventure/Neoware.adventure.main.iml" filepath="$PROJECT_DIR$/.idea/modules/adventure/Neoware.adventure.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adventure/Neoware.adventure.test.iml" filepath="$PROJECT_DIR$/.idea/modules/adventure/Neoware.adventure.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neoware.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Neoware.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Neoware.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Neoware.test.iml" />
     </modules>

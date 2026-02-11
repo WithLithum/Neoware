@@ -15,10 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.data.content.hierarchy.ContentTree;
 import x.withlithum.neoware.data.content.packs.ContentPackLoader;
-import x.withlithum.neoware.instance.LobbyInstance;
 import x.withlithum.neoware.server.config.Configs;
-import x.withlithum.neoware.server.player.PlayerManager;
-import x.withlithum.neoware.server.player.PlayerManagerImpl;
 import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.server.security.BanManagerImpl;
 
@@ -36,10 +33,10 @@ public final class NeoWareServer {
 
     public static final NeoWareServer INSTANCE = new NeoWareServer(Path.of(System.getProperty("user.dir")));
 
-    public final PlayerManager playerManager;
+//    public final PlayerManager playerManager;
     public final BanManager banManager;
 
-    public final LobbyInstance lobby;
+//    public final LobbyInstance lobby;
 
     @Nullable
     private ContentTree contents;
@@ -49,9 +46,9 @@ public final class NeoWareServer {
         this.basePath = basePath;
 
 		mcServer = MinecraftServer.init(new Auth.Online());
-        lobby = new LobbyInstance();
-        playerManager = new PlayerManagerImpl(basePath.resolve("players"));
+//        lobby = new LobbyInstance();
         banManager = new BanManagerImpl(basePath.resolve("ban.json"));
+//        playerManager = new PlayerManagerImpl(banManager, lobby, basePath.resolve("players"));
 	}
 	
 	/**

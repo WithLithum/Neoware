@@ -14,16 +14,16 @@ public class Main {
 	static void main() {
         LOGGER.info("Starting NeoWare");
 
-        // Console thread setup
-        var console = new NeoWareConsole();
-        var consoleThread = new Thread(console::start);
-        consoleThread.setDaemon(true);
-        consoleThread.setName("Console thread");
+//        // Console thread setup
+//        var console = new NeoWareConsole();
+//        var consoleThread = new Thread(console::start);
+//        consoleThread.setDaemon(true);
+//        consoleThread.setName("Console thread");
 
         // Start server
         Configs.initialize();
 		NeoWareServer.INSTANCE.start();
-        consoleThread.start();
+//        consoleThread.start();
 	}
 
 }
