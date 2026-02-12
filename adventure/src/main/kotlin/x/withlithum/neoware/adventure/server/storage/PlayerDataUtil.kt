@@ -60,9 +60,9 @@ object PlayerDataUtil {
             when (val result = itemManager.createRef(item)) {
                 is NeoResult.Error -> {
                     result.logWarn(logger)
-                    refs[i] = ItemRef.AIR
+                    refs.add(ItemRef.AIR)
                 }
-                is NeoResult.Ok -> refs[i] = result.value
+                is NeoResult.Ok -> refs.add(result.value)
             }
         }
 

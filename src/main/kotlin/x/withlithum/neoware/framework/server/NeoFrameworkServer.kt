@@ -16,7 +16,6 @@ import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
 import x.withlithum.neoware.server.player.PlayerManager
-import x.withlithum.neoware.server.player.PlayerManagerImpl
 import x.withlithum.neoware.server.security.BanManager
 import x.withlithum.neoware.server.security.BanManagerImpl
 import java.util.concurrent.TimeUnit
@@ -27,13 +26,13 @@ abstract class NeoFrameworkServer {
     }
 
     abstract val recorder: PlayerRecorder
+    abstract val playerManager: PlayerManager
 
     private val listenOptions: ServerListenOptions
     private val mcServer: MinecraftServer
 
     val instance: ManagedInstance
 
-    val playerManager: PlayerManager
     val banManager: BanManager
 
     val basePath: Path
@@ -50,10 +49,6 @@ abstract class NeoFrameworkServer {
 
         this.basePath = basePath
         banManager = BanManagerImpl(basePath.resolve("ban.json").toNioPath())
-        playerManager = PlayerManagerImpl(banManager,
-            instance,
-            recorder,
-            basePath.resolve("players").toNioPath())
     }
 
     /**

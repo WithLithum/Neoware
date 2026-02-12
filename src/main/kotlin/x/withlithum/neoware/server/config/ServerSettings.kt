@@ -9,10 +9,12 @@ import com.sksamuel.hoplite.ConfigBinder
 import com.sksamuel.hoplite.ConfigLoaderBuilder
 import com.sksamuel.hoplite.addFileSource
 import com.sksamuel.hoplite.addResourceSource
+import org.jetbrains.annotations.ApiStatus
 
 object ServerSettings {
     private var configData : ServerSettingsData? = null
-    private var configBinder : ConfigBinder? = null
+    @ApiStatus.Internal
+    var configBinder : ConfigBinder? = null
 
     @JvmStatic
     val data
@@ -25,7 +27,7 @@ object ServerSettings {
         configData = configBinder!!.bindOrThrow<ServerSettingsData>("neoware")
     }
 
-    fun <V> bind(prefix: String): V {
+    inline fun <reified V> bind(prefix: String): V {
         val configBinder = this.configBinder ?: throw IllegalStateException("Server settings not initialized");
 
         return configBinder.bindOrThrow(prefix)

@@ -8,8 +8,10 @@ package x.withlithum.neoware.adventure.server.storage
 import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
+import net.minestom.server.codec.Result
 import net.minestom.server.entity.Player
 import okio.FileSystem
 import okio.IOException
@@ -62,16 +64,18 @@ class AdventurePlayerRecorder(
 
     @OptIn(ExperimentalSerializationApi::class)
     private fun load(uuid: UUID): PlayerInfo? {
-        val path = storagePath.resolve("${uuid}.dat")
+        val path = storagePath.resolve("${uuid}.json")
         if (!storageFs.isRegularFile(path)) {
             return null
         }
 
         try {
             return storageFs.openReadOnly(path).use { file ->
-                file.source().buffer().inputStream().use { stream ->
-                    Json.decodeFromStream<PlayerInfo>(stream)
+                val json = file.source().buffer().inputStream().use { stream ->
+                    Json.decodeFromStream(JsonElement.serializer(), stream)
                 }
+
+                PlayerInfo.CODEC.decode(KJsonTranscoder, json).orElse(null)
             }
         } catch (e: Exception) {
             logger.warn(e) { "Could not load player with UUID '$uuid'" }
@@ -87,7 +91,7 @@ class AdventurePlayerRecorder(
         storageFs.createDirectory(storagePath)
 
         for (entry in staging.entries) {
-            val path = storagePath.resolve("${entry.key}.dat")
+            val path = storagePath.resolve("${entry.key}.json")
             savePlayer(entry.value, path)
         }
     }
@@ -95,11 +99,14 @@ class AdventurePlayerRecorder(
     @OptIn(ExperimentalSerializationApi::class)
     private fun savePlayer(info: PlayerInfo, path: Path) {
         val value = PlayerInfo.CODEC.encode(KJsonTranscoder, info)
+        if (value is Result.Error) {
+            logger.warn { "Failed to encode player info: ${value.message}" }
+        }
 
         try {
-            storageFs.openReadWrite(path).use {
-                it.sink().buffer().outputStream().use {
-                    Json.encodeToStream(value, it)
+            storageFs.openReadWrite(path).use { file ->
+                file.sink().buffer().outputStream().use { stream ->
+                    Json.encodeToStream(value.orElseThrow(), stream)
                 }
             }
         } catch (e: IOException) {

@@ -22,18 +22,30 @@ import x.withlithum.neoware.adventure.level.LobbyInstance
 import x.withlithum.neoware.adventure.server.storage.AdventurePlayerRecorder
 import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.server.config.ServerSettings
+import x.withlithum.neoware.server.player.PlayerManagerImpl
 
 class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
     ServerSettings.data.server,
-    basePath) {
+    basePath
+) {
 
-    val contents: AdventureContentTree = ContentPackLoader.loadAll(basePath.resolve("content"),
+    val contents: AdventureContentTree = ContentPackLoader.loadAll(
+        basePath.resolve("content"),
         FileSystem.SYSTEM,
-        AdventureContentTreeFactory)
+        AdventureContentTreeFactory
+    )
     val itemManager = AdventureItemManager(contents)
-    override val recorder = AdventurePlayerRecorder(itemManager,
+    override val recorder = AdventurePlayerRecorder(
+        itemManager,
         basePath.resolve("players"),
-        FileSystem.SYSTEM)
+        FileSystem.SYSTEM
+    )
+    override val playerManager = PlayerManagerImpl(
+        banManager,
+        instance,
+        recorder,
+        basePath.resolve("players").toNioPath()
+    )
 
     override fun createInstance(): ManagedInstance {
         return LobbyInstance()
