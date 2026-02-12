@@ -28,11 +28,7 @@ sealed interface NeoResult<V> {
         }
 
         override fun unwrap(): V {
-            if (cause != null) {
-                throw NeoResultException(message, cause)
-            } else {
-                throw NeoResultException(message)
-            }
+            throw NeoResultException(message, cause)
         }
     }
 

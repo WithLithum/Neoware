@@ -23,11 +23,7 @@ sealed interface NeoStatus {
         }
 
         override fun unwrap() {
-            if (cause != null) {
-                throw NeoResultException(message, cause)
-            } else {
-                throw NeoResultException(message)
-            }
+            throw NeoResultException(message, cause)
         }
     }
 
