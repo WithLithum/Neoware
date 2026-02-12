@@ -20,7 +20,7 @@ import x.withlithum.neoware.util.game.damage
 import x.withlithum.neoware.util.results.NeoResult
 
 class AdventureItemManager(private val contentTree: AdventureContentTree) {
-    val cache = HashMap<Key, ItemStack>()
+    private val cache = HashMap<Key, ItemStack>()
 
     companion object {
         private val logger = KotlinLogging.logger {}
