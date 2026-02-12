@@ -5,10 +5,15 @@
 
 package x.withlithum.neoware.adventure.content.item
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.nbt.StringBinaryTag
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextDecoration
 import net.minestom.server.component.DataComponents
 import net.minestom.server.item.ItemStack
+import net.minestom.server.item.Material
 import x.withlithum.neoware.adventure.content.AdventureContentTree
 import x.withlithum.neoware.data.game.ItemRef
 import x.withlithum.neoware.util.game.damage
@@ -16,6 +21,22 @@ import x.withlithum.neoware.util.results.NeoResult
 
 class AdventureItemManager(private val contentTree: AdventureContentTree) {
     val cache = HashMap<Key, ItemStack>()
+
+    companion object {
+        private val logger = KotlinLogging.logger {}
+
+        private fun missingItemPlaceholder(key: Key): ItemStack {
+            return ItemStack.builder(Material.BARRIER)
+                .customName(
+                    Component.text(
+                        "!!! MISSING PROTOTYPE !!!",
+                        NamedTextColor.RED, TextDecoration.BOLD, TextDecoration.UNDERLINED
+                    )
+                )
+                .lore(Component.text(key.asString(), NamedTextColor.GRAY))
+                .build()
+        }
+    }
 
     /**
      * Gets an item stack for the specified base ID.
@@ -36,7 +57,11 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
     }
 
     private fun computeItem(key: Key): ItemStack {
-        val prototype = contentTree.items[key] ?: return ItemStack.AIR
+        val prototype = contentTree.items[key]
+        if (prototype == null) {
+            logger.warn { "Unknown item prototype ${key.asString()}" }
+            return missingItemPlaceholder(key)
+        }
 
         val result = prototype.createItem(key)
         cache[key] = result
@@ -84,8 +109,12 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
             return NeoResult.Error("Unrecognised prototype ID '${baseKey.value()}'")
         }
 
-        return NeoResult.Ok(ItemRef(baseKey,
-            item.amount(),
-            item.damage))
+        return NeoResult.Ok(
+            ItemRef(
+                baseKey,
+                item.amount(),
+                item.damage
+            )
+        )
     }
 }
