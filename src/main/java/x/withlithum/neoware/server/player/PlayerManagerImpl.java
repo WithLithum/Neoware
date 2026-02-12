@@ -53,7 +53,14 @@ public final class PlayerManagerImpl implements PlayerManager {
                             GameProfile profile) {
         if (banManager.isBanned(profile.uuid())) {
             final var info = banManager.getInfo(profile.uuid());
-            assert info != null;
+            if (info == null) {
+                log.warn("Player '{}' ({}) was banned but ban info was not found",
+                    profile.name(),
+                    profile.uuid());
+                connection.kick(Component.translatable("multiplayer.disconnect.banned"));
+                return;
+            }
+
             try {
                 connection.kick(BanMessage.INSTANCE.create(info));
             } catch (RuntimeException e) {
