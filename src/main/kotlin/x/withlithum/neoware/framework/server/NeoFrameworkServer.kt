@@ -77,9 +77,6 @@ abstract class NeoFrameworkServer {
 
         bootstrap()
 
-        // Load integrated services
-        banManager.loadList()
-
         // Create event node for integrated services
         val eventManager = MinecraftServer.getGlobalEventHandler()
         eventManager.addChild(playerManager.createEventNode())
