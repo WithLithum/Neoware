@@ -6,17 +6,13 @@
 package x.withlithum.neoware.server.player;
 
 import lombok.extern.slf4j.Slf4j;
-import net.kyori.adventure.nbt.BinaryTag;
 import net.kyori.adventure.nbt.BinaryTagIO;
-import net.kyori.adventure.nbt.CompoundBinaryTag;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.adventure.audience.Audiences;
 import net.minestom.server.codec.Result;
 import net.minestom.server.codec.Transcoder;
 import net.minestom.server.coordinate.Pos;
-import net.minestom.server.entity.Player;
 import net.minestom.server.event.Event;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.player.AsyncPlayerConfigurationEvent;
@@ -28,7 +24,7 @@ import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import x.withlithum.neoware.data.player.PlayerInfo;
-import x.withlithum.neoware.game.player.PlayerDataUtil;
+import x.withlithum.neoware.data.storage.PlayerRecorder;
 import x.withlithum.neoware.instance.ManagedInstance;
 import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.util.messages.BanMessage;
@@ -36,7 +32,6 @@ import x.withlithum.neoware.util.messages.BanMessage;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -45,13 +40,16 @@ import java.util.concurrent.ConcurrentMap;
 public final class PlayerManagerImpl implements PlayerManager {
     private final BanManager banManager;
     private final ManagedInstance instance;
+    private final PlayerRecorder recorder;
 
     private final Path playersDir;
     private final ConcurrentMap<UUID, PlayerInfo> infoCache = new ConcurrentHashMap<>();
 
-    public PlayerManagerImpl(BanManager banManager, ManagedInstance instance, Path playersDir) {
+    public PlayerManagerImpl(BanManager banManager, ManagedInstance instance, PlayerRecorder recorder, Path playersDir) {
         this.banManager = banManager;
         this.instance = instance;
+        this.recorder = recorder;
+
         log.info("Store player data into: {}", playersDir);
         this.playersDir = playersDir;
 
@@ -96,36 +94,6 @@ public final class PlayerManagerImpl implements PlayerManager {
         });
     }
 
-    private void savePlayerFile(UUID uuid, PlayerInfo data) {
-        var path = getPlayerFile(uuid);
-        savePlayerFileInternal(uuid, data, path);
-    }
-
-    private CompletableFuture<Void> savePlayerFileAsync(UUID uuid, PlayerInfo data) {
-        var path = getPlayerFile(uuid);
-
-        return CompletableFuture.runAsync(() -> savePlayerFileInternal(uuid, data, path));
-    }
-
-    private void savePlayerFileInternal(UUID uuid, PlayerInfo data, Path path) {
-        try (var stream = Files.newOutputStream(path, StandardOpenOption.CREATE,
-            StandardOpenOption.TRUNCATE_EXISTING)) {
-            var tag = PlayerInfo.CODEC.encode(Transcoder.NBT, data);
-            if (tag instanceof Result.Error<BinaryTag>(String message)) {
-                log.warn("Failed to encode player info for player with UUID {}: {}", uuid, message);
-                return;
-            }
-
-            BinaryTagIO.writer().write((CompoundBinaryTag) tag.orElseThrow(), stream);
-
-        } catch (IOException e) {
-            log.warn("Could not save player data for player with UUID '{}'", uuid);
-            log.warn("details: ", e);
-        }
-
-        infoCache.put(uuid, data);
-    }
-
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
@@ -153,25 +121,15 @@ public final class PlayerManagerImpl implements PlayerManager {
             return;
         }
 
+        // Preload player data from recorder
+        recorder.preRewindPlayer(player);
+
         log.info("Player {} joined with UUID {}", player.getUsername(), player.getUuid());
 
         Audiences.players().sendMessage(Component.translatable()
             .key("multiplayer.player.joined")
             .arguments(player.getName())
             .color(NamedTextColor.YELLOW));
-    }
-
-    public void saveAll() {
-        for (var player : MinecraftServer.getConnectionManager().getOnlinePlayers()) {
-            savePlayerFile(player.getUuid(), PlayerDataUtil.createPlayerInfo(player));
-        }
-    }
-
-    @Override
-    public CompletableFuture<Void> saveAsync(Player player) {
-        var data = PlayerDataUtil.createPlayerInfo(player);
-
-        return savePlayerFileAsync(player.getUuid(), data);
     }
 
     @Override
@@ -194,11 +152,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         }
 
         var player = playerSpawnEvent.getPlayer();
-
-        var data = getPlayerInfo(player.getUuid());
-        if (data != null) {
-            PlayerDataUtil.recoverPlayer(player, data);
-        }
+        recorder.rewindPlayer(player);
     }
 
     private void onDisconnect(PlayerDisconnectEvent event) {
@@ -212,12 +166,6 @@ public final class PlayerManagerImpl implements PlayerManager {
             .color(NamedTextColor.YELLOW));
         log.info("{} ({}) disconnected", playerName, playerUuid);
 
-        saveAsync(player)
-            .whenComplete((_, ex) -> {
-                if (ex != null) {
-                    log.warn("Unable to save player '{}' ({})", playerName, playerUuid);
-                    log.warn("details: ", ex);
-                }
-            });
+        recorder.capturePlayer(player);
     }
 }

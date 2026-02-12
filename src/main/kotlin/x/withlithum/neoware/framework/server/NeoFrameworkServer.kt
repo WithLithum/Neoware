@@ -10,6 +10,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import okio.Path
+import x.withlithum.neoware.data.storage.PlayerRecorder
 import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.server.SaveAll
 import x.withlithum.neoware.server.config.ServerListenOptions
@@ -23,6 +24,8 @@ abstract class NeoFrameworkServer {
     companion object {
         private val logger = KotlinLogging.logger {}
     }
+
+    abstract val recorder: PlayerRecorder
 
     private val listenOptions: ServerListenOptions
     private val mcServer: MinecraftServer
@@ -48,6 +51,7 @@ abstract class NeoFrameworkServer {
         banManager = BanManagerImpl(basePath.resolve("ban.json").toNioPath())
         playerManager = PlayerManagerImpl(banManager,
             instance,
+            recorder,
             basePath.resolve("players").toNioPath())
     }
 
@@ -83,7 +87,9 @@ abstract class NeoFrameworkServer {
     }
 
     fun stop() {
-        SaveAll.save()
+        banManager.saveList()
+        recorder.save()
+
         if (!MinecraftServer.isStopping()) {
             MinecraftServer.stopCleanly()
         }

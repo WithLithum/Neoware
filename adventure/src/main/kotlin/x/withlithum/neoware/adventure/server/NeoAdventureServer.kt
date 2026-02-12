@@ -14,26 +14,32 @@ import okio.FileSystem
 import okio.Path
 import x.withlithum.neoware.adventure.content.AdventureContentTree
 import x.withlithum.neoware.adventure.content.AdventureContentTreeFactory
+import x.withlithum.neoware.adventure.content.item.AdventureItemManager
 import x.withlithum.neoware.adventure.security.AdventureWorldSecurity
 import x.withlithum.neoware.data.content.packs.ContentPackLoader
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.adventure.level.LobbyInstance
+import x.withlithum.neoware.adventure.server.storage.AdventurePlayerRecorder
 import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.server.config.ServerSettings
 
 class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
     ServerSettings.data.server,
     basePath) {
-    private var contents: AdventureContentTree? = null
+
+    val contents: AdventureContentTree = ContentPackLoader.loadAll(basePath.resolve("content"),
+        FileSystem.SYSTEM,
+        AdventureContentTreeFactory)
+    val itemManager = AdventureItemManager(contents)
+    override val recorder = AdventurePlayerRecorder(itemManager,
+        basePath.resolve("players"),
+        FileSystem.SYSTEM)
+
     override fun createInstance(): ManagedInstance {
         return LobbyInstance()
     }
 
     override fun bootstrap() {
-        contents = ContentPackLoader.loadAll(basePath.resolve("content"),
-            FileSystem.SYSTEM,
-            AdventureContentTreeFactory)
-
         // PVP
         MinestomPvP.init()
         val modernVanilla: CombatFeatureSet = CombatFeatures.modernVanilla()

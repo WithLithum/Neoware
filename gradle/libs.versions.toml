@@ -20,6 +20,7 @@ jtoml = "1.4.1"
 okio = "3.16.2"
 hoplite = "2.9.0"
 kotlinx-serialization = "1.10.0"
+kotlinx-coroutines = "1.10.2"
 
 ## Logging
 log4j = "2.25.3"
@@ -52,6 +53,8 @@ okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 hoplite = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite" }
 hoplite-toml = { module = "com.sksamuel.hoplite:hoplite-toml", version.ref = "hoplite" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
 
 # JLine
 jline = { module = "org.jline:jline", version.ref = "jline" }

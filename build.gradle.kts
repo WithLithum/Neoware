@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.hoplite.toml)
     api(libs.kotlinx.serialization)
     runtimeOnly(libs.lmax.disruptor)
+    implementation(libs.kotlinx.coroutines.jvm)
 
     // JLine
     implementation(libs.jline)

@@ -19,6 +19,7 @@ dependencies {
     compileOnly(libs.bundles.log4j.runtime)
 
     testImplementation(kotlin("test"))
+    implementation(libs.kotlinx.coroutines)
 }
 
 tasks.test {
