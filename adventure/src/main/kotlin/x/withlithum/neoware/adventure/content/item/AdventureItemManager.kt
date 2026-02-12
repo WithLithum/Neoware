@@ -38,7 +38,9 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
     private fun computeItem(key: Key): ItemStack {
         val prototype = contentTree.items[key] ?: return ItemStack.AIR
 
-        return prototype.createItem(key)
+        val result = prototype.createItem(key)
+        cache[key] = result
+        return result
     }
 
     /**
@@ -53,7 +55,7 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
             return NeoResult.Ok(ItemStack.AIR)
         }
 
-        var item = getItem(ref.base) ?: return NeoResult.Error("Unknown base ID '${ref.base.asString()}'")
+        var item = getItem(ref.base)
         if (ref.damage != 0) {
             item = item.damage(ref.damage)
         }
