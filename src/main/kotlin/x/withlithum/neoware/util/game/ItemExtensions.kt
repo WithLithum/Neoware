@@ -9,4 +9,4 @@ import net.minestom.server.component.DataComponents
 import net.minestom.server.item.ItemStack
 
 val ItemStack.damage: Int
-    get() = this.get(DataComponents.DAMAGE) ?: 0
+    get() = this.get(DataComponents.DAMAGE, 0)
