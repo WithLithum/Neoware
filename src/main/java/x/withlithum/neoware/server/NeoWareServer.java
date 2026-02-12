@@ -19,6 +19,7 @@ import x.withlithum.neoware.server.config.ServerSettings;
 import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.server.security.BanManagerImpl;
 
+import javax.naming.OperationNotSupportedException;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
@@ -42,8 +43,8 @@ public final class NeoWareServer {
 
 //    public final LobbyInstance lobby;
 
-    @Nullable
-    private ContentTree contents;
+//    @Nullable
+//    private ContentTree contents;
 
 	private NeoWareServer(Path basePath) {
         LOGGER.debug("Server instantiated");
@@ -62,8 +63,8 @@ public final class NeoWareServer {
         Stopwatch sw  = Stopwatch.createStarted();
         final var serverConfig = ServerSettings.getData().getServer();
 
-        contents = ContentPackLoader.INSTANCE.loadAll(okio.Path.get(basePath.resolve("content")),
-            FileSystem.SYSTEM);
+//        contents = ContentPackLoader.INSTANCE.loadAll(okio.Path.get(basePath.resolve("content")),
+//            FileSystem.SYSTEM);
 
         Bootstrap.bootstrap();
 
@@ -91,11 +92,8 @@ public final class NeoWareServer {
         isRunning = false;
 	}
 
+    @Deprecated(forRemoval = true)
     public ContentTree getContents() {
-        if (contents == null) {
-            throw new IllegalStateException("The content tree was not yet loaded.");
-        }
-
-        return contents;
+        throw new UnsupportedOperationException("Use your module's loader instead.");
     }
 }

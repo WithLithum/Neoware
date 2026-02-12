@@ -12,8 +12,9 @@ import net.minestom.server.MinecraftServer
 import net.minestom.server.event.EventNode
 import okio.FileSystem
 import okio.Path
+import x.withlithum.neoware.adventure.content.AdventureContentTree
+import x.withlithum.neoware.adventure.content.AdventureContentTreeFactory
 import x.withlithum.neoware.adventure.security.AdventureWorldSecurity
-import x.withlithum.neoware.data.content.hierarchy.ContentTree
 import x.withlithum.neoware.data.content.packs.ContentPackLoader
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.adventure.level.LobbyInstance
@@ -23,14 +24,15 @@ import x.withlithum.neoware.server.config.ServerSettings
 class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
     ServerSettings.data.server,
     basePath) {
-    private var contents: ContentTree? = null
+    private var contents: AdventureContentTree? = null
     override fun createInstance(): ManagedInstance {
         return LobbyInstance()
     }
 
     override fun bootstrap() {
         contents = ContentPackLoader.loadAll(basePath.resolve("content"),
-            FileSystem.SYSTEM)
+            FileSystem.SYSTEM,
+            AdventureContentTreeFactory)
 
         // PVP
         MinestomPvP.init()

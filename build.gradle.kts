@@ -47,7 +47,7 @@ dependencies {
     api(libs.okio)
     implementation(libs.hoplite)
     implementation(libs.hoplite.toml)
-    implementation(libs.kotlinx.serialization)
+    api(libs.kotlinx.serialization)
     runtimeOnly(libs.lmax.disruptor)
 
     // JLine
