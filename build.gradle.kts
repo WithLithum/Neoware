@@ -5,6 +5,8 @@
 plugins {
     kotlin("jvm").version(libs.versions.kotlin)
     kotlin("plugin.lombok").version(libs.versions.kotlin)
+    kotlin("plugin.serialization").version(libs.versions.kotlin)
+
     application
     alias(libs.plugins.lombok)
 }
@@ -43,6 +45,9 @@ dependencies {
     implementation(libs.jtoml)
     api(libs.adventure.minimessage)
     api(libs.okio)
+    implementation(libs.hoplite)
+    implementation(libs.hoplite.toml)
+    implementation(libs.kotlinx.serialization)
     runtimeOnly(libs.lmax.disruptor)
 
     // JLine

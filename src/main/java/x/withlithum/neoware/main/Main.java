@@ -3,7 +3,7 @@ package x.withlithum.neoware.main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.server.NeoWareServer;
-import x.withlithum.neoware.server.config.Configs;
+import x.withlithum.neoware.server.config.ServerSettings;
 
 public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
@@ -21,7 +21,7 @@ public class Main {
 //        consoleThread.setName("Console thread");
 
         // Start server
-        Configs.initialize();
+        ServerSettings.init();
 		NeoWareServer.INSTANCE.start();
 //        consoleThread.start();
 	}
