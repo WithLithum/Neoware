@@ -5,7 +5,9 @@
 
 package x.withlithum.neoware.data.content
 
+import kotlinx.serialization.KSerializer
 import net.minestom.server.codec.Codec
+import x.withlithum.neoware.data.content.io.KJsonContentLoader
 import java.io.InputStream
 
 /**
@@ -15,6 +17,10 @@ fun interface ContentLoader<V> {
     companion object {
         fun <V> toml(codec: Codec<V>): ContentLoader<V> {
             return TomlCodecContentLoader(codec)
+        }
+
+        fun <V> kJson(serializer: KSerializer<V>): ContentLoader<V> {
+            return KJsonContentLoader(serializer)
         }
     }
 

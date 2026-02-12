@@ -21,7 +21,7 @@ import x.withlithum.neoware.util.MapHelper
 data class ContentTree(val items: Map<Key, ItemPrototype>) {
     companion object {
         private val ITEM_LOADER =
-            DefinitionPrototypeLoader(ContentLoader.toml(ItemDefinition.CODEC))
+            DefinitionPrototypeLoader(ContentLoader.kJson(ItemDefinition.serializer()))
 
         val EMPTY = ContentTree(emptyMap())
 

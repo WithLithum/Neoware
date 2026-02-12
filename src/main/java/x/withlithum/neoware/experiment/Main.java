@@ -10,7 +10,6 @@ import java.util.Map;
 @Slf4j
 public final class Main {
     private static final @Unmodifiable Map<String, CliExperiment> EXPERIMENTS = Map.of(
-        "encode_optional", new EncodeOptionalExperiment()
     );
 
     static void main(String[] args) {

@@ -19,8 +19,8 @@ object ServerSettings {
     @JvmStatic
     fun init() {
         val configBinder = ConfigLoaderBuilder.default()
-            .addResourceSource("settings.toml")
-            .addFileSource("settings.toml")
+            .addResourceSource("/settings.toml")
+            .addFileSource("settings.toml", true)
             .build()
             .configBinder()
 
