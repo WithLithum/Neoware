@@ -16,7 +16,7 @@ import x.withlithum.neoware.data.game.ItemDefinition
 import x.withlithum.neoware.game.item.ItemPrototype
 import x.withlithum.neoware.util.MapHelper
 
-data class AdventureContentTree(val items: Map<Key, ItemPrototype>): IContentTree {
+data class AdventureContentTree(val items: Map<Key, ItemPrototype>): IContentTree<AdventureContentTree> {
     companion object {
         private val ITEM_LOADER =
             DefinitionPrototypeLoader(ContentLoader.kJson(ItemDefinition.serializer()))
@@ -33,15 +33,7 @@ data class AdventureContentTree(val items: Map<Key, ItemPrototype>): IContentTre
     /**
      * Merges this tree with the other content tree. The other tree overrides this tree.
      */
-    fun merge(other: AdventureContentTree): AdventureContentTree {
+    override fun merge(other: AdventureContentTree): AdventureContentTree {
         return AdventureContentTree(MapHelper.mergeMaps(this.items, other.items))
-    }
-
-    override fun merge(other: IContentTree): IContentTree {
-        if (other !is AdventureContentTree) {
-            throw IllegalArgumentException("Cannot merge ${other::class.simpleName}")
-        }
-
-        return merge(other)
     }
 }

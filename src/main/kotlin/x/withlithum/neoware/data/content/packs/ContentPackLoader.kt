@@ -24,7 +24,7 @@ object ContentPackLoader {
     private val logger = KotlinLogging.logger {}
     private val toml = JToml.jToml()
 
-    fun <V> loadAll(path: Path, fs: FileSystem, factory: ContentTreeFactory<V>): V where V : IContentTree {
+    fun <V> loadAll(path: Path, fs: FileSystem, factory: ContentTreeFactory<V>): V where V : IContentTree<V> {
         if (!fs.isDirectory(path)) {
             return factory.empty
         }
@@ -37,11 +37,7 @@ object ContentPackLoader {
             }
 
             val pack = loadPack(it, fs, factory) ?: return@f
-            if (tree == null) {
-                tree = pack.tree
-            } else {
-                tree.merge(pack.tree)
-            }
+            tree = tree?.merge(pack.tree) ?: pack.tree
 
             loadCount++
         }
@@ -54,7 +50,7 @@ object ContentPackLoader {
         path: Path,
         fs: FileSystem,
         factory: ContentTreeFactory<V>
-    ): ContentPack<V>? where V : IContentTree {
+    ): ContentPack<V>? where V : IContentTree<V> {
         if (!fs.isDirectory(path)) {
             throw IllegalArgumentException("'$path' is not a directory.")
         }

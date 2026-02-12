@@ -8,4 +8,4 @@ package x.withlithum.neoware.data.content.packs
 import x.withlithum.neoware.data.content.hierarchy.IContentTree
 
 data class ContentPack<V>(val meta: ContentPackMeta,
-    val tree: V) where V: IContentTree
+    val tree: V) where V: IContentTree<V>
