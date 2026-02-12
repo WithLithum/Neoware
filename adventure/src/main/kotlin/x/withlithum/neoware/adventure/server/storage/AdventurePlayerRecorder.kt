@@ -88,7 +88,7 @@ class AdventurePlayerRecorder(
             throw IllegalStateException("Storage path '$storagePath' has something other than a directory")
         }
 
-        storageFs.createDirectory(storagePath)
+        storageFs.createDirectory(storagePath, mustCreate = false)
 
         for (entry in staging.entries) {
             val path = storagePath.resolve("${entry.key}.json")
