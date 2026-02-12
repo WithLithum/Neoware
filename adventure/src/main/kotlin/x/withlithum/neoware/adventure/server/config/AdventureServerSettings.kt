@@ -20,7 +20,7 @@ data class AdventureServerSettings(val level: String? = null) {
             }
 
             ServerSettings.init()
-            configData = ServerSettings.bind("adventure")
+            configData = ServerSettings.bind<AdventureServerSettings>("adventure")
         }
     }
 
