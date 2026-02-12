@@ -72,8 +72,14 @@ object PlayerDataUtil {
     fun storePlayer(player: Player, itemManager: AdventureItemManager): PlayerInfo {
         val inventory = storeInventory(player.inventory, itemManager)
 
+        val permission = if (player.permissionLevel > 4) {
+            PermissionRank.WHEEL
+        } else {
+            PermissionRank.entries[player.permissionLevel]
+        }
+
         return PlayerInfo(VERSION,
-            PermissionRank.entries[player.permissionLevel],
+            permission,
             PlayerStatus.create(player),
             inventory)
     }
