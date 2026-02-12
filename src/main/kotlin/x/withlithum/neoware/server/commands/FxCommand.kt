@@ -12,6 +12,7 @@ import net.minestom.server.command.builder.Command
 import net.minestom.server.command.builder.CommandData
 import net.minestom.server.command.builder.arguments.Argument
 import net.minestom.server.command.builder.condition.CommandCondition
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.server.commands.helpers.fail
 import x.withlithum.neoware.util.messages.NeoMessages
 import x.withlithum.neoware.util.messages.extensions.lc.lc
@@ -21,7 +22,7 @@ abstract class FxCommand(val name: String) {
     private val command = Command(name)
     private val lcParentKey = "neoware.commands.$name"
 
-    abstract fun construct()
+    abstract fun construct(server: NeoFrameworkServer)
 
     /**
      * Creates a new [TranslatableComponent] with the key being generated with the following
@@ -261,8 +262,8 @@ abstract class FxCommand(val name: String) {
 
     //#endregion
 
-    fun build(): Command {
-        construct()
+    fun build(server: NeoFrameworkServer): Command {
+        construct(server)
         command.defaultExecutor = { sender, ctx ->
             fail(sender, lc("commands.missing_arguments"))
         }

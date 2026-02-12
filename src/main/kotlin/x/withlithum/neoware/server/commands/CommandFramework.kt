@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.minestom.server.MinecraftServer
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.util.messages.NeoMessages
 
 object CommandFramework {
@@ -32,8 +33,8 @@ object CommandFramework {
         }
     }
 
-    fun register(vararg commands: FxCommand) {
+    fun register(server: NeoFrameworkServer, vararg commands: FxCommand) {
         val manager = MinecraftServer.getCommandManager()
-        commands.forEach { manager.register(it.build()) }
+        commands.forEach { manager.register(it.build(server)) }
     }
 }

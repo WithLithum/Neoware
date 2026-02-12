@@ -10,11 +10,13 @@ import net.minestom.server.command.ConsoleSender;
 import net.minestom.server.command.ServerSender;
 import net.minestom.server.entity.Player;
 import org.jetbrains.annotations.Contract;
+import x.withlithum.neoware.framework.server.NeoFrameworkServer;
 import x.withlithum.neoware.server.commands.builtin.*;
 
 public final class Commands {
-    public static void register() {
-        CommandFramework.INSTANCE.register(new FxStopCommand(),
+    public static void register(NeoFrameworkServer server) {
+        CommandFramework.INSTANCE.register(server,
+            new FxStopCommand(),
             new FxAboutCommand(),
             new FxKickCommand(),
             new FxOpCommand(),

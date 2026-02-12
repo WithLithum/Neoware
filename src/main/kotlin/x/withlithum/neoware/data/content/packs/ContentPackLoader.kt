@@ -9,9 +9,9 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.github.wasabithumb.jtoml.JToml
 import okio.FileSystem
 import okio.Path
-import x.withlithum.neoware.data.content.hierarchy.ContentTree
+import x.withlithum.neoware.data.content.hierarchy.ContentTreeFactory
+import x.withlithum.neoware.data.content.hierarchy.IContentTree
 import x.withlithum.neoware.data.encode.TomlTranscoder
-import x.withlithum.neoware.server.NeoWareServer
 import x.withlithum.neoware.util.io.isDirectory
 import x.withlithum.neoware.util.io.isRegularFile
 import x.withlithum.neoware.util.io.read
@@ -24,19 +24,19 @@ object ContentPackLoader {
     private val logger = KotlinLogging.logger {}
     private val toml = JToml.jToml()
 
-    fun loadAll(path: Path, fs: FileSystem): ContentTree {
+    fun <V> loadAll(path: Path, fs: FileSystem, factory: ContentTreeFactory<V>): V where V : IContentTree {
         if (!fs.isDirectory(path)) {
-            return ContentTree.EMPTY
+            return factory.empty
         }
 
         var loadCount = 0
-        var tree: ContentTree? = null
+        var tree: V? = null
         fs.list(path).forEach f@{
             if (!fs.isDirectory(it)) {
                 return@f
             }
 
-            val pack = loadPack(it, fs) ?: return@f
+            val pack = loadPack(it, fs, factory) ?: return@f
             if (tree == null) {
                 tree = pack.tree
             } else {
@@ -47,27 +47,31 @@ object ContentPackLoader {
         }
 
         logger.info { "Loaded $loadCount content packs" }
-        return tree ?: ContentTree.EMPTY
+        return tree ?: factory.empty
     }
 
-    fun loadPack(path: Path, fs: FileSystem): ContentPack? {
+    fun <V> loadPack(
+        path: Path,
+        fs: FileSystem,
+        factory: ContentTreeFactory<V>
+    ): ContentPack<V>? where V : IContentTree {
         if (!fs.isDirectory(path)) {
             throw IllegalArgumentException("'$path' is not a directory.")
         }
 
         val packMeta = loadPackMeta(path, fs) ?: return null
-        if (packMeta.dataVersion != NeoWareServer.PACK_DATA_VERSION) {
-            logger.warn { "Skipping '${path.name}'; pack data version is ${packMeta.dataVersion} but ${NeoWareServer.PACK_DATA_VERSION} is supported" }
+        if (packMeta.dataVersion != factory.dataVersion) {
+            logger.warn { "Skipping '${path.name}'; pack data version is ${packMeta.dataVersion} but only ${factory.dataVersion} is supported" }
             return null
         }
 
         val dataPath = path.resolve(PACK_DATA_DIR)
-        val tree: ContentTree
+        val tree: V
         if (!fs.isDirectory(dataPath)) {
             logger.warn { "Empty pack '${path.name}': data path is not a directory" }
-            tree = ContentTree.EMPTY
+            tree = factory.empty
         } else {
-            tree = ContentTree.loadDir(dataPath, fs)
+            tree = factory.loadDir(dataPath, fs)
         }
 
         return ContentPack(packMeta, tree)
@@ -86,6 +90,7 @@ object ContentPackLoader {
                 logger.warn { "Failed to decode pack metadata: ${tomlResult.message}" }
                 return null
             }
+
             is MResult.Ok -> return tomlResult.value
         }
     }

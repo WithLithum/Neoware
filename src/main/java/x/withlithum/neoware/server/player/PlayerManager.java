@@ -15,8 +15,5 @@ public interface PlayerManager {
 
     void configure(AsyncPlayerConfigurationEvent config);
 
-    void saveAll();
-    CompletableFuture<Void> saveAsync(Player player);
-
     EventNode<Event> createEventNode();
 }

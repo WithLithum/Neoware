@@ -10,6 +10,7 @@ import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.text.format.TextDecoration
 import net.minestom.server.MinecraftServer
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.util.messages.extensions.sendNeoMessage
 
@@ -26,7 +27,7 @@ class FxAboutCommand : FxCommand("about") {
         .decorate(TextDecoration.UNDERLINED)
         .clickEvent(ClickEvent.openUrl("https://gitea.com/WithLithum/neoware"))
 
-    override fun construct() {
+    override fun construct(server: NeoFrameworkServer) {
         syntax { sender ->
             sender.sendNeoMessage(copyrightMessage)
             sender.sendMessage(minestomMessage)

@@ -18,24 +18,20 @@ import x.withlithum.neoware.util.MapHelper
 /**
  * An immutable tree of contents.
  */
-data class ContentTree(val items: Map<Key, ItemPrototype>) {
-    companion object {
-        private val ITEM_LOADER =
-            DefinitionPrototypeLoader(ContentLoader.kJson(ItemDefinition.serializer()))
-
-        val EMPTY = ContentTree(emptyMap())
-
-        fun loadDir(dir: Path, fs: FileSystem): ContentTree {
-            return ContentTree(
-                items = ContentIo.traverse(dir, "item", fs, ITEM_LOADER)
-            )
-        }
-    }
-
+@Deprecated("Use AdventureContentTree for adventure module. Also see IContentTree.")
+data class ContentTree(val items: Map<Key, ItemPrototype>): IContentTree {
     /**
      * Merges this tree with the other content tree. The other tree overrides this tree.
      */
     fun merge(other: ContentTree): ContentTree {
         return ContentTree(MapHelper.mergeMaps(this.items, other.items))
+    }
+
+    override fun merge(other: IContentTree): IContentTree {
+        if (other !is ContentTree) {
+            throw IllegalArgumentException("Cannot merge ${other::class.simpleName}")
+        }
+
+        return merge(other)
     }
 }

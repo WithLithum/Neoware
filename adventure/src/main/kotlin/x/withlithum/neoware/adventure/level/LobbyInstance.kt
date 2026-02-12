@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-package x.withlithum.neoware.instance
+package x.withlithum.neoware.adventure.level
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.MinecraftServer
@@ -16,18 +16,21 @@ import net.minestom.server.utils.IntProvider
 import net.minestom.server.world.DimensionType
 import net.minestom.server.world.attribute.EnvironmentAttribute
 import net.minestom.server.world.timeline.Timeline
+import x.withlithum.neoware.adventure.server.config.AdventureServerSettings
+import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.level.worldgen.OldWorldColours
 import x.withlithum.neoware.server.config.ServerSettings
 import x.withlithum.neoware.util.KeyRoot
 
-class LobbyInstance {
-    val instance: Instance
+class LobbyInstance : ManagedInstance {
+    override val instance: Instance
 
     companion object {
         private val LOG = KotlinLogging.logger { }
 
         private val DIMENSION_TYPE = MinecraftServer.getDimensionTypeRegistry()
-            .register(KeyRoot.id("lobby"),
+            .register(
+                KeyRoot.id("lobby"),
                 DimensionType.builder()
                     .minY(-64)
                     .height(320)
@@ -55,9 +58,11 @@ class LobbyInstance {
         }
 
         // Set level loader
-        val levelPath = ServerSettings.data.lobby.level
+        val levelPath = AdventureServerSettings.data.level
         if (levelPath != null) {
-            instance.chunkLoader = AnvilLoader(ServerSettings.data.lobby.level)
+            instance.chunkLoader = AnvilLoader(levelPath)
+        } else {
+            LOG.warn { "No lobby world file specified, using placeholder generator for entire map" }
         }
     }
 }

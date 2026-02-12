@@ -3,3 +3,6 @@
  */
 
 rootProject.name = "Neoware"
+
+include("creative")
+include("adventure")

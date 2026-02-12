@@ -5,7 +5,7 @@
 
 package x.withlithum.neoware.data.content.packs
 
-import x.withlithum.neoware.data.content.hierarchy.ContentTree
+import x.withlithum.neoware.data.content.hierarchy.IContentTree
 
-data class ContentPack(val meta: ContentPackMeta,
-    val tree: ContentTree)
+data class ContentPack<V>(val meta: ContentPackMeta,
+    val tree: V) where V: IContentTree

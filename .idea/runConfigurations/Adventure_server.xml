@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Adventure server" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="x.withlithum.neoware.main.MainKt" />
+    <module name="Neoware.adventure.main" />
+    <option name="VM_PARAMETERS" value="-Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.BasicAsyncLoggerContextSelector --enable-native-access=ALL-UNNAMED -Dstdout.encoding=UTF-8 -Dstderr.encoding=UTF-8" />
+    <option name="WORKING_DIRECTORY" value="run/adventure" />
+    <method v="2">
+      <option name="MakeProject" enabled="true" />
+    </method>
+  </configuration>
+</component>

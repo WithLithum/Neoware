@@ -16,5 +16,13 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_STRING" value="-Xlint:-processing" />
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Neoware.adventure" options="" />
+      <module name="Neoware.adventure.main" options="" />
+      <module name="Neoware.adventure.test" options="" />
+      <module name="Neoware.creative" options="" />
+      <module name="Neoware.creative.main" options="" />
+      <module name="Neoware.creative.test" options="" />
+    </option>
   </component>
 </project>
