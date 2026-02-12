@@ -78,9 +78,9 @@ abstract class NeoFrameworkServer {
         sw.stop()
 
         logger.info { "Setup took ${sw.elapsed(TimeUnit.MILLISECONDS)} ms" }
-        logger.info { "Started server at ${listenOptions.address}:${listenOptions.port}" }
         mcServer.start(listenOptions.address, listenOptions.port)
         isRunning = true
+        logger.info { "Started server at ${listenOptions.address}:${listenOptions.port}" }
     }
 
     fun stop() {
