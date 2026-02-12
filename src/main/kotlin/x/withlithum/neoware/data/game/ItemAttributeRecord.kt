@@ -22,8 +22,8 @@ data class ItemAttributeRecord(
     @Serializable(with = AttributeSerializer::class) val attribute: Attribute,
     val amount: Double,
     @Serializable(with = AttributeOperationSerializer::class)
-    val operation: AttributeOperation,
+    val operation: AttributeOperation = AttributeOperation.ADD_VALUE,
     @Serializable(with = EquipmentSlotGroupSerializer::class)
-    val slot: EquipmentSlotGroup,
-    val hide: Boolean
+    val slot: EquipmentSlotGroup = EquipmentSlotGroup.ANY,
+    val hide: Boolean = false
 )
