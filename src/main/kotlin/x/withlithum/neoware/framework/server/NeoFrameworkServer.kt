@@ -12,7 +12,7 @@ import net.minestom.server.MinecraftServer
 import okio.Path
 import x.withlithum.neoware.data.storage.PlayerRecorder
 import x.withlithum.neoware.instance.ManagedInstance
-import x.withlithum.neoware.server.SaveAll
+import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
 import x.withlithum.neoware.server.player.PlayerManager
@@ -70,7 +70,11 @@ abstract class NeoFrameworkServer {
     fun start() {
         val sw = Stopwatch.createStarted()
 
+        // Load integrated services
+        Bootstrap.bootstrap()
+        banManager.loadList()
         Commands.register(this)
+
         bootstrap()
 
         // Load integrated services

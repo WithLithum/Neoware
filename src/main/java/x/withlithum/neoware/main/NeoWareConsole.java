@@ -3,7 +3,6 @@ package x.withlithum.neoware.main;
 import net.minecrell.terminalconsole.SimpleTerminalConsole;
 import net.minestom.server.MinecraftServer;
 import x.withlithum.neoware.framework.server.NeoFrameworkServer;
-import x.withlithum.neoware.server.NeoWareServer;
 
 public class NeoWareConsole extends SimpleTerminalConsole {
     private final NeoFrameworkServer server;

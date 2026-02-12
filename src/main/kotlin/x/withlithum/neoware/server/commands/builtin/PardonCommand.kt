@@ -7,7 +7,6 @@ package x.withlithum.neoware.server.commands.builtin
 
 import net.minestom.server.command.builder.arguments.ArgumentType
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
-import x.withlithum.neoware.server.NeoWareServer
 import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.server.commands.FxConditions
 import x.withlithum.neoware.server.commands.helpers.fail
