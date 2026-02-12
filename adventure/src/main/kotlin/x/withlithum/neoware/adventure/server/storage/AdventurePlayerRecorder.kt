@@ -58,7 +58,6 @@ class AdventurePlayerRecorder(
         val cached = staging[player.uuid]
         if (cached != null) {
             PlayerDataUtil.recoverPlayer(player, cached, itemManager)
-            return
         }
     }
 
