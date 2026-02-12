@@ -101,6 +101,7 @@ class AdventurePlayerRecorder(
         val value = PlayerInfo.CODEC.encode(KJsonTranscoder, info)
         if (value is Result.Error) {
             logger.warn { "Failed to encode player info: ${value.message}" }
+            return
         }
 
         try {
