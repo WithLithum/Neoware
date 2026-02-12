@@ -31,7 +31,7 @@ abstract class NeoFrameworkServer {
     private val listenOptions: ServerListenOptions
     private val mcServer: MinecraftServer
 
-    val instance: ManagedInstance
+    val instance: ManagedInstance by lazy { createInstance() }
 
     val banManager: BanManager
 
@@ -45,7 +45,6 @@ abstract class NeoFrameworkServer {
 
         this.listenOptions = listen
         mcServer = MinecraftServer.init(Auth.Online())
-        instance = createInstance()
 
         this.basePath = basePath
         banManager = BanManagerImpl(basePath.resolve("ban.json").toNioPath())
