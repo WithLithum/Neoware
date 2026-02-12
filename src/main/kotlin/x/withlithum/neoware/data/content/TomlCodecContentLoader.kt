@@ -18,6 +18,8 @@ class TomlCodecContentLoader<V>(val codec: Codec<V>): ContentLoader<V> {
         private val TOML = JToml.jToml()
     }
 
+    override val acceptsExtension = "toml"
+
     override fun load(stream: InputStream): Result<V> {
         val toml: TomlDocument
         try {

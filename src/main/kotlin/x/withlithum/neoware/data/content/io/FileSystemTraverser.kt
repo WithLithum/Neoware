@@ -11,6 +11,7 @@ import okio.FileSystem
 import okio.IOException
 import okio.buffer
 import x.withlithum.neoware.data.content.ContentLoader
+import x.withlithum.neoware.util.io.NPath
 import x.withlithum.neoware.util.io.isRegularFile
 
 object FileSystemTraverser {
@@ -24,7 +25,14 @@ object FileSystemTraverser {
         storeInto: MutableMap<Key, V>,
     ) {
         fs.listRecursively(directory, false).forEach f@{ path ->
-            if (!fs.isRegularFile(path)) {
+            val metadata = fs.metadata(path)
+            if (!metadata.isRegularFile) {
+                return@f
+            }
+
+            val extension = NPath.getExtension(path)
+            if (extension != loader.acceptsExtension) {
+                logger.debug { "Ignoring file $path because it is not of the supported extension '${loader.acceptsExtension}'" }
                 return@f
             }
 

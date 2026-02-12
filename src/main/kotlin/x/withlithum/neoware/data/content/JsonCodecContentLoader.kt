@@ -20,6 +20,8 @@ import java.io.InputStream
  */
 @OptIn(ExperimentalSerializationApi::class)
 class JsonCodecContentLoader<V>(val codec: Codec<V>): ContentLoader<V> {
+    override val acceptsExtension = "json"
+
     override fun load(stream: InputStream): Result<V> {
         val json: JsonElement
         try {

@@ -15,6 +15,8 @@ import java.io.IOException
 import java.io.InputStream
 
 class KJsonContentLoader<V>(val serializer: KSerializer<V>) : ContentLoader<V> {
+    override val acceptsExtension = "json"
+
     @OptIn(ExperimentalSerializationApi::class)
     override fun load(stream: InputStream): Result<V> {
         return try {

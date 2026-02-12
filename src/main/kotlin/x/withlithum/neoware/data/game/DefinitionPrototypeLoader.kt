@@ -11,6 +11,9 @@ import x.withlithum.neoware.game.item.ItemPrototype
 import java.io.InputStream
 
 class DefinitionPrototypeLoader(val baseLoader: ContentLoader<ItemDefinition>) : ContentLoader<ItemPrototype> {
+    override val acceptsExtension: String?
+        get() = baseLoader.acceptsExtension
+
     override fun load(stream: InputStream): Result<ItemPrototype> {
         return baseLoader.load(stream).map {
             DefinitionPrototype(it)

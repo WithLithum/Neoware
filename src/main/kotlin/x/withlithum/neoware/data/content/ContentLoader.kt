@@ -13,7 +13,7 @@ import java.io.InputStream
 /**
  * Defines a means to load a content, of the specified type, from the specified stream.
  */
-fun interface ContentLoader<V> {
+interface ContentLoader<V> {
     companion object {
         fun <V> toml(codec: Codec<V>): ContentLoader<V> {
             return TomlCodecContentLoader(codec)
@@ -23,6 +23,8 @@ fun interface ContentLoader<V> {
             return KJsonContentLoader(serializer)
         }
     }
+
+    val acceptsExtension: String?
 
     fun load(stream: InputStream): Result<V>
 }
