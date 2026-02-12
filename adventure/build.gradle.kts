@@ -16,7 +16,7 @@ dependencies {
     // Minestom PvP
     implementation(libs.minestom.pvp)
 
-    compileOnly(libs.bundles.log4j.runtime)
+    runtimeOnly(libs.bundles.log4j.runtime)
 
     testImplementation(kotlin("test"))
     implementation(libs.kotlinx.coroutines)
