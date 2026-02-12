@@ -94,6 +94,8 @@ class AdventurePlayerRecorder(
             val path = storagePath.resolve("${entry.key}.json")
             savePlayer(entry.value, path)
         }
+
+        staging.clear()
     }
 
     @OptIn(ExperimentalSerializationApi::class)
