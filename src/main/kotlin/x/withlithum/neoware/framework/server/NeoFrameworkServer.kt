@@ -12,6 +12,7 @@ import net.minestom.server.MinecraftServer
 import okio.Path
 import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.server.SaveAll
+import x.withlithum.neoware.server.config.ServerListenOptions
 import x.withlithum.neoware.server.player.PlayerManager
 import x.withlithum.neoware.server.player.PlayerManagerImpl
 import x.withlithum.neoware.server.security.BanManager
@@ -23,7 +24,7 @@ abstract class NeoFrameworkServer {
         private val logger = KotlinLogging.logger {}
     }
 
-    private val endpoint: ServerListenEndpoint
+    private val listenOptions: ServerListenOptions
     private val mcServer: MinecraftServer
 
     val instance: ManagedInstance
@@ -36,10 +37,10 @@ abstract class NeoFrameworkServer {
     var isRunning: Boolean = false
         private set
 
-    constructor(endpoint: ServerListenEndpoint,
-        basePath: Path) {
+    constructor(listen: ServerListenOptions,
+                basePath: Path) {
 
-        this.endpoint = endpoint
+        this.listenOptions = listen
         mcServer = MinecraftServer.init(Auth.Online())
         instance = createInstance()
 
@@ -76,8 +77,8 @@ abstract class NeoFrameworkServer {
         sw.stop()
 
         logger.info { "Setup took ${sw.elapsed(TimeUnit.MILLISECONDS)} ms" }
-        logger.info { "Started server at ${endpoint.ip}:${endpoint.port}" }
-        mcServer.start(endpoint.ip, endpoint.port)
+        logger.info { "Started server at ${listenOptions.address}:${listenOptions.port}" }
+        mcServer.start(listenOptions.address, listenOptions.port)
         isRunning = true
     }
 

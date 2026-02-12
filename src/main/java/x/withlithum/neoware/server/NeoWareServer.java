@@ -22,6 +22,10 @@ import x.withlithum.neoware.server.security.BanManagerImpl;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @deprecated Inherit from {@link x.withlithum.neoware.framework.server.NeoFrameworkServer} instead.
+ */
+@Deprecated
 public final class NeoWareServer {
     public static final int PACK_DATA_VERSION = 1;
 

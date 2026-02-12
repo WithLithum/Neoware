@@ -5,5 +5,4 @@
 
 package x.withlithum.neoware.server.config
 
-data class ServerSettingsData(val server: ServerListenOptions,
-    val lobby: ServerLobbyOptions)
+data class ServerSettingsData(val server: ServerListenOptions)

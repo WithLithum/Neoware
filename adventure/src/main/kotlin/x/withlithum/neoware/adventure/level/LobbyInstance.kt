@@ -16,6 +16,7 @@ import net.minestom.server.utils.IntProvider
 import net.minestom.server.world.DimensionType
 import net.minestom.server.world.attribute.EnvironmentAttribute
 import net.minestom.server.world.timeline.Timeline
+import x.withlithum.neoware.adventure.server.config.AdventureServerSettings
 import x.withlithum.neoware.instance.ManagedInstance
 import x.withlithum.neoware.level.worldgen.OldWorldColours
 import x.withlithum.neoware.server.config.ServerSettings
@@ -57,9 +58,9 @@ class LobbyInstance : ManagedInstance {
         }
 
         // Set level loader
-        val levelPath = ServerSettings.data.lobby.level
+        val levelPath = AdventureServerSettings.data.level
         if (levelPath != null) {
-            instance.chunkLoader = AnvilLoader(ServerSettings.data.lobby.level)
+            instance.chunkLoader = AnvilLoader(levelPath)
         } else {
             LOG.warn { "No lobby world file specified, using placeholder generator for entire map" }
         }

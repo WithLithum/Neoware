@@ -18,9 +18,10 @@ import x.withlithum.neoware.data.content.packs.ContentPackLoader
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.adventure.level.LobbyInstance
 import x.withlithum.neoware.instance.ManagedInstance
-import x.withlithum.neoware.server.config.Configs
+import x.withlithum.neoware.server.config.ServerSettings
 
-class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(Configs.getEndpoint(),
+class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
+    ServerSettings.data.server,
     basePath) {
     private var contents: ContentTree? = null
     override fun createInstance(): ManagedInstance {
