@@ -20,7 +20,7 @@ import x.withlithum.neoware.data.content.packs.ContentPackLoader
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.adventure.level.LobbyInstance
 import x.withlithum.neoware.adventure.server.storage.AdventurePlayerRecorder
-import x.withlithum.neoware.instance.ManagedInstance
+import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.config.ServerSettings
 import x.withlithum.neoware.server.player.PlayerManagerImpl
 
@@ -47,7 +47,7 @@ class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
         basePath.resolve("players").toNioPath()
     )
 
-    override fun createInstance(): ManagedInstance {
+    override fun createInstance(): InstanceCapsule {
         return LobbyInstance()
     }
 

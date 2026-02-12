@@ -17,13 +17,12 @@ import net.minestom.server.world.DimensionType
 import net.minestom.server.world.attribute.EnvironmentAttribute
 import net.minestom.server.world.timeline.Timeline
 import x.withlithum.neoware.adventure.server.config.AdventureServerSettings
-import x.withlithum.neoware.instance.ManagedInstance
+import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.level.worldgen.OldWorldColours
-import x.withlithum.neoware.server.config.ServerSettings
 import x.withlithum.neoware.util.KeyRoot
 
-class LobbyInstance : ManagedInstance {
-    override val instance: Instance
+class LobbyInstance : InstanceCapsule {
+    private val instance: Instance
 
     companion object {
         private val LOG = KotlinLogging.logger { }
@@ -64,5 +63,9 @@ class LobbyInstance : ManagedInstance {
         } else {
             LOG.warn { "No lobby world file specified, using placeholder generator for entire map" }
         }
+    }
+
+    override fun instance(): Instance {
+        return instance
     }
 }

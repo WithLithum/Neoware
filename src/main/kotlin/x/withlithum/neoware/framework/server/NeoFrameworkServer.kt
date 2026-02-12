@@ -11,7 +11,7 @@ import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import okio.Path
 import x.withlithum.neoware.data.storage.PlayerRecorder
-import x.withlithum.neoware.instance.ManagedInstance
+import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
@@ -31,7 +31,7 @@ abstract class NeoFrameworkServer {
     private val listenOptions: ServerListenOptions
     private val mcServer: MinecraftServer
 
-    val instance: ManagedInstance by lazy { createInstance() }
+    val instance: InstanceCapsule by lazy { createInstance() }
 
     val banManager: BanManager
 
@@ -51,9 +51,9 @@ abstract class NeoFrameworkServer {
     }
 
     /**
-     * Instantiates a new [ManagedInstance].
+     * Instantiates a new [InstanceCapsule].
      */
-    protected abstract fun createInstance(): ManagedInstance
+    protected abstract fun createInstance(): InstanceCapsule
 
     /**
      * Executes implementation specific initialization actions. This method is called by [start]

@@ -20,7 +20,7 @@ import net.minestom.server.network.player.GameProfile;
 import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
 import x.withlithum.neoware.data.storage.PlayerRecorder;
-import x.withlithum.neoware.instance.ManagedInstance;
+import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.util.messages.BanMessage;
 
@@ -31,10 +31,13 @@ import java.nio.file.*;
 @NullMarked
 public final class PlayerManagerImpl implements PlayerManager {
     private final BanManager banManager;
-    private final ManagedInstance instance;
+    private final InstanceCapsule instance;
     private final PlayerRecorder recorder;
 
-    public PlayerManagerImpl(BanManager banManager, ManagedInstance instance, PlayerRecorder recorder, Path playersDir) {
+    public PlayerManagerImpl(BanManager banManager,
+                             InstanceCapsule instance,
+                             PlayerRecorder recorder,
+                             Path playersDir) {
         this.banManager = banManager;
         this.instance = instance;
         this.recorder = recorder;
@@ -77,7 +80,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         // Preload player data from recorder.
         recorder.preRewindPlayer(player);
 
-        config.setSpawningInstance(instance.getInstance());
+        config.setSpawningInstance(instance.instance());
         player.setRespawnPoint(new Pos(-251, -17, 142));
 
         log.info("Player {} joined with UUID {}", player.getUsername(), player.getUuid());
