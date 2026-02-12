@@ -35,10 +35,6 @@ public final class Bootstrap {
 
         // commands
         CommandFramework.INSTANCE.initialize();
-        Commands.register();
-
-        // security
-        NeoWareServer.INSTANCE.banManager.loadList();
 
         BlockBehaviours.INSTANCE.addDefault();
 

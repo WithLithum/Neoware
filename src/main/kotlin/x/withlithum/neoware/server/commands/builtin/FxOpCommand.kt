@@ -5,6 +5,7 @@
 
 package x.withlithum.neoware.server.commands.builtin
 
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.server.commands.FxConditions
 import x.withlithum.neoware.server.commands.NeoArguments
@@ -14,7 +15,7 @@ import x.withlithum.neoware.server.commands.helpers.succeed
 import x.withlithum.neoware.util.messages.NeoMessages
 
 class FxOpCommand : FxCommand("op") {
-    override fun construct() {
+    override fun construct(server: NeoFrameworkServer) {
         conditionalSyntax(
             FxConditions.IS_WHEEL,
             NeoArguments.onePlayer("target")

@@ -8,6 +8,7 @@ package x.withlithum.neoware.server.commands.builtin
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.kyori.adventure.text.Component
 import net.minestom.server.command.builder.arguments.ArgumentType
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.server.commands.FxConditions
 import x.withlithum.neoware.server.commands.NeoArguments
@@ -21,7 +22,7 @@ class FxKickCommand : FxCommand("kick") {
         private val logger = KotlinLogging.logger {}
     }
 
-    override fun construct() {
+    override fun construct(server: NeoFrameworkServer) {
         conditionalSyntax(
             FxConditions.IS_MODERATOR,
             NeoArguments.onePlayer("target"),

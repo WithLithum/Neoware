@@ -7,7 +7,7 @@ package x.withlithum.neoware.server.commands.builtin
 
 import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.command.builder.arguments.ArgumentType
-import x.withlithum.neoware.server.NeoWareServer
+import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.server.commands.FxCommand
 import x.withlithum.neoware.server.commands.FxConditions
 import x.withlithum.neoware.server.commands.NeoArguments
@@ -31,7 +31,7 @@ class BanCommand : FxCommand("ban") {
         private val LOG = KotlinLogging.logger {  }
     }
 
-    override fun construct() {
+    override fun construct(server: NeoFrameworkServer) {
         conditionalSyntax(
             FxConditions.IS_SYS_OP,
             ARGUMENT_TARGET,
@@ -42,7 +42,7 @@ class BanCommand : FxCommand("ban") {
                 sender,
                 lcArg("player", "not_found")
             )
-            if (NeoWareServer.INSTANCE.banManager.isBanned(target.uuid)) {
+            if (server.banManager.isBanned(target.uuid)) {
                 return@cmd fail(sender, lcMe("already_banned", target.name))
             }
 
@@ -52,7 +52,7 @@ class BanCommand : FxCommand("ban") {
                 null
             }
 
-            val info = NeoWareServer.INSTANCE.banManager.ban(target.uuid, reason,
+            val info = server.banManager.ban(target.uuid, reason,
                 untilInstant?.toKotlinInstant()
             )
             target.kick(BanMessage.create(info))
