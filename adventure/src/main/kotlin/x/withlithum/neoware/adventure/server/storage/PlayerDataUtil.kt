@@ -32,8 +32,9 @@ object PlayerDataUtil {
                 is NeoResult.Error -> result.logWarn(logger)
                 is NeoResult.Ok -> inventory.setItemStack(i, result.value, false)
             }
-            inventory.update()
         }
+
+        inventory.update()
     }
 
     fun recoverPlayer(player: Player, playerInfo: PlayerInfo, itemManager: AdventureItemManager) {
