@@ -10,13 +10,13 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import okio.Path
-import x.withlithum.neoware.data.storage.PlayerRecorder
 import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
 import x.withlithum.neoware.server.player.PlayerBlocklist
 import x.withlithum.neoware.server.player.PlayerManager
+import x.withlithum.neoware.server.player.PlayerRecorder
 import x.withlithum.neoware.server.security.BanManagerImpl
 import java.util.concurrent.TimeUnit
 

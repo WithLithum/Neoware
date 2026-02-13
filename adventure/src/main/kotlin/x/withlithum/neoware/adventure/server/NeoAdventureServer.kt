@@ -10,7 +10,6 @@ import io.github.togar2.pvp.feature.CombatFeatureSet
 import io.github.togar2.pvp.feature.CombatFeatures
 import net.minestom.server.MinecraftServer
 import net.minestom.server.event.EventNode
-import okio.FileSystem
 import okio.Path
 import x.withlithum.neoware.adventure.content.AdventureContentTree
 import x.withlithum.neoware.adventure.content.AdventureContentTreeFactory
@@ -19,7 +18,7 @@ import x.withlithum.neoware.adventure.security.AdventureWorldSecurity
 import x.withlithum.neoware.data.content.packs.ContentPackLoader
 import x.withlithum.neoware.framework.server.NeoFrameworkServer
 import x.withlithum.neoware.adventure.level.LobbyInstance
-import x.withlithum.neoware.adventure.server.storage.AdventurePlayerRecorder
+import x.withlithum.neoware.adventure.player.AdventurePlayerRecorder
 import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.config.ServerSettings
 import x.withlithum.neoware.server.player.PlayerManagerImpl
@@ -36,8 +35,7 @@ class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
     val itemManager = AdventureItemManager(contents)
     override val recorder = AdventurePlayerRecorder(
         itemManager,
-        basePath.resolve("players"),
-        FileSystem.SYSTEM
+        basePath.resolve("players").toNioPath()
     )
     override val playerManager = PlayerManagerImpl(
         banManager,

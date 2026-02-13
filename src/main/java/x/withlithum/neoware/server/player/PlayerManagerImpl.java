@@ -19,7 +19,6 @@ import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.network.player.GameProfile;
 import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.data.storage.PlayerRecorder;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.util.messages.BanMessage;
 
