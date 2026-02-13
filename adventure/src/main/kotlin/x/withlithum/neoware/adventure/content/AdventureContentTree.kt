@@ -6,7 +6,6 @@
 package x.withlithum.neoware.adventure.content
 
 import net.kyori.adventure.key.Key
-import okio.FileSystem
 import okio.Path
 import x.withlithum.neoware.data.content.hierarchy.ContentTree
 import x.withlithum.neoware.data.content.io.ContentIo
@@ -25,7 +24,7 @@ data class AdventureContentTree(val items: Map<Key, ItemPrototype>):
 
         val EMPTY = AdventureContentTree(emptyMap())
 
-        fun loadDir(dir: Path, fs: FileSystem): NeoResult<AdventureContentTree> {
+        fun loadDir(dir: Path): NeoResult<AdventureContentTree> {
             return when (val result = ContentIo.walkContent(dir.toNioPath(), "item", ITEM_LOADER)) {
                 is NeoResult.Ok -> NeoResult.ok(AdventureContentTree(
                     items = result.value

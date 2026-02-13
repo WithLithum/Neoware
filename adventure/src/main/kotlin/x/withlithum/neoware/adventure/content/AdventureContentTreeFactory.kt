@@ -5,7 +5,6 @@
 
 package x.withlithum.neoware.adventure.content
 
-import okio.FileSystem
 import okio.Path.Companion.toOkioPath
 import x.withlithum.neoware.data.content.hierarchy.ContentTreeFactory
 import x.withlithum.neoware.util.results.NeoResult
@@ -18,6 +17,6 @@ object AdventureContentTreeFactory : ContentTreeFactory<AdventureContentTree> {
     override fun loadDir(
         dir: Path
     ): NeoResult<AdventureContentTree> {
-        return AdventureContentTree.loadDir(dir.toOkioPath(), FileSystem.SYSTEM)
+        return AdventureContentTree.loadDir(dir.toOkioPath())
     }
 }

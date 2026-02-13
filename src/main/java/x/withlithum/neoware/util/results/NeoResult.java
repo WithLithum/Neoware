@@ -76,7 +76,7 @@ public abstract sealed class NeoResult<V> permits NeoResult.Error, NeoResult.Ok 
          */
         @Contract("-> new")
         public <R> NeoResult<R> cast() {
-            return new NeoResult.Error<R>(message, cause);
+            return new NeoResult.Error<>(message, cause);
         }
 
         /**

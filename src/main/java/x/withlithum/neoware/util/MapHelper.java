@@ -23,7 +23,7 @@ public final class MapHelper {
     public static <K, V> @Unmodifiable Map<K, V> mergeMaps(
         @Unmodifiable Map<K, V> map1,
         @Unmodifiable Map<K, V> map2) {
-        final var result = new HashMap<K, V>(map1);
+        final var result = new HashMap<>(map1);
         result.putAll(map2);
         return result;
     }
