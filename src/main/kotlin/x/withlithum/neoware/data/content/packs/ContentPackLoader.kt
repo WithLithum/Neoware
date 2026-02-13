@@ -9,8 +9,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import io.github.wasabithumb.jtoml.JToml
 import okio.FileSystem
 import okio.Path
+import x.withlithum.neoware.data.content.hierarchy.ContentTree
 import x.withlithum.neoware.data.content.hierarchy.ContentTreeFactory
-import x.withlithum.neoware.data.content.hierarchy.IContentTree
 import x.withlithum.neoware.data.encode.TomlTranscoder
 import x.withlithum.neoware.util.io.isDirectory
 import x.withlithum.neoware.util.io.isRegularFile
@@ -24,7 +24,7 @@ object ContentPackLoader {
     private val logger = KotlinLogging.logger {}
     private val toml = JToml.jToml()
 
-    fun <V> loadAll(path: Path, fs: FileSystem, factory: ContentTreeFactory<V>): V where V : IContentTree<V> {
+    fun <V> loadAll(path: Path, fs: FileSystem, factory: ContentTreeFactory<V>): V where V : ContentTree<V> {
         if (!fs.isDirectory(path)) {
             return factory.empty
         }
@@ -50,7 +50,7 @@ object ContentPackLoader {
         path: Path,
         fs: FileSystem,
         factory: ContentTreeFactory<V>
-    ): ContentPack<V>? where V : IContentTree<V> {
+    ): ContentPack<V>? where V : ContentTree<V> {
         if (!fs.isDirectory(path)) {
             throw IllegalArgumentException("'$path' is not a directory.")
         }

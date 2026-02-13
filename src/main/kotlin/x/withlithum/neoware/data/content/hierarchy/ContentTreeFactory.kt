@@ -8,7 +8,7 @@ package x.withlithum.neoware.data.content.hierarchy
 import okio.FileSystem
 import okio.Path
 
-interface ContentTreeFactory<V> where V: IContentTree<V> {
+interface ContentTreeFactory<V> where V: ContentTree<V> {
     val empty: V
     val dataVersion: Int
 

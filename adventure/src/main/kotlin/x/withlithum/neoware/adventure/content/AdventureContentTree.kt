@@ -8,7 +8,7 @@ package x.withlithum.neoware.adventure.content
 import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.Path
-import x.withlithum.neoware.data.content.hierarchy.IContentTree
+import x.withlithum.neoware.data.content.hierarchy.ContentTree
 import x.withlithum.neoware.data.content.io.ContentIo
 import x.withlithum.neoware.data.content.io.DefinitionPrototypeDecoder
 import x.withlithum.neoware.data.content.io.GsonCodecContentDecoder
@@ -16,7 +16,8 @@ import x.withlithum.neoware.data.game.ItemDefinition
 import x.withlithum.neoware.game.item.ItemPrototype
 import x.withlithum.neoware.util.MapHelper
 
-data class AdventureContentTree(val items: Map<Key, ItemPrototype>): IContentTree<AdventureContentTree> {
+data class AdventureContentTree(val items: Map<Key, ItemPrototype>):
+    ContentTree<AdventureContentTree> {
     companion object {
         private val ITEM_LOADER =
             DefinitionPrototypeDecoder(GsonCodecContentDecoder(ItemDefinition.CODEC))
