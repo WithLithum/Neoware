@@ -8,7 +8,6 @@ package x.withlithum.neoware.data.content.io
 import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.Path
-import x.withlithum.neoware.data.content.ContentLoader
 import x.withlithum.neoware.util.io.isDirectory
 
 object ContentIo {
