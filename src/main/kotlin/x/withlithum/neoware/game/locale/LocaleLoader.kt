@@ -3,7 +3,7 @@ package x.withlithum.neoware.game.locale
 import io.github.oshai.kotlinlogging.KotlinLogging
 import io.github.wasabithumb.jtoml.JToml
 import io.github.wasabithumb.jtoml.except.parse.TomlLocalParseException
-import x.withlithum.neoware.resource.ResourceUtil
+import x.withlithum.neoware.util.io.resources.ResourceHelper
 import java.io.IOException
 import java.io.InputStreamReader
 import java.net.URL
@@ -16,7 +16,7 @@ object LocaleLoader {
 
     @JvmStatic
     fun loadEmbedded(classLoader: ClassLoader): MapTranslator {
-        val resources = ResourceUtil.getResourceList("neoware/lang", classLoader)
+        val resources = ResourceHelper.listDirectory("neoware/lang", classLoader)
         val map = HashMap<String, Map<String, MessageFormat>>()
         for (resource in resources) {
             map[resource.name] = loadMap(resource.url, resource.name)
