@@ -13,6 +13,7 @@ import java.io.InputStream
 /**
  * Defines a means to load a content, of the specified type, from the specified stream.
  */
+@Deprecated("Use ContentDecoder instead.")
 interface ContentLoader<V> {
     companion object {
         fun <V> toml(codec: Codec<V>): ContentLoader<V> {

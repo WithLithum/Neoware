@@ -15,7 +15,7 @@ object ContentIo {
     fun <V> traverse(basePath: Path,
                      contentType: String,
                      fs: FileSystem,
-                     loader: ContentLoader<V>): Map<Key, V> {
+                     loader: ContentDecoder<V>): Map<Key, V> {
         if (!fs.isDirectory(basePath)) {
             return emptyMap()
         }

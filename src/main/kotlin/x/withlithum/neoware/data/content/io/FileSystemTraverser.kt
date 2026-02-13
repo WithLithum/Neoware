@@ -10,9 +10,8 @@ import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.IOException
 import okio.buffer
-import x.withlithum.neoware.data.content.ContentLoader
 import x.withlithum.neoware.util.io.NPath
-import x.withlithum.neoware.util.io.isRegularFile
+import x.withlithum.neoware.util.results.NeoResult
 
 object FileSystemTraverser {
     private val logger = KotlinLogging.logger {}
@@ -21,7 +20,7 @@ object FileSystemTraverser {
         fs: FileSystem,
         directory: okio.Path,
         namespace: String,
-        loader: ContentLoader<V>,
+        decoder: ContentDecoder<V>,
         storeInto: MutableMap<Key, V>,
     ) {
         fs.listRecursively(directory, false).forEach f@{ path ->
@@ -31,8 +30,8 @@ object FileSystemTraverser {
             }
 
             val extension = NPath.getExtension(path)
-            if (extension != loader.acceptsExtension) {
-                logger.debug { "Ignoring file $path because it is not of the supported extension '${loader.acceptsExtension}'" }
+            if (extension != decoder.acceptedExtension) {
+                logger.debug { "Ignoring file $path because it is not of the supported extension '${decoder.acceptedExtension}'" }
                 return@f
             }
 
@@ -47,11 +46,9 @@ object FileSystemTraverser {
                 fs.openReadOnly(path).use { fh ->
                     val source = fh.source()
                     source.buffer().inputStream().use {
-                        val result = loader.load(it)
-                        if (result.isSuccess) {
-                            storeInto[key] = result.getOrThrow()
-                        } else {
-                            logger.warn(result.exceptionOrNull()) { "Failed to load content '${key.asString()}'" }
+                        when (val result = decoder.load(it)) {
+                            is NeoResult.Ok -> storeInto[key] = result.value
+                            is NeoResult.Error -> logger.warn(result.cause) { "Failed to decode content: ${result.message}" }
                         }
                     }
                 }

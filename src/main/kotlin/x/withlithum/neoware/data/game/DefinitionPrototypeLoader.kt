@@ -10,6 +10,7 @@ import x.withlithum.neoware.game.item.DefinitionPrototype
 import x.withlithum.neoware.game.item.ItemPrototype
 import java.io.InputStream
 
+@Deprecated("Use DefinitionPrototypeDecoder instead.")
 class DefinitionPrototypeLoader(val baseLoader: ContentLoader<ItemDefinition>) : ContentLoader<ItemPrototype> {
     override val acceptsExtension: String?
         get() = baseLoader.acceptsExtension

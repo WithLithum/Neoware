@@ -6,15 +6,30 @@
 package x.withlithum.neoware.util.results
 
 import io.github.oshai.kotlinlogging.KLogger
+import net.minestom.server.codec.Result
 
 /**
  * Reports the result of an operation that has a return value.
  */
 sealed interface NeoResult<V> {
+    companion object {
+        @JvmStatic
+        fun <V> fromMinestom(result: Result<V>): NeoResult<V> {
+            return when (result) {
+                is Result.Ok<V> -> Ok(result.value)
+                is Result.Error<V> -> Error(result.message)
+            }
+        }
+    }
+
     /**
      * A successful result containing a value.
      */
     data class Ok<V>(val value: V) : NeoResult<V> {
+        override fun <R> map(func: (V) -> NeoResult<R>): NeoResult<R> {
+            return func(value)
+        }
+
         override fun unwrap(): V = value
     }
 
@@ -27,10 +42,20 @@ sealed interface NeoResult<V> {
             logger.warn(cause) { message }
         }
 
+        fun <R> cast(): NeoResult<R> {
+            return Error(message, cause)
+        }
+
+        override fun <R> map(func: (V) -> NeoResult<R>): NeoResult<R> {
+            return cast()
+        }
+
         override fun unwrap(): V {
             throw NeoResultException(message, cause)
         }
     }
+
+    fun <R> map(func: (V) -> NeoResult<R>): NeoResult<R>
 
     /**
      * Asserts the current result is a successful result.
