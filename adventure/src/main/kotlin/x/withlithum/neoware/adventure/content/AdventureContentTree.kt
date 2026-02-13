@@ -14,6 +14,8 @@ import x.withlithum.neoware.data.content.io.DefinitionPrototypeDecoder
 import x.withlithum.neoware.data.content.io.GsonCodecContentDecoder
 import x.withlithum.neoware.data.game.ItemDefinition
 import x.withlithum.neoware.game.item.ItemPrototype
+import x.withlithum.neoware.util.MapHelper
+import x.withlithum.neoware.util.results.NeoResult
 
 data class AdventureContentTree(val items: Map<Key, ItemPrototype>):
     ContentTree<AdventureContentTree> {
@@ -23,10 +25,13 @@ data class AdventureContentTree(val items: Map<Key, ItemPrototype>):
 
         val EMPTY = AdventureContentTree(emptyMap())
 
-        fun loadDir(dir: Path, fs: FileSystem): AdventureContentTree {
-            return AdventureContentTree(
-                items = ContentIo.traverse(dir, "item", fs, ITEM_LOADER)
-            )
+        fun loadDir(dir: Path, fs: FileSystem): NeoResult<AdventureContentTree> {
+            return when (val result = ContentIo.walkContent(dir.toNioPath(), "item", ITEM_LOADER)) {
+                is NeoResult.Ok -> NeoResult.Ok(AdventureContentTree(
+                    items = result.value
+                ))
+                is NeoResult.Error -> result.cast()
+            }
         }
     }
 

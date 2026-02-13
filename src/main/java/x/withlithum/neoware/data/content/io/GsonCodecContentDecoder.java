@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-import com.google.gson.stream.JsonReader;
 import net.minestom.server.codec.Codec;
 import net.minestom.server.codec.Transcoder;
 import x.withlithum.neoware.util.results.NeoResult;

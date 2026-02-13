@@ -29,9 +29,8 @@ class NeoAdventureServer(basePath: Path) : NeoFrameworkServer(
     basePath
 ) {
 
-    val contents: AdventureContentTree = ContentPackLoader.loadAll(
-        basePath.resolve("content"),
-        FileSystem.SYSTEM,
+    val contents: AdventureContentTree = ContentPackLoader.loadAllMerged(
+        basePath.resolve("content").toNioPath(),
         AdventureContentTreeFactory
     )
     val itemManager = AdventureItemManager(contents)

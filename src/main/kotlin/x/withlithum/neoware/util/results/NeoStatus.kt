@@ -15,6 +15,10 @@ sealed interface NeoStatus {
         override fun unwrap() {
             // Intentionally do nothing since this is a successful result
         }
+
+        override fun <V> withValue(value: V): NeoResult<V> {
+            return NeoResult.Ok(value)
+        }
     }
 
     data class Error(val message: String, val cause: Throwable? = null) : NeoStatus {
@@ -25,6 +29,10 @@ sealed interface NeoStatus {
         override fun unwrap() {
             throw NeoResultException(message, cause)
         }
+
+        override fun <V> withValue(value: V): NeoResult<V> {
+            return NeoResult.Error(message, cause)
+        }
     }
 
     /**
@@ -33,4 +41,9 @@ sealed interface NeoStatus {
      * @throws [NeoResultException] The current status does not indicate success.
      */
     fun unwrap()
+
+    /**
+     * Returns a new corresponding instance of [NeoResult] with the specified value.
+     */
+    fun <V> withValue(value: V): NeoResult<V>
 }

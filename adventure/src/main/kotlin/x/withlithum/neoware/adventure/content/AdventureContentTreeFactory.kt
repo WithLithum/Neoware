@@ -6,19 +6,18 @@
 package x.withlithum.neoware.adventure.content
 
 import okio.FileSystem
-import okio.Path
+import okio.Path.Companion.toOkioPath
 import x.withlithum.neoware.data.content.hierarchy.ContentTreeFactory
+import x.withlithum.neoware.util.results.NeoResult
+import java.nio.file.Path
 
 object AdventureContentTreeFactory : ContentTreeFactory<AdventureContentTree> {
-    override val empty: AdventureContentTree
-        get() = AdventureContentTree.EMPTY
-
-    override val dataVersion = 1
+    override fun getEmpty() = AdventureContentTree.EMPTY
+    override fun getDataVersion() = 1
 
     override fun loadDir(
-        dir: Path,
-        fs: FileSystem
-    ): AdventureContentTree {
-        return AdventureContentTree.loadDir(dir, fs)
+        dir: Path
+    ): NeoResult<AdventureContentTree> {
+        return AdventureContentTree.loadDir(dir.toOkioPath(), FileSystem.SYSTEM)
     }
 }

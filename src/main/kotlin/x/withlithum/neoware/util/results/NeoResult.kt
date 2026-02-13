@@ -7,6 +7,7 @@ package x.withlithum.neoware.util.results
 
 import io.github.oshai.kotlinlogging.KLogger
 import net.minestom.server.codec.Result
+import org.slf4j.Logger
 
 /**
  * Reports the result of an operation that has a return value.
@@ -38,6 +39,14 @@ sealed interface NeoResult<V> {
      * for the failure.
      */
     data class Error<V>(val message: String, val cause: Throwable? = null) : NeoResult<V> {
+        fun logWarn(logger: Logger) {
+            if (cause != null) {
+                logger.warn(message, cause)
+            } else {
+                logger.warn(message)
+            }
+        }
+
         fun logWarn(logger: KLogger) {
             logger.warn(cause) { message }
         }
