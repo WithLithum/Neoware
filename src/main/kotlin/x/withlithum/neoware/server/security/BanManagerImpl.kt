@@ -10,9 +10,9 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import io.github.oshai.kotlinlogging.KotlinLogging
+import net.minestom.server.codec.Codec
 import net.minestom.server.codec.Result
 import net.minestom.server.codec.Transcoder
-import x.withlithum.neoware.data.encode.StringUuidCodec
 import x.withlithum.neoware.server.player.PlayerBlocklist
 import java.io.IOException
 import java.io.InputStreamReader
@@ -30,7 +30,7 @@ class BanManagerImpl(val banFile: Path) : PlayerBlocklist {
     companion object {
         private val GSON = Gson()
         private val LOG = KotlinLogging.logger {}
-        private val LIST_CODEC = StringUuidCodec.mapValue(BanInfo.CODEC)
+        private val LIST_CODEC = Codec.UUID_STRING.mapValue(BanInfo.CODEC)
         private const val BAN_LIST_CLEANING_THRESHOLD = 15
 
         private fun saveListInternal(file: Path, data: JsonElement) {
