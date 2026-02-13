@@ -66,7 +66,7 @@ abstract class NeoFrameworkServer {
 
         // Load integrated services
         Bootstrap.bootstrap()
-        banManager.loadList()
+        banManager.load()
         Commands.register(this)
 
         bootstrap()
@@ -84,7 +84,7 @@ abstract class NeoFrameworkServer {
     }
 
     fun stop() {
-        banManager.saveList()
+        banManager.save()
         recorder.save()
 
         if (!MinecraftServer.isStopping()) {

@@ -51,23 +51,17 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
-        if (banManager.isBanned(profile.uuid())) {
-            final var info = banManager.getInfo(profile.uuid());
-            if (info == null) {
-                log.warn("Player '{}' ({}) was banned but ban info was not found",
-                    profile.name(),
-                    profile.uuid());
-                connection.kick(Component.translatable("multiplayer.disconnect.banned"));
-                return;
-            }
+        final var info = banManager.lookup(profile.uuid());
+        if (info == null) {
+            return;
+        }
 
-            try {
-                connection.kick(BanMessage.INSTANCE.create(info));
-            } catch (RuntimeException e) {
-                log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
-                log.warn("Caused by error: ", e);
-                connection.kick(Component.text("Banned"));
-            }
+        try {
+            connection.kick(BanMessage.INSTANCE.create(info));
+        } catch (RuntimeException e) {
+            log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
+            log.warn("Caused by error: ", e);
+            connection.kick(Component.translatable("multiplayer.disconnect.banned"));
         }
     }
 

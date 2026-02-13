@@ -57,7 +57,7 @@ class BanManagerImpl(val banFile: Path) : BanManager {
      * Makes an attempt to load the ban list file specified in [banFile] property. If there is an
      * error loading the list, reports an error in the log.
      */
-    override fun loadList() {
+    override fun load() {
         if (!Files.exists(banFile)) {
             return
         }
@@ -73,19 +73,22 @@ class BanManagerImpl(val banFile: Path) : BanManager {
         }
 
         when (val r = LIST_CODEC.decode(Transcoder.JSON, element)) {
-            is Result.Ok -> { banList = HashMap(r.value) }
+            is Result.Ok -> {
+                banList = HashMap(r.value)
+            }
+
             is Result.Error -> LOG.warn { "Unable to load decode list: ${r.message}" }
         }
     }
 
-    override fun isBanned(uuid: UUID): Boolean {
-        val banEntry = banList[uuid] ?: return false
+    override fun lookup(uuid: UUID): BanInfo? {
+        val banEntry = banList[uuid] ?: return null
 
-        return banEntry.to == null || Clock.System.now() < banEntry.to
-    }
-
-    override fun getInfo(uuid: UUID): BanInfo? {
-        return banList[uuid]
+        return if (banEntry.to == null || Clock.System.now() < banEntry.to) {
+            banEntry
+        } else {
+            null
+        }
     }
 
     override fun ban(uuid: UUID, reason: String?, until: Instant?): BanInfo {
@@ -94,9 +97,11 @@ class BanManagerImpl(val banFile: Path) : BanManager {
             throw IllegalArgumentException("Ban expiration time must be later than the current time.")
         }
 
-        val result = BanInfo(reason = reason,
+        val result = BanInfo(
+            reason = reason,
             from = now,
-            to = until)
+            to = until
+        )
         banList[uuid] = result
         return result
     }
@@ -111,7 +116,7 @@ class BanManagerImpl(val banFile: Path) : BanManager {
      * Makes an attempt to save the ban list to the file specified in [banFile] property. If there
      * is an error saving the list, reports an error in the log.
      */
-    override fun saveList() {
+    override fun save() {
         if (banList.size > BAN_LIST_CLEANING_THRESHOLD) {
             removeExpired()
         }
