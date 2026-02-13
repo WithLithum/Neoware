@@ -10,7 +10,6 @@ import net.kyori.adventure.key.Key
 import okio.FileSystem
 import okio.IOException
 import okio.buffer
-import x.withlithum.neoware.util.io.NPath
 import x.withlithum.neoware.util.results.NeoResult
 
 object FileSystemTraverser {
@@ -29,7 +28,7 @@ object FileSystemTraverser {
                 return@f
             }
 
-            val extension = NPath.getExtension(path)
+            val extension = path.toFile().extension
             if (extension != decoder.acceptedExtension) {
                 logger.debug { "Ignoring file $path because it is not of the supported extension '${decoder.acceptedExtension}'" }
                 return@f
