@@ -21,7 +21,6 @@ import x.withlithum.neoware.adventure.content.item.AdventureItemManager
 import x.withlithum.neoware.data.encode.KJsonTranscoder
 import x.withlithum.neoware.data.player.PlayerInfo
 import x.withlithum.neoware.data.storage.PlayerRecorder
-import x.withlithum.neoware.data.storage.Savable
 import x.withlithum.neoware.util.io.isDirectory
 import x.withlithum.neoware.util.io.isRegularFile
 import java.util.*
@@ -31,8 +30,7 @@ class AdventurePlayerRecorder(
     private val itemManager: AdventureItemManager,
     private val storagePath: Path,
     private val storageFs: FileSystem
-) : PlayerRecorder,
-    Savable {
+) : PlayerRecorder {
     companion object {
         private val logger = KotlinLogging.logger {}
     }

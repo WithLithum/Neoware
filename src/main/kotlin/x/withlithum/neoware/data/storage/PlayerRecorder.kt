@@ -6,6 +6,7 @@
 package x.withlithum.neoware.data.storage
 
 import net.minestom.server.entity.Player
+import x.withlithum.neoware.util.persistence.Savable
 
 /**
  * Defines a service that provides saving and loading of player state.
