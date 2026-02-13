@@ -80,7 +80,7 @@ public record ItemDefinition(Material material,
         var registry = MinecraftServer.getEnchantmentRegistry();
 
         for (var enchantId : enchantments.keySet()) {
-            var regKey = registry.getKey(enchantments.get(enchantId));
+            var regKey = registry.getKey(enchantId);
             if (regKey == null) {
                 log.warn("Definition '{}' has non-existent enchantment '{}' declared",
                     defId,
