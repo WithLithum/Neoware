@@ -18,11 +18,10 @@ class PardonCommand : FxCommand("pardon") {
             ArgumentType.UUID("uuid")) cmd@{ sender, target ->
             val manager = server.banManager
 
-            if (!manager.isBanned(target)) {
+            if (!manager.remove(target)) {
                 return@cmd fail(sender, lcMe("not_banned"))
             }
 
-            manager.remove(target)
             return@cmd succeed(sender, lcMe("success"))
         }
     }

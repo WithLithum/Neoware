@@ -1,6 +1,5 @@
 package x.withlithum.neoware.resource
 
-import io.github.oshai.kotlinlogging.KotlinLogging
 import x.withlithum.neoware.util.ResourceRef
 import x.withlithum.neoware.util.io.NPath
 import java.io.BufferedReader

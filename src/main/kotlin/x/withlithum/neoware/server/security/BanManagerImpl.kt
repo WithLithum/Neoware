@@ -10,10 +10,10 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import com.google.gson.stream.JsonReader
 import io.github.oshai.kotlinlogging.KotlinLogging
-import net.minestom.server.codec.Codec
 import net.minestom.server.codec.Result
 import net.minestom.server.codec.Transcoder
 import x.withlithum.neoware.data.encode.StringUuidCodec
+import x.withlithum.neoware.server.player.PlayerBlocklist
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
@@ -22,11 +22,11 @@ import java.nio.file.Path
 import java.nio.file.StandardOpenOption
 import java.util.LinkedList
 import java.util.UUID
-import kotlin.math.exp
 import kotlin.time.Clock
 import kotlin.time.Instant
+import kotlin.time.toKotlinInstant
 
-class BanManagerImpl(val banFile: Path) : BanManager {
+class BanManagerImpl(val banFile: Path) : PlayerBlocklist {
     companion object {
         private val GSON = Gson()
         private val LOG = KotlinLogging.logger {}
@@ -57,7 +57,7 @@ class BanManagerImpl(val banFile: Path) : BanManager {
      * Makes an attempt to load the ban list file specified in [banFile] property. If there is an
      * error loading the list, reports an error in the log.
      */
-    override fun loadList() {
+    private fun loadList() {
         if (!Files.exists(banFile)) {
             return
         }
@@ -78,17 +78,7 @@ class BanManagerImpl(val banFile: Path) : BanManager {
         }
     }
 
-    override fun isBanned(uuid: UUID): Boolean {
-        val banEntry = banList[uuid] ?: return false
-
-        return banEntry.to == null || Clock.System.now() < banEntry.to
-    }
-
-    override fun getInfo(uuid: UUID): BanInfo? {
-        return banList[uuid]
-    }
-
-    override fun ban(uuid: UUID, reason: String?, until: Instant?): BanInfo {
+    private fun ban(uuid: UUID, reason: String?, until: Instant?): BanInfo {
         val now = Clock.System.now()
         if (until != null && now >= until) {
             throw IllegalArgumentException("Ban expiration time must be later than the current time.")
@@ -101,17 +91,15 @@ class BanManagerImpl(val banFile: Path) : BanManager {
         return result
     }
 
-    override fun remove(uuid: UUID) {
-        if (banList.remove(uuid) == null) {
-            throw IllegalArgumentException("The UUID '$uuid' is not on the ban list.")
-        }
+    override fun remove(uuid: UUID): Boolean {
+        return banList.remove(uuid) != null
     }
 
     /**
      * Makes an attempt to save the ban list to the file specified in [banFile] property. If there
      * is an error saving the list, reports an error in the log.
      */
-    override fun saveList() {
+    private fun saveList() {
         if (banList.size > BAN_LIST_CLEANING_THRESHOLD) {
             removeExpired()
         }
@@ -140,5 +128,28 @@ class BanManagerImpl(val banFile: Path) : BanManager {
         for (expiry in expiredList) {
             banList.remove(expiry)
         }
+    }
+
+    override fun lookup(uuid: UUID): BanInfo? {
+        val info = banList[uuid] ?: return null
+
+        if (info.to != null && Clock.System.now() < info.to) {
+            return info
+        }
+
+        return null
+    }
+
+    override fun insert(uuid: UUID, reason: String?, until: java.time.Instant?): BanInfo {
+        return ban(uuid, reason, until?.toKotlinInstant())
+    }
+
+    override fun load() {
+        loadList()
+    }
+
+    override fun save() {
+        removeExpired()
+        saveList()
     }
 }

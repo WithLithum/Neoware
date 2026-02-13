@@ -21,7 +21,6 @@ import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
 import x.withlithum.neoware.data.storage.PlayerRecorder;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
-import x.withlithum.neoware.server.security.BanManager;
 import x.withlithum.neoware.util.messages.BanMessage;
 
 import java.io.IOException;
@@ -30,11 +29,11 @@ import java.nio.file.*;
 @Slf4j
 @NullMarked
 public final class PlayerManagerImpl implements PlayerManager {
-    private final BanManager banManager;
+    private final PlayerBlocklist banManager;
     private final InstanceCapsule instance;
     private final PlayerRecorder recorder;
 
-    public PlayerManagerImpl(BanManager banManager,
+    public PlayerManagerImpl(PlayerBlocklist banManager,
                              InstanceCapsule instance,
                              PlayerRecorder recorder,
                              Path playersDir) {
@@ -54,23 +53,17 @@ public final class PlayerManagerImpl implements PlayerManager {
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
-        if (banManager.isBanned(profile.uuid())) {
-            final var info = banManager.getInfo(profile.uuid());
-            if (info == null) {
-                log.warn("Player '{}' ({}) was banned but ban info was not found",
-                    profile.name(),
-                    profile.uuid());
-                connection.kick(Component.translatable("multiplayer.disconnect.banned"));
-                return;
-            }
+        final var blockInfo = banManager.lookup(profile.uuid());
+        if (blockInfo == null) {
+            return;
+        }
 
-            try {
-                connection.kick(BanMessage.INSTANCE.create(info));
-            } catch (RuntimeException e) {
-                log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
-                log.warn("Caused by error: ", e);
-                connection.kick(Component.text("Banned"));
-            }
+        try {
+            connection.kick(BanMessage.INSTANCE.create(blockInfo));
+        } catch (RuntimeException e) {
+            log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
+            log.warn("Caused by error: ", e);
+            connection.kick(Component.translatable("multiplayer.disconnect.banned"));
         }
     }
 

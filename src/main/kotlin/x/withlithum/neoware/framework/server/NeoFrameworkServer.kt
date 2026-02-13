@@ -15,8 +15,8 @@ import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
+import x.withlithum.neoware.server.player.PlayerBlocklist
 import x.withlithum.neoware.server.player.PlayerManager
-import x.withlithum.neoware.server.security.BanManager
 import x.withlithum.neoware.server.security.BanManagerImpl
 import java.util.concurrent.TimeUnit
 
@@ -33,7 +33,7 @@ abstract class NeoFrameworkServer {
 
     val instance: InstanceCapsule by lazy { createInstance() }
 
-    val banManager: BanManager
+    val banManager: PlayerBlocklist
 
     val basePath: Path
 
@@ -66,7 +66,7 @@ abstract class NeoFrameworkServer {
 
         // Load integrated services
         Bootstrap.bootstrap()
-        banManager.loadList()
+        banManager.load()
         Commands.register(this)
 
         bootstrap()
@@ -84,7 +84,7 @@ abstract class NeoFrameworkServer {
     }
 
     fun stop() {
-        banManager.saveList()
+        banManager.save()
         recorder.save()
 
         if (!MinecraftServer.isStopping()) {

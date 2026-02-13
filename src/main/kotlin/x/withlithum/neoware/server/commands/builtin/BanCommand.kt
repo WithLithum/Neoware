@@ -42,7 +42,7 @@ class BanCommand : FxCommand("ban") {
                 sender,
                 lcArg("player", "not_found")
             )
-            if (server.banManager.isBanned(target.uuid)) {
+            if (server.banManager.lookup(target.uuid) != null) {
                 return@cmd fail(sender, lcMe("already_banned", target.name))
             }
 
@@ -52,9 +52,7 @@ class BanCommand : FxCommand("ban") {
                 null
             }
 
-            val info = server.banManager.ban(target.uuid, reason,
-                untilInstant?.toKotlinInstant()
-            )
+            val info = server.banManager.insert(target.uuid, reason, untilInstant)
             target.kick(BanMessage.create(info))
             LOG.info { "${nameOf(sender)} banned ${target.username} (${target.uuid}) for reason: ${reason ?: "(No reason given)"}" }
 
