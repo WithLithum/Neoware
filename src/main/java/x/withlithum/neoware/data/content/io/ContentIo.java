@@ -25,7 +25,7 @@ public final class ContentIo {
                                                                        String contentType,
                                                                        ContentDecoder<V> decoder) {
         if (!Files.isDirectory(basePath)) {
-            return new NeoResult.Error<>("The specified base path is not a directory.", null);
+            return NeoResult.error("The specified base path is not a directory.", null);
         }
 
         final var map = new HashMap<Key, V>();

@@ -29,7 +29,7 @@ object PlayerDataUtil {
         for (i in refs.indices) {
             val ref = refs[i]
             when (val result = itemManager.resolveRef(ref)) {
-                is NeoResult.Error -> result.logWarn(logger)
+                is NeoResult.Error -> logger.warn { "Failed to recover item: ${result.message}" }
                 is NeoResult.Ok -> inventory.setItemStack(i, result.value, false)
             }
         }
@@ -60,7 +60,7 @@ object PlayerDataUtil {
             val item = contents[i]
             when (val result = itemManager.createRef(item)) {
                 is NeoResult.Error -> {
-                    result.logWarn(logger)
+                    logger.warn { "Failed to store item: ${result.message}" }
                     refs.add(ItemRef.AIR)
                 }
                 is NeoResult.Ok -> refs.add(result.value)

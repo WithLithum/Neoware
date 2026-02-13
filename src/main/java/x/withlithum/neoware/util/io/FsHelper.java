@@ -9,7 +9,6 @@ import org.jspecify.annotations.NullMarked;
 import x.withlithum.neoware.util.results.NeoStatus;
 
 import java.io.IOException;
-import java.nio.file.FileVisitOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.function.Consumer;
@@ -30,9 +29,9 @@ public final class FsHelper {
         try (final var enumerable = Files.list(start)) {
             enumerable.forEach(function);
         } catch (IOException e)  {
-            return new NeoStatus.Error("I/O error", e);
+            return NeoStatus.error("I/O error", e);
         }
 
-        return NeoStatus.Ok.INSTANCE;
+        return NeoStatus.ok();
     }
 }

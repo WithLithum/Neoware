@@ -76,15 +76,15 @@ public final class ContentPackLoader {
 
         final var packMeta = loadPackMeta(path);
         if (packMeta == null) {
-            return new NeoResult.Error<>("Failed to load pack meta", null);
+            return NeoResult.error("Failed to load pack meta", null);
         }
         if (packMeta.dataVersion() != factory.getDataVersion()) {
-            return new NeoResult.Error<>("Unsupported pack version", null);
+            return NeoResult.error("Unsupported pack version", null);
         }
 
         final var dataPath = path.resolve(PACK_DATA_DIR);
         if (!Files.isDirectory(dataPath)) {
-            return new NeoResult.Error<>("Data path is not a directory or does not exist", null);
+            return NeoResult.error("Data path is not a directory or does not exist", null);
         }
 
         return factory.loadDir(path);

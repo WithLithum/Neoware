@@ -27,6 +27,6 @@ public final class DefinitionPrototypeDecoder implements ContentDecoder<ItemProt
     @Override
     public NeoResult<ItemPrototype> load(InputStream stream) {
         return baseDecoder.load(stream).map(x ->
-            new NeoResult.Ok<>(new DefinitionPrototype(x)));
+            NeoResult.ok(new DefinitionPrototype(x)));
     }
 }

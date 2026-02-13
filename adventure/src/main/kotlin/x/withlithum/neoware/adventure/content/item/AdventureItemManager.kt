@@ -77,7 +77,7 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
      */
     fun resolveRef(ref: ItemRef): NeoResult<ItemStack> {
         if (ref.isAir) {
-            return NeoResult.Ok(ItemStack.AIR)
+            return NeoResult.ok(ItemStack.AIR)
         }
 
         var item = getItem(ref.base)
@@ -88,7 +88,7 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
             item = item.withAmount(ref.count)
         }
 
-        return NeoResult.Ok(item)
+        return NeoResult.ok(item)
     }
 
     /**
@@ -96,20 +96,20 @@ class AdventureItemManager(private val contentTree: AdventureContentTree) {
      */
     fun createRef(item: ItemStack): NeoResult<ItemRef> {
         if (item.isAir) {
-            return NeoResult.Ok(ItemRef.AIR)
+            return NeoResult.ok(ItemRef.AIR)
         }
 
         val baseTag = item.get(DataComponents.CUSTOM_DATA)?.nbt?.get("base")
         if (baseTag == null || baseTag !is StringBinaryTag || !Key.parseable(baseTag.value())) {
-            return NeoResult.Error("Missing or invalid base ID")
+            return NeoResult.error("Missing or invalid base ID")
         }
 
         val baseKey = Key.key(baseTag.value())
         if (!contentTree.items.containsKey(baseKey)) {
-            return NeoResult.Error("Unrecognised prototype ID '${baseKey.value()}'")
+            return NeoResult.error("Unrecognised prototype ID '${baseKey.value()}'")
         }
 
-        return NeoResult.Ok(
+        return NeoResult.ok(
             ItemRef(
                 baseKey,
                 item.amount(),

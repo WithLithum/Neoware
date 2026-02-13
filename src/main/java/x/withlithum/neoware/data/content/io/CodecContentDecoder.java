@@ -35,7 +35,6 @@ public abstract class CodecContentDecoder<V, E> implements ContentDecoder<V> {
         return switch (elementResult) {
             case NeoResult.Error<E> e -> e.cast();
             case NeoResult.Ok<E> o -> NeoResult.fromMinestom(codec.decode(transcoder, o.getValue()));
-            default -> throw new AssertionError("Impossible branch");
         };
     }
 }

@@ -27,7 +27,7 @@ data class AdventureContentTree(val items: Map<Key, ItemPrototype>):
 
         fun loadDir(dir: Path, fs: FileSystem): NeoResult<AdventureContentTree> {
             return when (val result = ContentIo.walkContent(dir.toNioPath(), "item", ITEM_LOADER)) {
-                is NeoResult.Ok -> NeoResult.Ok(AdventureContentTree(
+                is NeoResult.Ok -> NeoResult.ok(AdventureContentTree(
                     items = result.value
                 ))
                 is NeoResult.Error -> result.cast()

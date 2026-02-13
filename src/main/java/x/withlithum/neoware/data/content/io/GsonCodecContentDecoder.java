@@ -28,9 +28,9 @@ public final class GsonCodecContentDecoder<V> extends CodecContentDecoder<V, Jso
     @Override
     public NeoResult<JsonElement> decodeElement(InputStream stream) {
         try (var reader = GSON.newJsonReader(new BufferedReader(new InputStreamReader(stream)))) {
-            return new NeoResult.Ok<>(JsonParser.parseReader(reader));
+            return NeoResult.ok(JsonParser.parseReader(reader));
         } catch (JsonSyntaxException | IOException e) {
-            return new NeoResult.Error<>("Failed to decode JSON", e);
+            return NeoResult.error("Failed to decode JSON", e);
         }
     }
 
