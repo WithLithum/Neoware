@@ -18,14 +18,3 @@ fun lc(message: String, vararg arguments: Component): TranslatableComponent {
         .arguments(*arguments)
         .build()
 }
-
-fun lcArg(argName: String, message: String): TranslatableComponent {
-    return Component.translatable("neoware.arguments.$argName.$message")
-}
-
-fun lcArg(argName: String, message: String, vararg arguments: Component): TranslatableComponent {
-    return Component.translatable()
-        .key("neoware.arguments.$argName.$message")
-        .arguments(*arguments)
-        .build()
-}

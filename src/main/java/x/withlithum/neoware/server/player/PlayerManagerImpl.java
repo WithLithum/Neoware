@@ -20,7 +20,7 @@ import net.minestom.server.network.player.GameProfile;
 import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
-import x.withlithum.neoware.util.messages.BanMessage;
+import x.withlithum.neoware.util.text.BannedMessage;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -58,7 +58,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         }
 
         try {
-            connection.kick(BanMessage.INSTANCE.create(blockInfo));
+            connection.kick(BannedMessage.create(blockInfo));
         } catch (RuntimeException e) {
             log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
             log.warn("Caused by error: ", e);

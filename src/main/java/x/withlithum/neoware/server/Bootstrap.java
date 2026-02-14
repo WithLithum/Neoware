@@ -15,7 +15,7 @@ import x.withlithum.neoware.game.locale.MapTranslator;
 import x.withlithum.neoware.instance.behaviour.BehaviourManager;
 import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
-import x.withlithum.neoware.server.commands.CommandFramework;
+import x.withlithum.neoware.server.commands.Commands;
 
 public final class Bootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
@@ -36,7 +36,7 @@ public final class Bootstrap {
         MinestomAdventure.AUTOMATIC_COMPONENT_TRANSLATION = true;
 
         // commands
-        CommandFramework.INSTANCE.initialize();
+        Commands.init();
 
         BlockBehaviours.INSTANCE.addDefault();
 
