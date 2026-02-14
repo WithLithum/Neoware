@@ -10,12 +10,12 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.adventure.MinestomAdventure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import x.withlithum.neoware.game.locale.LocaleLoader;
+import x.withlithum.neoware.data.locale.ResourceLocaleLoader;
+import x.withlithum.neoware.game.locale.MapTranslator;
 import x.withlithum.neoware.instance.behaviour.BehaviourManager;
 import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
 import x.withlithum.neoware.server.commands.CommandFramework;
-import x.withlithum.neoware.server.commands.Commands;
 
 public final class Bootstrap {
     private static final Logger LOGGER = LoggerFactory.getLogger(Bootstrap.class);
@@ -30,7 +30,9 @@ public final class Bootstrap {
         NeonBlockHandlers.register();
 
         // Locale
-        GlobalTranslator.translator().addSource(LocaleLoader.loadEmbedded(Bootstrap.class.getClassLoader()));
+        GlobalTranslator.translator().addSource(new MapTranslator(
+            ResourceLocaleLoader.loadFromResources(Bootstrap.class.getClassLoader())
+        ));
         MinestomAdventure.AUTOMATIC_COMPONENT_TRANSLATION = true;
 
         // commands
