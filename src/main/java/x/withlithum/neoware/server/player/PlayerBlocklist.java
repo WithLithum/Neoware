@@ -26,7 +26,7 @@ public interface PlayerBlocklist extends Loadable, Savable {
      * @param uuid The UUID to lookup.
      * @return The blocklist entry, or {@code null} if none applicable is found.
      */
-    @Nullable BanInfo lookup(UUID uuid);
+    @Nullable PlayerBlocklistEntry lookup(UUID uuid);
 
     /**
      * Inserts a new entry to the blocklist. If another blocklist entry is associated with the
@@ -34,9 +34,9 @@ public interface PlayerBlocklist extends Loadable, Savable {
      * @param uuid The UUID to block.
      * @param reason The reason of the block.
      * @param until The time until the block is lifted, or {@code null} if it will never lift.
-     * @return The resulting {@link BanInfo} instance.
+     * @return The resulting {@link PlayerBlocklistEntry} instance.
      */
-    BanInfo insert(UUID uuid, @Nullable String reason, @Nullable Instant until);
+    PlayerBlocklistEntry insert(UUID uuid, @Nullable String reason, @Nullable Instant until);
 
     /**
      * Removes the blocklist entry associated with the specified UUID. This lifts the ban made

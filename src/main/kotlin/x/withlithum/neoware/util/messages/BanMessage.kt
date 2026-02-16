@@ -15,6 +15,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 
+@Deprecated("Use BannedMessage instead.")
 object BanMessage {
     private val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
         .withZone(ZoneOffset.UTC)

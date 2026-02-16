@@ -15,9 +15,9 @@ import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
 import x.withlithum.neoware.server.config.ServerListenOptions
 import x.withlithum.neoware.server.player.PlayerBlocklist
+import x.withlithum.neoware.server.player.PlayerBlocklistImpl
 import x.withlithum.neoware.server.player.PlayerManager
 import x.withlithum.neoware.server.player.PlayerRecorder
-import x.withlithum.neoware.server.security.BanManagerImpl
 import java.util.concurrent.TimeUnit
 
 abstract class NeoFrameworkServer {
@@ -47,7 +47,7 @@ abstract class NeoFrameworkServer {
         mcServer = MinecraftServer.init(Auth.Online())
 
         this.basePath = basePath
-        banManager = BanManagerImpl(basePath.resolve("ban.json").toNioPath())
+        banManager = PlayerBlocklistImpl(basePath.resolve("ban.json").toNioPath())
     }
 
     /**
