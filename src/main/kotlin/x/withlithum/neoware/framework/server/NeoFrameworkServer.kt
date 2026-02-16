@@ -10,6 +10,8 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import net.minestom.server.Auth
 import net.minestom.server.MinecraftServer
 import okio.Path
+import x.withlithum.neoware.instance.behaviour.BlockBehaviours
+import x.withlithum.neoware.level.block.behaviour.BehaviourManager
 import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.server.Bootstrap
 import x.withlithum.neoware.server.commands.Commands
@@ -34,6 +36,8 @@ abstract class NeoFrameworkServer {
     val instance: InstanceCapsule by lazy { createInstance() }
 
     val banManager: PlayerBlocklist
+
+    val behaviours = BehaviourManager()
 
     val basePath: Path
 
@@ -68,12 +72,14 @@ abstract class NeoFrameworkServer {
         Bootstrap.bootstrap()
         banManager.load()
         Commands.register(this)
+        BlockBehaviours.addDefault(behaviours)
 
         bootstrap()
 
         // Create event node for integrated services
         val eventManager = MinecraftServer.getGlobalEventHandler()
         eventManager.addChild(playerManager.createEventNode())
+        eventManager.addChild(behaviours.createEventNode())
 
         sw.stop()
 

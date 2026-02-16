@@ -12,6 +12,7 @@ import net.minestom.server.instance.Instance
 import net.minestom.server.instance.block.Block
 import net.minestom.server.instance.block.BlockFace
 
+@Deprecated("Use BlockBehaviour java interface instead.")
 fun interface BlockBehaviour {
     fun apply(block: Block,
               pos: BlockVec,

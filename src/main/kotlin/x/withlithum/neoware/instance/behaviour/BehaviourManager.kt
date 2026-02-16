@@ -13,6 +13,7 @@ import net.minestom.server.event.trait.BlockEvent
 import net.minestom.server.instance.block.Block
 import net.minestom.server.registry.RegistryTag
 
+@Deprecated("Use Java BehaviourManager instead")
 object BehaviourManager {
     private val blockMap = Int2ObjectOpenHashMap<BlockBehaviour?>()
 

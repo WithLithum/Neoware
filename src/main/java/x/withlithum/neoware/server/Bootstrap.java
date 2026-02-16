@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.data.locale.ResourceLocaleLoader;
 import x.withlithum.neoware.game.locale.MapTranslator;
-import x.withlithum.neoware.instance.behaviour.BehaviourManager;
 import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.NeonBlockHandlers;
+import x.withlithum.neoware.level.block.behaviour.BehaviourManager;
 import x.withlithum.neoware.server.commands.Commands;
 
 public final class Bootstrap {
@@ -37,11 +37,5 @@ public final class Bootstrap {
 
         // commands
         Commands.init();
-
-        BlockBehaviours.INSTANCE.addDefault();
-
-        // events
-        var eventSource = MinecraftServer.getGlobalEventHandler();
-        eventSource.addChild(BehaviourManager.INSTANCE.createEventNode());
     }
 }
