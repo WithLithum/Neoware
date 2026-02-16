@@ -70,7 +70,7 @@ public final class AdventurePlayerRecorder implements PlayerRecorder {
     @Override
     public void save() {
         if (Files.exists(storagePath, LinkOption.NOFOLLOW_LINKS)
-        && Files.isDirectory(storagePath, LinkOption.NOFOLLOW_LINKS)) {
+        && !Files.isDirectory(storagePath, LinkOption.NOFOLLOW_LINKS)) {
             throw new IllegalStateException("Invalid storage directory, cannot save.");
         }
 
