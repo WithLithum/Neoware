@@ -10,7 +10,7 @@ import net.minestom.server.command.builder.arguments.Argument;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.utils.entity.EntityFinder;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.CommandArguments;
 import x.withlithum.neoware.server.commands.CommandConditions;
 import x.withlithum.neoware.server.commands.CommandSkeleton;
@@ -36,7 +36,7 @@ public final class BanCommand extends CommandSkeleton {
     }
 
     @Override
-    public void construct(NeoFrameworkServer server) {
+    public void construct(NeoServer server) {
         conditionalSyntax(
             CommandConditions.AT_LEAST_SYS_OP,
             ARGUMENT_TARGET,
@@ -47,7 +47,7 @@ public final class BanCommand extends CommandSkeleton {
                     return failure(sender, Messages.ARGUMENT_PLAYER_NOT_FOUND);
                 }
 
-                final var blocklist = server.getBanManager();
+                final var blocklist = server.playerBlocklist();
 
                 if (blocklist.lookup(target.getUuid()) != null) {
                     return failure(sender, message("already_banned", target.getName()));

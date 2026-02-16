@@ -18,7 +18,7 @@ import net.minestom.server.component.DataComponents;
 import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
 import org.jetbrains.annotations.Contract;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.impl.*;
 import x.withlithum.neoware.util.Eval;
 import x.withlithum.neoware.util.text.Messages;
@@ -29,7 +29,7 @@ public final class Commands {
         .color(NamedTextColor.RED)
         .build();
 
-    public static void register(NeoFrameworkServer server,
+    public static void register(NeoServer server,
                                 CommandBuildable... commands) {
         final var manager = MinecraftServer.getCommandManager();
 
@@ -49,7 +49,7 @@ public final class Commands {
                 )));
     }
 
-    public static void register(NeoFrameworkServer server) {
+    public static void register(NeoServer server) {
         register(server,
             new AboutCommand(),
             new StopCommand(),

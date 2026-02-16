@@ -12,7 +12,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandSender;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.CommandSkeleton;
 import x.withlithum.neoware.util.text.Messages;
 
@@ -37,7 +37,7 @@ public final class AboutCommand extends CommandSkeleton {
     }
 
     @Override
-    public void construct(NeoFrameworkServer server) {
+    public void construct(NeoServer server) {
         syntax(this::execute);
     }
 

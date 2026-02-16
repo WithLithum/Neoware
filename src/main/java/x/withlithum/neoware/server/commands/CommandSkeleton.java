@@ -16,7 +16,7 @@ import net.minestom.server.command.builder.arguments.Argument;
 import net.minestom.server.command.builder.condition.CommandCondition;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.executors.*;
 import x.withlithum.neoware.util.text.Messages;
 
@@ -36,7 +36,7 @@ public abstract class CommandSkeleton implements CommandBuildable {
         this.command = new Command(name);
     }
 
-    public abstract void construct(NeoFrameworkServer server);
+    public abstract void construct(NeoServer server);
 
     //#region Translation messages
     protected static boolean succeed(CommandSender sender, ComponentLike message) {
@@ -212,7 +212,7 @@ public abstract class CommandSkeleton implements CommandBuildable {
 
     //#endregion
 
-    public Command build(NeoFrameworkServer server) {
+    public Command build(NeoServer server) {
         construct(server);
         command.setDefaultExecutor((sender, _) ->
             sender.sendMessage(Messages.message("commands.missing_arguments")));

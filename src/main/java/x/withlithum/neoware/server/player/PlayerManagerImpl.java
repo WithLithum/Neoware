@@ -34,19 +34,10 @@ public final class PlayerManagerImpl implements PlayerManager {
 
     public PlayerManagerImpl(PlayerBlocklist banManager,
                              InstanceCapsule instance,
-                             PlayerRecorder recorder,
-                             Path playersDir) {
+                             PlayerRecorder recorder) {
         this.banManager = banManager;
         this.instance = instance;
         this.recorder = recorder;
-
-        try {
-            if (!Files.isDirectory(playersDir)) {
-                Files.createDirectory(playersDir);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override

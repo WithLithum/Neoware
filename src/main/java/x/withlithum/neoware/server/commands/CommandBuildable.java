@@ -6,8 +6,8 @@
 package x.withlithum.neoware.server.commands;
 
 import net.minestom.server.command.builder.Command;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 
 public interface CommandBuildable {
-    Command build(NeoFrameworkServer server);
+    Command build(NeoServer server);
 }

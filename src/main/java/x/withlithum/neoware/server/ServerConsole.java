@@ -5,7 +5,6 @@
 
 package x.withlithum.neoware.server;
 
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
 import x.withlithum.neoware.main.NeoWareConsole;
 
 public final class ServerConsole {
@@ -13,7 +12,7 @@ public final class ServerConsole {
         throw new AssertionError("No ServerConsole instances for you!");
     }
 
-    public static Thread create(NeoFrameworkServer server) {
+    public static Thread create(NeoServer server) {
         // Console thread setup
         final var console = new NeoWareConsole(server);
         final var consoleThread = new Thread(console::start);

@@ -8,7 +8,7 @@ package x.withlithum.neoware.server.commands.impl;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.CommandConditions;
 import x.withlithum.neoware.server.commands.CommandSkeleton;
 
@@ -21,7 +21,7 @@ public final class StopCommand extends CommandSkeleton {
     private final Component successMessage = message("stopping");
 
     @Override
-    public void construct(NeoFrameworkServer server) {
+    public void construct(NeoServer server) {
         conditionalSyntax(CommandConditions.AT_LEAST_WHEEL,
             (sender) -> {
                 MinecraftServer.getSchedulerManager().scheduleNextTick(server::stop);

@@ -8,7 +8,7 @@ package x.withlithum.neoware.server.commands.impl;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.utils.entity.EntityFinder;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
+import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.*;
 import x.withlithum.neoware.util.text.Messages;
 
@@ -19,7 +19,7 @@ public final class OpCommand extends CommandSkeleton {
     }
 
     @Override
-    public void construct(NeoFrameworkServer server) {
+    public void construct(NeoServer server) {
         conditionalSyntax(CommandConditions.AT_LEAST_WHEEL,
             CommandArguments.singlePlayer("target"),
             this::execute);
