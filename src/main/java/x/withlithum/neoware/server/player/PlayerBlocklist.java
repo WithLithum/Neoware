@@ -7,7 +7,6 @@ package x.withlithum.neoware.server.player;
 
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import x.withlithum.neoware.server.security.BanInfo;
 import x.withlithum.neoware.util.persistence.Loadable;
 import x.withlithum.neoware.util.persistence.Savable;
 

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-package x.withlithum.neoware.instance.behaviour
+package x.withlithum.neoware.level.block.behaviour;
 
-enum class BlockUseAction {
+public enum BlockInteractAction {
     NONE,
     CANCEL,
     USE_BLOCK,

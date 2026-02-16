@@ -8,7 +8,7 @@ package x.withlithum.neoware.main
 import okio.Path.Companion.toPath
 import x.withlithum.neoware.adventure.server.NeoAdventureServer
 import x.withlithum.neoware.adventure.server.config.AdventureServerSettings
-import x.withlithum.neoware.framework.server.ConsoleUtil
+import x.withlithum.neoware.server.ServerConsole
 
 fun main() {
     // Start server
@@ -16,6 +16,6 @@ fun main() {
     val server = NeoAdventureServer(System.getProperty("user.dir").toPath())
     server.start()
 
-    val consoleThread = ConsoleUtil.createConsole(server)
+    val consoleThread = ServerConsole.create(server)
     consoleThread.start()
 }

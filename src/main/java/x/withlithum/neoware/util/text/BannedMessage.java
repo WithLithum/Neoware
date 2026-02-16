@@ -8,7 +8,6 @@ package x.withlithum.neoware.util.text;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import x.withlithum.neoware.server.player.PlayerBlocklistEntry;
-import x.withlithum.neoware.server.security.BanInfo;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 

@@ -6,10 +6,9 @@
 package x.withlithum.neoware.level.block.behaviour;
 
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.instance.behaviour.BlockUseAction;
 
 @FunctionalInterface
 @NullMarked
 public interface BlockBehaviour {
-    BlockUseAction apply(BlockInteractionInfo interaction);
+    BlockInteractAction apply(BlockInteractionInfo interaction);
 }

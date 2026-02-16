@@ -9,6 +9,7 @@ import net.minestom.server.instance.block.Block
 import x.withlithum.neoware.instance.block.statuses.BlockStates
 import x.withlithum.neoware.instance.block.statuses.DoubleBlockHalf
 import x.withlithum.neoware.level.block.BlockTags
+import x.withlithum.neoware.level.block.behaviour.BlockInteractAction
 import x.withlithum.neoware.level.block.behaviour.BlockInteractionInfo
 
 object BlockBehaviours {
@@ -17,9 +18,9 @@ object BlockBehaviours {
         manager.addAll(BlockTags.TRAPDOORS, this::useTrapdoor)
     }
 
-    fun useDoor(interact: BlockInteractionInfo): BlockUseAction {
+    fun useDoor(interact: BlockInteractionInfo): BlockInteractAction {
         if (interact.player.isSneaking || interact.block == Block.IRON_TRAPDOOR.asKey()) {
-            return BlockUseAction.NONE
+            return BlockInteractAction.NONE
         }
 
         val isOpen = BlockStates.isOpen(interact.block)
@@ -39,20 +40,20 @@ object BlockBehaviours {
         // Flip the open state of the current block
         interact.player.instance.setBlock(interact.pos, BlockStates.withOpen(interact.block, !isOpen))
 
-        return BlockUseAction.USE_BLOCK
+        return BlockInteractAction.USE_BLOCK
     }
 
-    fun useTrapdoor(interact: BlockInteractionInfo): BlockUseAction {
+    fun useTrapdoor(interact: BlockInteractionInfo): BlockInteractAction {
         val player = interact.player
         val block = interact.block
 
         if (player.isSneaking || block == Block.IRON_TRAPDOOR.asKey()) {
-            return BlockUseAction.NONE
+            return BlockInteractAction.NONE
         }
 
         val open = BlockStates.isOpen(block)
 
         interact.level.setBlock(interact.pos, BlockStates.withOpen(block, !open))
-        return BlockUseAction.USE_BLOCK
+        return BlockInteractAction.USE_BLOCK
     }
 }
