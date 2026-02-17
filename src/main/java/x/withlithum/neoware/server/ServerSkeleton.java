@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.minestom.server.Auth;
 import net.minestom.server.MinecraftServer;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.instance.behaviour.BlockBehaviours;
 import x.withlithum.neoware.level.block.behaviour.BehaviourManager;
+import x.withlithum.neoware.level.block.behaviour.BuiltInBehaviours;
 import x.withlithum.neoware.server.commands.Commands;
 import x.withlithum.neoware.server.config.ServerListenOptions;
 import x.withlithum.neoware.server.player.PlayerBlocklist;
@@ -51,7 +51,7 @@ public abstract class ServerSkeleton implements NeoServer {
         Bootstrap.bootstrap();
         playerBlocklist.load();
         Commands.register(this);
-        BlockBehaviours.INSTANCE.addDefault(behaviourManager);
+        BuiltInBehaviours.addBehaviours(behaviourManager);
     }
 
     private void postBootstrap() {
