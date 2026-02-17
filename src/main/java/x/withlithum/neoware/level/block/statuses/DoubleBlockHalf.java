@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-package x.withlithum.neoware.instance.block.statuses
+package x.withlithum.neoware.level.block.statuses;
 
-@Deprecated("Use Java DoubleBlockHalf instead.")
-enum class DoubleBlockHalf {
+public enum DoubleBlockHalf {
     LOWER,
     UPPER
 }

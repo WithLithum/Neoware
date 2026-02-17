@@ -6,9 +6,9 @@
 package x.withlithum.neoware.level.block.behaviour;
 
 import net.minestom.server.instance.block.Block;
-import x.withlithum.neoware.instance.block.statuses.BlockStates;
-import x.withlithum.neoware.instance.block.statuses.DoubleBlockHalf;
 import x.withlithum.neoware.level.block.BlockTags;
+import x.withlithum.neoware.level.block.statuses.BlockProperties;
+import x.withlithum.neoware.level.block.statuses.DoubleBlockHalf;
 
 public final class BuiltInBehaviours {
     private BuiltInBehaviours() {
@@ -29,17 +29,20 @@ public final class BuiltInBehaviours {
             return BlockInteractAction.NONE;
         }
 
-        final var otherPos = switch (BlockStates.INSTANCE.getDoubleHalf(block)) {
+        final var otherPos = switch (BlockProperties.getHalf(block)) {
             case DoubleBlockHalf.UPPER -> interact.pos().add(0, -1, 0);
             case DoubleBlockHalf.LOWER -> interact.pos().add(0, 1, 0);
         };
 
         final var otherBlock = interact.level().getBlock(otherPos);
+        final var isOpen = BlockProperties.isOpen(block);
+        final var level = interact.level();
+
         if (BlockTags.DOORS.contains(otherBlock)) {
-            interact.level().setBlock(otherPos, BlockStates.INSTANCE.withOpen(otherBlock, !BlockStates.INSTANCE.isOpen(otherBlock)));
+            level.setBlock(otherPos, BlockProperties.mutateOpen(otherBlock, !isOpen));
         }
 
-        interact.level().setBlock(interact.pos(), BlockStates.INSTANCE.withOpen(block, !BlockStates.INSTANCE.isOpen(block)));
+        level.setBlock(interact.pos(), BlockProperties.mutateOpen(block, !isOpen));
 
         return BlockInteractAction.USE_BLOCK;
     }
@@ -52,9 +55,9 @@ public final class BuiltInBehaviours {
             return BlockInteractAction.NONE;
         }
 
-        final var open = BlockStates.INSTANCE.isOpen(block);
+        final var open = BlockProperties.isOpen(block);
 
-        interact.level().setBlock(interact.pos(), BlockStates.INSTANCE.withOpen(block, !open));
+        interact.level().setBlock(interact.pos(), BlockProperties.mutateOpen(block, !open));
         return BlockInteractAction.USE_BLOCK;
     }
 }
