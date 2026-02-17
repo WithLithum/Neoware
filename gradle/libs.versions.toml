@@ -16,9 +16,9 @@ fastutil = "8.5.18"
 guava = "33.5.0-jre"
 jline = "3.30.0"
 pcg = "1.0.1"
-jtoml = "1.4.1"
+jtoml = "1.5.0"
 okio = "3.16.2"
-hoplite = "2.9.0"
+configurate = "4.2.0"
 kotlinx-serialization = "1.10.0"
 kotlinx-coroutines = "1.10.2"
 
@@ -43,18 +43,17 @@ jspecify = { module = "org.jspecify:jspecify", version.ref = "jspecify" }
 ## Support libraries
 adventure-minimessage = { module = "net.kyori:adventure-text-minimessage", version.ref = "adventure" }
 jtoml = { module = "io.github.wasabithumb:jtoml", version.ref = "jtoml" }
+jtoml-configurate = { module = "io.github.wasabithumb:jtoml-configurate", version.ref = "jtoml" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
-typesafe-config = { module = "com.typesafe:config", version.ref = "typesafe-config" }
 pcg = { module = "dev.brachtendorf:pcg-java-10", version.ref = "pcg" }
 lmax-disruptor = { module = "com.lmax:disruptor", version.ref = "lmax-disruptor" }
 fastutil = { module = "it.unimi.dsi:fastutil", version.ref = "fastutil" }
 terminalconsoleappender = { module = "net.minecrell:terminalconsoleappender", version.ref = "terminalconsoleappender" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
-hoplite = { module = "com.sksamuel.hoplite:hoplite-core", version.ref = "hoplite" }
-hoplite-toml = { module = "com.sksamuel.hoplite:hoplite-toml", version.ref = "hoplite" }
 kotlinx-serialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
 kotlinx-coroutines-jvm = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm", version.ref = "kotlinx-coroutines" }
+configurate-core = { module = "org.spongepowered:configurate-core", version.ref = "configurate" }
 
 # JLine
 jline = { module = "org.jline:jline", version.ref = "jline" }

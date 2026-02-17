@@ -20,7 +20,6 @@ import x.withlithum.neoware.adventure.security.AdventureWorldSecurity;
 import x.withlithum.neoware.data.content.packs.ContentPackLoader;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.server.ServerSkeleton;
-import x.withlithum.neoware.server.config.ServerSettings;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerManagerImpl;
 import x.withlithum.neoware.server.player.PlayerRecorder;
@@ -36,7 +35,7 @@ public class AdventureServer extends ServerSkeleton {
     private @Nullable LobbyInstance instance;
 
     public AdventureServer(Path basePath) {
-        super(ServerSettings.getData().getServer(), basePath);
+        super(basePath);
     }
 
     @Override
@@ -46,7 +45,8 @@ public class AdventureServer extends ServerSkeleton {
             AdventureContentTreeFactory.INSTANCE);
         itemManager = new AdventureItemManager(contentTree);
         recorder = new AdventurePlayerRecorder(itemManager, basePath.resolve("players"));
-        instance = new LobbyInstance();
+        instance = new LobbyInstance(basePath.resolve(config().node("adventure", "world_dir")
+            .getString("level")));
         playerManager = new PlayerManagerImpl(playerBlocklist(),
             instance,
             recorder);

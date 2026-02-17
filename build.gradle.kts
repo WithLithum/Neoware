@@ -39,17 +39,16 @@ dependencies {
 
     // Support libraries
     implementation(libs.fastutil)
-    implementation(libs.typesafe.config)
     implementation(libs.pcg)
     implementation(libs.guava)
     implementation(libs.jtoml)
     api(libs.adventure.minimessage)
     api(libs.okio)
-    implementation(libs.hoplite)
-    implementation(libs.hoplite.toml)
     api(libs.kotlinx.serialization)
     runtimeOnly(libs.lmax.disruptor)
     implementation(libs.kotlinx.coroutines.jvm)
+    api(libs.configurate.core)
+    implementation(libs.jtoml.configurate)
 
     // JLine
     implementation(libs.jline)

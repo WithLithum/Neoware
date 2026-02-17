@@ -16,10 +16,10 @@ import net.minestom.server.utils.IntProvider
 import net.minestom.server.world.DimensionType
 import net.minestom.server.world.attribute.EnvironmentAttribute
 import net.minestom.server.world.timeline.Timeline
-import x.withlithum.neoware.adventure.server.config.AdventureServerSettings
 import x.withlithum.neoware.level.instances.InstanceCapsule
 import x.withlithum.neoware.level.worldgen.OldWorldColours
 import x.withlithum.neoware.util.KeyRoot
+import java.nio.file.Path
 
 class LobbyInstance : InstanceCapsule {
     private val instance: Instance
@@ -48,7 +48,7 @@ class LobbyInstance : InstanceCapsule {
                     .build())
     }
 
-    constructor() {
+    constructor(levelPath: Path?) {
         val manager = MinecraftServer.getInstanceManager()
         instance = manager.createInstanceContainer(DIMENSION_TYPE)
         instance.chunkSupplier = { i, x, z -> LightingChunk(i, x, z) }
@@ -57,7 +57,6 @@ class LobbyInstance : InstanceCapsule {
         }
 
         // Set level loader
-        val levelPath = AdventureServerSettings.data.level
         if (levelPath != null) {
             instance.chunkLoader = AnvilLoader(levelPath)
         } else {
