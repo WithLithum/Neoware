@@ -1,5 +1,6 @@
 plugins {
-    kotlin("jvm")
+    java
+    application
 }
 
 group = "x.withlithum.neoware"
@@ -11,15 +12,23 @@ repositories {
 
 dependencies {
     implementation(rootProject)
-    implementation(libs.kotlinlogging)
 
     // Minestom PvP
     implementation(libs.minestom.pvp)
 
     runtimeOnly(libs.bundles.log4j.runtime)
 
-    testImplementation(kotlin("test"))
-    implementation(libs.kotlinx.coroutines)
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.junit.jupiter)
+}
+
+application {
+    applicationDefaultJvmArgs = listOf(
+        "--enable-native-access=ALL-UNNAMED",
+        "-Dstdout.encoding=UTF-8",
+        "-Dstderr.encoding=UTF-8"
+    )
+    mainClass = "x.withlithum.neoware.adventure.Program"
 }
 
 tasks.test {

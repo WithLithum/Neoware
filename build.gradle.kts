@@ -3,30 +3,13 @@
  */
 
 plugins {
-    kotlin("jvm").version(libs.versions.kotlin)
-    kotlin("plugin.lombok").version(libs.versions.kotlin)
-    kotlin("plugin.serialization").version(libs.versions.kotlin)
-
-    application
+    id("java-library")
     alias(libs.plugins.lombok)
-}
-
-kotlin {
-    jvmToolchain(25)
 }
 
 repositories {
     mavenLocal()
     mavenCentral()
-}
-
-application {
-    applicationDefaultJvmArgs = listOf(
-        "--enable-native-access=ALL-UNNAMED",
-        "-Dstdout.encoding=UTF-8",
-        "-Dstderr.encoding=UTF-8"
-    )
-    mainClass = "x.withlithum.neoware.main.Main"
 }
 
 lombok {
@@ -39,17 +22,13 @@ dependencies {
 
     // Support libraries
     implementation(libs.fastutil)
-    implementation(libs.typesafe.config)
     implementation(libs.pcg)
     implementation(libs.guava)
     implementation(libs.jtoml)
     api(libs.adventure.minimessage)
-    api(libs.okio)
-    implementation(libs.hoplite)
-    implementation(libs.hoplite.toml)
-    api(libs.kotlinx.serialization)
     runtimeOnly(libs.lmax.disruptor)
-    implementation(libs.kotlinx.coroutines.jvm)
+    api(libs.configurate.core)
+    implementation(libs.jtoml.configurate)
 
     // JLine
     implementation(libs.jline)
@@ -70,18 +49,13 @@ dependencies {
     // SLF4J
     api(libs.slf4j.api)
 
-    // Kotlin logging
-    implementation(libs.kotlinlogging)
-
     // Core
     // Minestom
     api(libs.minestom)
 
     // Test libraries
     testRuntimeOnly(libs.junit.platform.launcher)
-    testImplementation(libs.okio.fakefilesystem)
     testImplementation(libs.junit.jupiter)
-    testImplementation(kotlin("test"))
 }
 
 tasks.test {

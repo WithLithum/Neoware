@@ -19,45 +19,34 @@ import net.minestom.server.event.player.PlayerSpawnEvent;
 import net.minestom.server.network.player.GameProfile;
 import net.minestom.server.network.player.PlayerConnection;
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.data.storage.PlayerRecorder;
-import x.withlithum.neoware.instance.ManagedInstance;
-import x.withlithum.neoware.server.security.BanManager;
-import x.withlithum.neoware.util.messages.BanMessage;
-
-import java.io.IOException;
-import java.nio.file.*;
+import x.withlithum.neoware.level.instances.InstanceCapsule;
+import x.withlithum.neoware.util.text.BannedMessage;
 
 @Slf4j
 @NullMarked
 public final class PlayerManagerImpl implements PlayerManager {
-    private final BanManager banManager;
-    private final ManagedInstance instance;
+    private final PlayerBlocklist banManager;
+    private final InstanceCapsule instance;
     private final PlayerRecorder recorder;
 
-    public PlayerManagerImpl(BanManager banManager, ManagedInstance instance, PlayerRecorder recorder, Path playersDir) {
+    public PlayerManagerImpl(PlayerBlocklist banManager,
+                             InstanceCapsule instance,
+                             PlayerRecorder recorder) {
         this.banManager = banManager;
         this.instance = instance;
         this.recorder = recorder;
-
-        try {
-            if (!Files.isDirectory(playersDir)) {
-                Files.createDirectory(playersDir);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
     public void filterLogin(PlayerConnection connection,
                             GameProfile profile) {
-        final var info = banManager.lookup(profile.uuid());
-        if (info == null) {
+        final var blockInfo = banManager.lookup(profile.uuid());
+        if (blockInfo == null) {
             return;
         }
 
         try {
-            connection.kick(BanMessage.INSTANCE.create(info));
+            connection.kick(BannedMessage.create(blockInfo));
         } catch (RuntimeException e) {
             log.warn("Kicking player {} ({}) with fallback parameters", profile.name(), profile.uuid());
             log.warn("Caused by error: ", e);
@@ -71,7 +60,7 @@ public final class PlayerManagerImpl implements PlayerManager {
         // Preload player data from recorder.
         recorder.preRewindPlayer(player);
 
-        config.setSpawningInstance(instance.getInstance());
+        config.setSpawningInstance(instance.instance());
         player.setRespawnPoint(new Pos(-251, -17, 142));
 
         log.info("Player {} joined with UUID {}", player.getUsername(), player.getUuid());

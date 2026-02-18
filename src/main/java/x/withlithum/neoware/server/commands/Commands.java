@@ -5,23 +5,76 @@
 
 package x.withlithum.neoware.server.commands;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TranslatableComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.CommandSender;
 import net.minestom.server.command.ConsoleSender;
 import net.minestom.server.command.ServerSender;
+import net.minestom.server.component.DataComponents;
+import net.minestom.server.entity.Entity;
 import net.minestom.server.entity.Player;
 import org.jetbrains.annotations.Contract;
-import x.withlithum.neoware.framework.server.NeoFrameworkServer;
-import x.withlithum.neoware.server.commands.builtin.*;
+import x.withlithum.neoware.server.NeoServer;
+import x.withlithum.neoware.server.commands.impl.*;
+import x.withlithum.neoware.util.Eval;
+import x.withlithum.neoware.util.text.Messages;
 
 public final class Commands {
-    public static void register(NeoFrameworkServer server) {
-        CommandFramework.INSTANCE.register(server,
-            new FxStopCommand(),
-            new FxAboutCommand(),
-            new FxKickCommand(),
-            new FxOpCommand(),
+    private static final TranslatableComponent UNKNOWN_COMMAND_MESSAGE = Component.translatable()
+        .key("neoware.commands.unknown")
+        .color(NamedTextColor.RED)
+        .build();
+
+    public static void register(NeoServer server,
+                                CommandBuildable... commands) {
+        final var manager = MinecraftServer.getCommandManager();
+
+        for (var command : commands) {
+            manager.register(command.build(server));
+        }
+    }
+
+    public static void init() {
+        MinecraftServer.getCommandManager().setUnknownCommandCallback((sender, command) ->
+            Messages.sendError(sender,
+                UNKNOWN_COMMAND_MESSAGE.arguments(
+                    Component.text()
+                        .content(command)
+                        .color(NamedTextColor.YELLOW)
+                        .decoration(TextDecoration.BOLD, false)
+                )));
+    }
+
+    public static void register(NeoServer server) {
+        register(server,
+            new AboutCommand(),
+            new StopCommand(),
+            new OpCommand(),
+            new PardonCommand(),
             new BanCommand(),
-            new PardonCommand());
+            new KickCommand());
+    }
+
+    public static String nameOf(CommandSender sender) {
+        if (sender instanceof Player player) {
+            return player.getUsername();
+        } else if (sender instanceof Entity entity) {
+            final var customName = entity.get(DataComponents.CUSTOM_NAME);
+
+            return customName != null
+                ? PlainTextComponentSerializer.plainText().serialize(customName)
+                : entity.getEntityType().name();
+        }
+
+        return switch (sender) {
+            case ConsoleSender _ -> "<!CONSOLE>";
+            case ServerSender _ -> "<!Server>";
+            default -> Eval.either(sender.getClass().getSimpleName(), "*UNKNOWN*");
+        };
     }
 
     @Contract("null, _ -> false")
