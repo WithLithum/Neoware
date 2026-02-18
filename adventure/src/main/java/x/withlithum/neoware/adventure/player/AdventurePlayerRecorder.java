@@ -62,6 +62,10 @@ public final class AdventurePlayerRecorder implements PlayerRecorder {
     @Override
     public void rewindPlayer(Player player) {
         final var data = staging.get(player.getUuid());
+        if (data == null) {
+            // Don't rewind because there are nothing to apply
+            return;
+        }
 
         if (!SavedDataUtils.applyPlayer(player,
             data,
