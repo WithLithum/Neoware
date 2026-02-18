@@ -15,7 +15,7 @@ final class Program {
         throw new AssertionError("No Program instances for you!");
     }
 
-    static void main(String[] args) {
+    static void main() {
         // Start server
         final var server = new AdventureServer(Path.of(System.getProperty("user.dir")));
         server.start();

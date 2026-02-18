@@ -20,8 +20,6 @@ import x.withlithum.neoware.server.NeoServer;
 import x.withlithum.neoware.server.commands.executors.*;
 import x.withlithum.neoware.util.text.Messages;
 
-import java.awt.*;
-
 @NullMarked
 @SuppressWarnings({"SameParameterValue", "unused"})
 public abstract class CommandSkeleton implements CommandBuildable {

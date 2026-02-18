@@ -22,9 +22,6 @@ import org.jspecify.annotations.NullMarked;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.util.text.BannedMessage;
 
-import java.io.IOException;
-import java.nio.file.*;
-
 @Slf4j
 @NullMarked
 public final class PlayerManagerImpl implements PlayerManager {

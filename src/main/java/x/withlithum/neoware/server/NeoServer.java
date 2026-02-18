@@ -6,7 +6,6 @@
 package x.withlithum.neoware.server;
 
 import org.jspecify.annotations.NullMarked;
-import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.server.player.PlayerBlocklist;
 import x.withlithum.neoware.server.player.PlayerManager;
 import x.withlithum.neoware.server.player.PlayerRecorder;

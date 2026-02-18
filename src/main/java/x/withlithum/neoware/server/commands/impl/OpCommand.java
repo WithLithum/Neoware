@@ -35,5 +35,5 @@ public final class OpCommand extends CommandSkeleton {
         target.setPermissionLevel(PermissionRank.SYS_OP.ordinal());
 
         return succeed(sender, message("success", target.getName()));
-    };
+    }
 }
