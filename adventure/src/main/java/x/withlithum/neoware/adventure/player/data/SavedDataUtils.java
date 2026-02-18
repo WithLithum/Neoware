@@ -106,7 +106,7 @@ public final class SavedDataUtils {
         Objects.requireNonNull(info);
         Objects.requireNonNull(itemManager);
 
-        player.setPermissionLevel(info.rank().ordinal());
+        player.setPermissionLevel(info.rank().getValue());
         info.status().apply(player);
 
         if (info.items() != null) {
@@ -141,10 +141,9 @@ public final class SavedDataUtils {
     public static PlayerInfo recordPlayer(Player player,
                                           AdventureItemManager itemManager) {
         final var inventory = recordInventory(player.getInventory(), itemManager);
-        final var permissionLevel = player.getPermissionLevel();
-        final var rank = permissionLevel > 4 ? PermissionRank.WHEEL : PermissionRank.values()[permissionLevel];
 
-        return new PlayerInfo(DATA_VERSION, rank,
+        return new PlayerInfo(DATA_VERSION,
+            PermissionRank.fromValue(player.getPermissionLevel()),
             PlayerStatus.create(player),
             inventory);
     }

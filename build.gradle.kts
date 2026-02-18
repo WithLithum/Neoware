@@ -56,6 +56,7 @@ dependencies {
     // Test libraries
     testRuntimeOnly(libs.junit.platform.launcher)
     testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.params)
 }
 
 tasks.test {

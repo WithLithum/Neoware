@@ -32,7 +32,7 @@ public final class OpCommand extends CommandSkeleton {
             return failure(sender, Messages.ARGUMENT_PLAYER_NOT_FOUND);
         }
 
-        target.setPermissionLevel(PermissionRank.SYS_OP.ordinal());
+        target.setPermissionLevel(PermissionRank.SYS_OP.getValue());
 
         return succeed(sender, message("success", target.getName()));
     }

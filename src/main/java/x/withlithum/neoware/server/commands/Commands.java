@@ -81,6 +81,6 @@ public final class Commands {
     public static boolean senderHasPermission(CommandSender sender, PermissionRank rank) {
         return (sender instanceof ConsoleSender)
             || (sender instanceof ServerSender)
-            || (sender instanceof Player player && player.getPermissionLevel() >= rank.ordinal());
+            || (sender instanceof Player player && player.getPermissionLevel() >= rank.getValue());
     }
 }

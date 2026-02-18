@@ -16,7 +16,7 @@ import net.minestom.server.event.trait.PlayerInstanceEvent;
 import x.withlithum.neoware.server.commands.PermissionRank;
 
 public final class LevelSecurity {
-    private static final int SYS_OP_RANK = PermissionRank.SYS_OP.ordinal();
+    private static final int SYS_OP_RANK = PermissionRank.SYS_OP.getValue();
 
     private LevelSecurity() {
         throw new AssertionError("No LevelSecurity instances for you!");
