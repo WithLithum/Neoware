@@ -16,9 +16,10 @@ import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import x.withlithum.neoware.adventure.content.item.AdventureItemManager;
-import x.withlithum.neoware.adventure.server.storage.PlayerDataUtil;
+import x.withlithum.neoware.adventure.player.data.SavedDataUtils;
 import x.withlithum.neoware.data.player.PlayerInfo;
 import x.withlithum.neoware.server.player.PlayerRecorder;
+import x.withlithum.neoware.util.text.Messages;
 
 import java.io.IOException;
 import java.nio.file.*;
@@ -42,7 +43,7 @@ public final class AdventurePlayerRecorder implements PlayerRecorder {
 
     @Override
     public void capturePlayer(Player player) {
-        staging.put(player.getUuid(), PlayerDataUtil.INSTANCE.storePlayer(player, itemManager));
+        staging.put(player.getUuid(), SavedDataUtils.recordPlayer(player, itemManager));
     }
 
     @Override
@@ -62,9 +63,12 @@ public final class AdventurePlayerRecorder implements PlayerRecorder {
     public void rewindPlayer(Player player) {
         final var data = staging.get(player.getUuid());
 
-        PlayerDataUtil.INSTANCE.recoverPlayer(player,
+        if (!SavedDataUtils.applyPlayer(player,
             data,
-            itemManager);
+            itemManager)) {
+
+            Messages.sendError(player, Messages.message("neo_adventure", "join.item_not_fully_restored"));
+        }
     }
 
     @Override

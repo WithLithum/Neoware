@@ -49,6 +49,11 @@ public final class Messages {
         return Component.translatable(fullKey);
     }
 
+    public static TranslatableComponent message(String root, String key) {
+        final var fullKey = String.format("%1$s.%2$s", root, key);
+        return Component.translatable(fullKey);
+    }
+
     public static TranslatableComponent argMessage(String argType, String key) {
         final var fullKey = String.format("%1$s.arguments.%2$s.%3$s", MESSAGE_KEY_PREFIX, argType, key);
         return Component.translatable(fullKey);
