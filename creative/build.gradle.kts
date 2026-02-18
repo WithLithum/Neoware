@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm")
+    java
 }
 
 group = "x.withlithum.neoware"
@@ -10,7 +10,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation(kotlin("test"))
+    testRuntimeOnly(libs.junit.platform.launcher)
+    testImplementation(libs.junit.jupiter)
 }
 
 tasks.test {
