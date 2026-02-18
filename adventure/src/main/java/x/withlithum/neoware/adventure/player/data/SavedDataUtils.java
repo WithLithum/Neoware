@@ -21,6 +21,7 @@ import x.withlithum.neoware.util.results.NeoResult;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @NullMarked
 public final class SavedDataUtils {
@@ -101,6 +102,10 @@ public final class SavedDataUtils {
     public static boolean applyPlayer(Player player,
                                    PlayerInfo info,
                                    AdventureItemManager itemManager) {
+        Objects.requireNonNull(player);
+        Objects.requireNonNull(info);
+        Objects.requireNonNull(itemManager);
+
         player.setPermissionLevel(info.rank().ordinal());
         info.status().apply(player);
 
