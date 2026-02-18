@@ -14,9 +14,9 @@ import org.jspecify.annotations.Nullable;
 import x.withlithum.neoware.adventure.content.AdventureContentTree;
 import x.withlithum.neoware.adventure.content.AdventureContentTreeFactory;
 import x.withlithum.neoware.adventure.content.item.AdventureItemManager;
+import x.withlithum.neoware.adventure.level.LevelSecurity;
 import x.withlithum.neoware.adventure.level.LobbyInstance;
 import x.withlithum.neoware.adventure.player.AdventurePlayerRecorder;
-import x.withlithum.neoware.adventure.security.AdventureWorldSecurity;
 import x.withlithum.neoware.data.content.packs.ContentPackLoader;
 import x.withlithum.neoware.level.instances.InstanceCapsule;
 import x.withlithum.neoware.server.ServerSkeleton;
@@ -60,7 +60,7 @@ public class AdventureServer extends ServerSkeleton {
         node.addChild(modernVanilla.createNode());
 
         MinecraftServer.getGlobalEventHandler().addChild(node);
-        MinecraftServer.getGlobalEventHandler().addChild(AdventureWorldSecurity.INSTANCE.createNode());
+        MinecraftServer.getGlobalEventHandler().addChild(LevelSecurity.createEventNode());
     }
 
     public AdventureItemManager itemManager() {
