@@ -124,7 +124,7 @@ public final class AdventurePlayerRecorder implements PlayerRecorder {
             StandardOpenOption.CREATE,
             StandardOpenOption.TRUNCATE_EXISTING)) {
 
-            BinaryTagIO.writer().write(compound, stream);
+            BinaryTagIO.writer().write(compound, stream, BinaryTagIO.Compression.GZIP);
         } catch (IOException e) {
             LOGGER.warn("Unable to save player info for '{}'",
                 path.getFileName(),
