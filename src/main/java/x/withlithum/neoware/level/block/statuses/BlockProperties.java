@@ -33,8 +33,8 @@ public final class BlockProperties {
         }
 
         return switch (half) {
-            case "lower" -> DoubleBlockHalf.UPPER;
-            case "upper" -> DoubleBlockHalf.LOWER;
+            case "lower" -> DoubleBlockHalf.LOWER;
+            case "upper" -> DoubleBlockHalf.UPPER;
             default -> throw new IllegalArgumentException("Invalid block half value: " + half);
         };
     }

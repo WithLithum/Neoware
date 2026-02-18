@@ -35,10 +35,11 @@ public final class BuiltInBehaviours {
         };
 
         final var otherBlock = interact.level().getBlock(otherPos);
+        final var otherKey = otherBlock.asKey();
         final var isOpen = BlockProperties.isOpen(block);
         final var level = interact.level();
 
-        if (BlockTags.DOORS.contains(otherBlock)) {
+        if (otherKey != null && BlockTags.DOORS.contains(otherKey)) {
             level.setBlock(otherPos, BlockProperties.mutateOpen(otherBlock, !isOpen));
         }
 
