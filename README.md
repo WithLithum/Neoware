@@ -3,9 +3,7 @@
 ![GitHub branch check runs](https://img.shields.io/github/check-runs/WithLithum/Neoware/trunk?style=flat-square&logo=github&label=trunk)
 ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/WithLithum/Neoware?style=flat-square&logo=git&logoColor=white&label=%20)
 
-NeoWare is a Minestom implementation.
-
-It is written in Java and Kotlin, and (obviously) runs on the JVM.
+NeoWare is a Minestom implementation written in Java.
 
 ## Building
 
